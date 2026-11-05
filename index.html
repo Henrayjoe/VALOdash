@@ -1,0 +1,1257 @@
+<title>VALO Client Dashboard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: VALO report system. Charcoal hero band with the client selector and readiness ring, cream document column (max 960px), eyebrow-labelled sections, one dark card per page. Single committed light look. */
+:root{
+  --ink:#161616; --charcoal:#282828; --cream:#FFFEFA; --paper:#FFFFFF; --stone:#F6F4EE;
+  --line:#E8E6E0; --muted:#5C5B57; --soft:#B3B2B2; --onDark:#EDEBE6; --grey:#4A4A49;
+  --sage:#9FC5A8; --amber:#D9A95B; --green:#3F7D55; --flag:#B5523B; --amberInk:#8A6416;
+  --font:'Neue Haas Grotesk Display Pro','Neue Haas Grotesk Display','Inter','Helvetica Neue',Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{background:var(--cream)}
+body{color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5}
+p,h1,h2,h3,ul{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:960px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eb{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.num,.tab{font-variant-numeric:tabular-nums}
+
+/* hero */
+.hero{background:var(--charcoal);color:var(--paper)}
+.hero .wrap{padding-block:22px 34px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--grey);padding-bottom:16px}
+.logo{display:flex;align-items:center;gap:14px;font-size:17px;letter-spacing:.5em;font-weight:500}
+.ctrls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.hsel,.hbtn{background:transparent;border:1px solid var(--grey);color:var(--paper);border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer}
+.hsel option{color:var(--ink)}
+.hbtn:hover,.hsel:hover{border-color:var(--soft)}
+.hbtn.on{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.hbtn:focus-visible,.hsel:focus-visible,button:focus-visible,.row:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.heroGrid{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:28px;align-items:center;margin-top:26px}
+.hero h1{font-size:clamp(30px,5.6vw,46px);line-height:1.07;font-weight:400;letter-spacing:-.015em;text-wrap:balance;margin-top:12px}
+.hero .sub{font-size:16px;color:var(--onDark);margin-top:12px;max-width:520px}
+.meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:20px}
+.meta div{display:flex;flex-direction:column;gap:2px}
+.meta b{font-weight:500;font-size:15px}
+.meta span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.ringBox{display:flex;flex-direction:column;align-items:center;gap:10px}
+.ringBox svg{max-width:100%;height:auto}
+.rkey{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;font-size:11.5px;color:var(--soft)}
+.rkey i{display:inline-block;width:14px;height:6px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.rkey i.tk{width:2px;height:11px;border-radius:0;background:var(--paper);box-shadow:0 0 0 1px var(--ink)}
+.rcap{font-size:11.5px;color:var(--soft);text-align:center;max-width:280px;line-height:1.45}
+@media (prefers-reduced-motion:no-preference){.rfill{stroke-dasharray:1;animation:rdraw .9s cubic-bezier(.2,.7,.2,1) both}@keyframes rdraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}}
+@media print{.rfill{animation:none!important;stroke-dasharray:none}}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.c-sage{background:var(--sage);color:var(--ink)} .c-amber{background:var(--amber);color:var(--ink)} .c-ink{background:var(--ink);color:var(--paper)} .c-stone{background:var(--stone);color:var(--ink)} .c-flag{background:var(--flag);color:var(--paper)}
+.c-line{border:1px solid var(--grey);color:var(--onDark)}
+
+/* sections */
+main{padding-bottom:56px}
+.sec{border-top:1px solid var(--line);padding-top:26px;margin-top:34px}
+.sec.first{border-top:0;margin-top:26px;padding-top:0}
+.h2{font-size:26px;font-weight:400;letter-spacing:-.01em;margin-top:8px;text-wrap:balance}
+.lead{color:var(--muted);margin-top:8px;max-width:640px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.big{font-size:30px;letter-spacing:-.01em;font-variant-numeric:tabular-nums;line-height:1.1}
+.big small{font-size:14px;color:var(--muted);margin-left:3px}
+.cap{font-size:13px;color:var(--muted);line-height:1.4}
+.up{color:var(--green);font-weight:600} .down{color:var(--flag);font-weight:600} .flat{color:var(--muted);font-weight:600}
+
+/* roadmap */
+.loop{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:18px}
+.step{background:var(--stone);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:5px;min-width:0}
+.step .n{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--muted)}
+.step h3{font-size:16px;font-weight:500}
+.step p{font-size:12.5px;color:var(--muted);line-height:1.4}
+.step.done{background:var(--paper);border:1px solid var(--line)}
+.step.done .n{color:var(--green)}
+.step.now{background:var(--charcoal);color:var(--paper)}
+.step.now .n,.step.now p{color:var(--soft)}
+.gate{margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.gate h3{font-size:17px;font-weight:500}
+.crit{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.crit:last-child{border-bottom:0}
+.tick{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.t-met{background:var(--sage);color:var(--ink)} .t-not{background:var(--amber);color:var(--ink)} .t-nod{background:var(--stone);color:var(--muted)}
+.crit .v{font-size:13px;color:var(--muted);text-align:right;white-space:nowrap}
+
+/* results rows */
+.rhead,.row{display:grid;grid-template-columns:minmax(0,1.5fr) 92px minmax(0,1.4fr) 74px;gap:12px;align-items:center}
+.rhead{padding:0 10px 8px;font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--muted);border-bottom:1.5px solid var(--ink);margin-top:18px;text-transform:uppercase}
+.rhead span:nth-child(2),.rhead span:last-child{text-align:right}
+.ghead{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:16px 10px 6px}
+.row{all:unset;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1.5fr) 92px minmax(0,1.4fr) 74px;gap:12px;align-items:center;padding:11px 10px;border-bottom:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:14px;width:100%}
+.row:hover{background:var(--stone)}
+.row[aria-pressed="true"]{background:var(--paper);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.row .lbl{min-width:0}
+.row .lbl small{display:block;font-size:12px;color:var(--muted)}
+.row .val{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.row .val small{font-weight:400;color:var(--muted);font-size:11.5px;margin-left:2px}
+.row .chg{text-align:right;font-size:12.5px;font-variant-numeric:tabular-nums}
+.bar{position:relative;height:8px;background:var(--line);border-radius:4px}
+.bar .band{position:absolute;top:0;bottom:0;background:var(--sage);opacity:.55;border-radius:4px}
+.bar .mk{position:absolute;top:-4px;width:12px;height:16px;margin-left:-6px;border-radius:3px;background:var(--ink);border:2px solid var(--paper)}
+.bar .th{position:absolute;top:-4px;bottom:-4px;width:1.5px;background:var(--ink)}
+.bar.none{background:transparent;height:auto;font-size:12px;color:var(--muted)}
+.split{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;margin-top:4px;align-items:start}
+.trend{position:sticky;top:12px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.trend h3{font-size:18px;font-weight:500;margin-top:6px}
+.trend svg{width:100%;height:auto;display:block;margin-top:10px}
+.tleg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:6px}
+.tleg i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.trend .note{font-size:12.5px;color:var(--muted);margin-top:10px}
+
+/* clinician brief */
+.brief{margin-top:26px;background:var(--paper);border:1.5px solid var(--ink);border-radius:12px;padding:20px 20px 18px}
+.briefhd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.snap{margin-top:12px;font-size:15px;line-height:1.55;max-width:75ch}
+.bgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.bgrid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.blist{margin:6px 0 0;padding-left:16px;font-size:13.5px;line-height:1.45;display:flex;flex-direction:column;gap:4px}
+.acts{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column}
+.act{padding:14px 0;border-bottom:1px solid var(--line)}
+.act:last-child{border-bottom:0}
+.acthd{display:flex;align-items:center;gap:10px}
+.actn{width:24px;height:24px;border-radius:50%;background:var(--stone);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.act h4{margin:8px 0 0;font-size:16px;font-weight:600}
+.act .why{margin-top:3px;font-size:13.5px;color:var(--muted)}
+.act ul{margin:8px 0 0;padding-left:18px;font-size:14px;line-height:1.5;display:flex;flex-direction:column;gap:5px;max-width:78ch}
+a.ref{color:var(--green);font-weight:600;text-decoration:none;font-variant-numeric:tabular-nums}
+a.ref:hover{text-decoration:underline}
+.refs ol{margin:8px 0 0;padding-left:20px;font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+@media screen and (max-width:820px){.bgrid,.bgrid.two{grid-template-columns:1fr}}
+@media print{.clin-only{display:none} body.printClin .clin-only{display:block;break-inside:auto} .act{break-inside:avoid}}
+
+/* how they jump */
+.h3{font-size:18px;font-weight:500;margin-top:24px}
+.seg2{display:inline-flex;background:var(--stone);border-radius:999px;padding:3px;gap:2px}
+.seg2 button{border:0;background:transparent;border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer;color:var(--muted)}
+.seg2 button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.tlwrap{margin-top:10px}
+.tl{display:grid;grid-template-columns:96px minmax(0,1fr) 78px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}
+.tlbar{display:flex;height:28px;border-radius:6px;overflow:hidden;background:var(--line)}
+.seg{display:flex;align-items:center;justify-content:center;font-size:11px;white-space:nowrap;overflow:hidden;font-variant-numeric:tabular-nums}
+.s-dip{background:var(--charcoal);color:var(--paper)} .s-push{background:var(--amber);color:var(--ink)} .s-both{background:var(--grey);color:var(--paper)} .s-fly{background:var(--sage);color:var(--ink)}
+.fnds{display:flex;flex-direction:column;margin-top:8px}
+.fnd{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;align-items:start;padding:14px 0;border-bottom:1px solid var(--line)}
+.fnd .chip{justify-self:start;margin-top:2px}
+.fnd h4{margin:0;font-size:15.5px;font-weight:600}
+.fnd p{margin-top:4px;color:var(--muted);font-size:14px;max-width:66ch}
+@media screen and (max-width:520px){.fnd{grid-template-columns:1fr;gap:6px}.tl{grid-template-columns:70px minmax(0,1fr)}.tl>span:last-child{display:none}}
+@media print{.fnd,.tl{break-inside:avoid}}
+
+/* quadrants */
+.qgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}
+.qcard{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0;display:flex;flex-direction:column;gap:6px}
+.qcard h3{font-size:18px;font-weight:500}
+.qcard svg{width:100%;height:auto;display:block;margin-top:4px}
+.qsel{display:flex;gap:6px;flex-wrap:wrap}
+.qsel select{flex:1;min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12.5px}
+@media screen and (max-width:820px){.qgrid{grid-template-columns:1fr}}
+@media print{.qgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.qcard{break-inside:avoid}}
+
+/* symmetry */
+.sym{margin-top:16px;display:flex;flex-direction:column}
+.symH,.symR{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr) 70px;gap:10px;align-items:center}
+.symH{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-bottom:8px;border-bottom:1.5px solid var(--ink)}
+.symH span:nth-child(2){text-align:right}
+.symH span:last-child{text-align:right}
+.symR{padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.half{position:relative;height:22px}
+.half.l .f{position:absolute;right:0;top:3px;bottom:3px;border-radius:4px 0 0 4px}
+.half.r .f{position:absolute;left:0;top:3px;bottom:3px;border-radius:0 4px 4px 0}
+.half .t{position:absolute;top:2px;font-size:11.5px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.half.l .t{left:0} .half.r .t{right:0}
+.f.inv{background:var(--amber)} .f.uninv{background:var(--grey)} .f.neu{background:var(--soft)}
+.lsi{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* tables */
+.tw{overflow-x:auto;margin-top:16px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0 12px 10px 0;border-bottom:1.5px solid var(--ink);white-space:nowrap}
+td{padding:11px 12px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+tr.click{cursor:pointer} tr.click:hover td{background:var(--stone)}
+.flags{display:flex;gap:5px;flex-wrap:wrap}
+
+/* dark summary card */
+.panel{margin-top:18px;background:var(--charcoal);color:var(--paper);border-radius:12px;padding:22px;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:22px}
+.panel .eb{color:var(--soft)}
+.panel h3{font-size:21px;font-weight:500;margin-top:6px}
+.panel ul{padding-left:18px;margin-top:10px;color:var(--onDark);display:flex;flex-direction:column;gap:5px;font-size:14px}
+.panel textarea{width:100%;min-height:92px;margin-top:10px;background:transparent;border:1px solid var(--grey);border-radius:8px;color:var(--paper);padding:10px;resize:vertical}
+.panel .printNote{display:none;color:var(--onDark);margin-top:10px;white-space:pre-wrap;font-size:14px}
+.panel .p{font-size:34px;line-height:1.1}
+.panel .pn{font-size:13px;color:var(--soft);margin-top:8px}
+
+/* settings drawer */
+.drawer{background:var(--stone);border-bottom:1px solid var(--line)}
+.drawer .wrap{padding-block:22px}
+.dgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label{font-size:12px;font-weight:600;color:var(--muted)}
+.field input,.field select,.field textarea{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13.5px;min-width:0}
+.btn{background:var(--ink);color:var(--paper);border:0;border-radius:999px;padding:9px 18px;font-size:13.5px;font-weight:500;cursor:pointer}
+.btn.ghost{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+.btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.msg{font-size:13px;color:var(--muted)}
+.msg.err{color:var(--flag)} .msg.ok{color:var(--green)}
+pre.cols{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:11.5px;white-space:pre-wrap;word-break:break-all;margin:6px 0 0}
+.refT input{width:70px;padding:5px 6px;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
+.refT td{padding:6px 10px 6px 0;font-size:13px}
+details{margin-top:16px}
+summary{cursor:pointer;font-weight:500}
+.empty{padding:40px 0;color:var(--muted)}
+footer{border-top:1px solid var(--line);margin-top:30px;padding-top:14px;font-size:12.5px;color:var(--muted)}
+.printOnly{display:none}
+
+@media screen and (max-width:820px){
+  .heroGrid,.split,.panel{grid-template-columns:1fr}
+  .trend{position:static}
+  .grid4,.loop{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dgrid{grid-template-columns:1fr}
+}
+@media screen and (max-width:520px){
+  .grid3,.grid4,.loop{grid-template-columns:1fr}
+  .rhead,.row{grid-template-columns:minmax(0,1.3fr) 76px 60px}
+  .rhead span:nth-child(3),.row .bar{display:none}
+  .symR,.symH{grid-template-columns:minmax(0,1fr) minmax(0,.8fr) minmax(0,.8fr) 52px}
+}
+@media (prefers-reduced-motion:no-preference){.row{transition:background .15s}}
+@page{size:A4;margin:12mm 0}
+@page:first{margin-top:0}
+@media print{
+  html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact;background:var(--cream)}
+  :root{padding:0}
+  body{font-size:13px}
+  .wrap{max-width:none;padding-left:14mm;padding-right:14mm}
+  .screen,.drawer,.ctrls,.panel textarea{display:none!important}
+  .printOnly{display:block}
+  .panel .printNote{display:block}
+  .hero .wrap{padding-block:10mm 9mm}
+  .heroGrid{grid-template-columns:minmax(0,1fr) 230px}
+  .split{grid-template-columns:1fr}
+  .trend{position:static;break-inside:avoid}
+  .card,.step,.gate,.panel,.symR,.row,tr,.crit{break-inside:avoid}
+  .h2,.eb{break-after:avoid}
+  .row[aria-pressed="true"]{box-shadow:none;background:transparent}
+  .tw{overflow:visible}
+}
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="logo">
+        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9.5" fill="none" stroke="#FFFFFF" stroke-width="1.2"/><path d="M11 1.5 A9.5 9.5 0 0 0 11 20.5 A6.5 9.5 0 0 1 11 1.5 Z" fill="#FFFFFF"/></svg>
+        VALO
+      </div>
+      <div class="ctrls">
+        <button class="hbtn" id="btnRoster" type="button">All clients</button>
+        <select class="hsel" id="clientSel" aria-label="Choose a client"></select>
+        <button class="hbtn" id="btnPrint" type="button" hidden>Print report</button>
+        <button class="hbtn" id="btnSettings" type="button" aria-expanded="false">Data &amp; settings</button>
+      </div>
+    </div>
+    <div id="hero"></div>
+  </div>
+</header>
+
+<section class="drawer" id="drawer" hidden>
+  <div class="wrap">
+    <div class="eb">Data &amp; settings</div>
+    <h2 class="h2">Bring in results from your Google Sheet</h2>
+    <p class="lead">Use two tabs, <b>Clients</b> and <b>Results</b>. In Google Sheets choose File → Share → Publish to web, pick each tab, choose CSV, and paste the links below. Each sync replaces the data on this device with what is in the sheet.</p>
+    <div class="dgrid">
+      <div class="field"><label for="urlC">Clients tab (published CSV link)</label><input id="urlC" type="url" placeholder="https://docs.google.com/spreadsheets/d/e/…/pub?gid=0&amp;single=true&amp;output=csv"></div>
+      <div class="field"><label for="urlR">Results tab (published CSV link)</label><input id="urlR" type="url" placeholder="https://docs.google.com/spreadsheets/d/e/…/pub?gid=…&amp;single=true&amp;output=csv"></div>
+    </div>
+    <div class="btns"><button class="btn" id="btnSync" type="button">Sync from sheet</button><span class="msg" id="syncMsg"></span></div>
+    <div class="dgrid">
+      <div class="field"><label for="fileC">Or import the Clients tab as a CSV file</label><input id="fileC" type="file" accept=".csv,text/csv"></div>
+      <div class="field"><label for="fileR">Import the Results tab as a CSV file</label><input id="fileR" type="file" accept=".csv,text/csv"></div>
+    </div>
+    <div class="btns"><button class="btn ghost" id="btnExamples" type="button">Load example clients</button><button class="btn ghost" id="btnClear" type="button">Clear all data on this device</button><span class="msg" id="clearMsg"></span></div>
+
+    <details>
+      <summary>Sheet columns (copy into row 1 of each tab)</summary>
+      <p class="msg" style="margin-top:8px">Clients tab</p>
+      <pre class="cols" id="colsC"></pre>
+      <div class="btns"><button class="btn ghost" type="button" data-copy="colsC">Copy Clients header</button></div>
+      <p class="msg" style="margin-top:12px">Results tab. One row per client per test day. Leave any test blank if you didn't run it. <b>side_affected</b> is L, R or None; <b>category</b> is Tendon, Rehab, Athlete or General; <b>phase</b> (1–4) is optional, otherwise it is worked out from the criteria.</p>
+      <pre class="cols" id="colsR"></pre>
+      <div class="btns"><button class="btn ghost" type="button" data-copy="colsR">Copy Results header</button><span class="msg" id="copyMsg"></span></div>
+    </details>
+
+    <details>
+      <summary>Reference ranges (used for the bars and the ring)</summary>
+      <p class="msg" style="margin-top:8px">The low end scores 20/100, the high end 80/100. <b>Football</b> holds the WSL (women) and Premier League (men) bands from your Roar dashboard, with the source under each test. <b>General</b> holds starting values for active adults: replace them with the VALD Hub normative bands for each test as you use them. Footballers use the football set automatically (from the sport column); set <b>norm_set</b> on the Clients tab to override. Tests missing from the football set fall back to general.</p>
+      <div class="dgrid"><div class="field"><label for="refSet">Reference set to edit</label><select id="refSet"><option value="football">Football: WSL / Premier League</option><option value="general">General active adults (VALD Hub)</option></select></div>
+      <div class="field"><label for="quadMode">Show quadrants for</label><select id="quadMode"><option value="athletes">Athletes and general clients</option><option value="all">Everyone, including tendon clients</option><option value="off">Nobody</option></select></div></div>
+      <div class="tw"><table class="refT"><thead><tr><th>Test</th><th>Unit</th><th>Women low</th><th>Women high</th><th>Men low</th><th>Men high</th></tr></thead><tbody id="refBody"></tbody></table></div>
+    </details>
+
+    <details>
+      <summary>Roadmap phase criteria</summary>
+      <p class="msg" style="margin-top:8px">The thresholds a client must meet to move to the next phase of the Knee Recovery Roadmap. Achilles clients automatically use calf tests and VISA-A.</p>
+      <div class="tw"><table class="refT"><thead><tr><th>Moving into</th><th>Criterion</th><th>Threshold</th></tr></thead><tbody id="critBody"></tbody></table></div>
+    </details>
+  </div>
+</section>
+
+<main class="wrap" id="main"></main>
+
+<script>
+/* ---------- test battery ---------- */
+const GROUPS=['Jump','Strategy','Strength','Speed','Capacity','Symmetry','Tendon'];
+const RING_GROUPS=GROUPS.filter(g=>g!=='Strategy');
+const M=[
+ {k:'cmj_ct',l:'CMJ contraction time',u:'ms',g:'Strategy',d:0,lb:1,src:'Force plate · dip + push-off'},
+ {k:'cmj_ecc_dur',l:'CMJ eccentric duration',u:'ms',g:'Strategy',d:0,lb:1,src:'Force plate · the dip'},
+ {k:'cmj_con_dur',l:'CMJ concentric duration',u:'ms',g:'Strategy',d:0,lb:1,src:'Force plate · the push-off'},
+ {k:'cmj_depth',l:'CMJ countermovement depth',u:'cm',g:'Strategy',d:1,neu:1,src:'Force plate · how far they dip'},
+ {k:'cmj_ftct',l:'CMJ flight time : contraction time',u:'',g:'Strategy',d:2,src:'Force plate'},
+ {k:'cmj_ecc_rfd',l:'CMJ eccentric deceleration RFD / BM',u:'N/s/kg',g:'Strategy',d:0,src:'Force plate · braking speed'},
+ {k:'cmj_fzv',l:'CMJ force at zero velocity / BM',u:'N/kg',g:'Strategy',d:1,src:'Force plate · force at the bottom'},
+ {k:'cmj_ci100',l:'CMJ concentric impulse-100ms',u:'N·s',g:'Strategy',d:0,src:'Force plate · early push-off'},
+ {k:'cmj_epf',l:'CMJ eccentric peak force',u:'N',g:'Strategy',d:0,src:'Force plate'},
+ {k:'cmj_cpf',l:'CMJ concentric peak force',u:'N',g:'Strategy',d:0,src:'Force plate'},
+ {k:'dsi',l:'Dynamic strength index',u:'',g:'Strategy',d:2,der:1,src:'CMJ force at zero velocity ÷ IMTP relative force'},
+ {k:'dj_ct',l:'Drop jump contact time',u:'ms',g:'Strategy',d:0,lb:1,src:'Force plate'},
+ {k:'cmj_ei',l:'CMJ braking (eccentric deceleration) impulse',u:'N·s',g:'Symmetry',d:0,p:1,src:'Force plate'},
+ {k:'cmj_li',l:'CMJ landing impulse',u:'N·s',g:'Symmetry',d:0,p:1,src:'Force plate'},
+ {k:'cmj_jh',l:'CMJ jump height',u:'cm',g:'Jump',d:1,src:'Force plate'},
+ {k:'cmj_rsimod',l:'CMJ RSI-modified',u:'m/s',g:'Jump',d:2,src:'Force plate'},
+ {k:'cmj_ppbm',l:'CMJ peak power / body mass',u:'W/kg',g:'Jump',d:1,src:'Force plate'},
+ {k:'sj_jh',l:'Squat jump height',u:'cm',g:'Jump',d:1,src:'Force plate'},
+ {k:'eur',l:'Eccentric utilisation ratio',u:'',g:'Jump',d:2,der:1,src:'CMJ ÷ squat jump height'},
+ {k:'dj_rsi',l:'Drop jump RSI',u:'',g:'Jump',d:2,src:'Force plate'},
+ {k:'slcmj',l:'Single-leg CMJ height',u:'cm',g:'Jump',d:1,p:1,src:'Force plate'},
+ {k:'hop_rsi',l:'Single-leg hop RSI (10/5)',u:'',g:'Jump',d:2,p:1,src:'Force plate'},
+ {k:'cmj_ci',l:'CMJ concentric impulse',u:'N·s',g:'Symmetry',d:0,p:1,src:'Force plate'},
+ {k:'imtp',l:'IMTP peak force',u:'N',g:'Strength',d:0,src:'Force plate'},
+ {k:'imtp_rel',l:'IMTP relative force',u:'N/kg',g:'Strength',d:1,der:1,src:'IMTP ÷ body mass'},
+ {k:'iso_ke',l:'Isometric knee extension',u:'N',g:'Strength',d:0,p:1,src:'Force plate'},
+ {k:'iso_calf',l:'Isometric calf (soleus) push',u:'N',g:'Strength',d:0,p:1,src:'Force plate'},
+ {k:'nordic',l:'Nordic hamstring peak force',u:'N',g:'Strength',d:0,p:1,src:'NordBord'},
+ {k:'hip_add',l:'Hip adduction peak force (ankle)',u:'N',g:'Strength',d:0,p:1,src:'ForceFrame'},
+ {k:'hip_abd',l:'Hip abduction peak force (ankle)',u:'N',g:'Strength',d:0,p:1,src:'ForceFrame'},
+ {k:'calf_reps',l:'Single-leg calf raise',u:'reps',g:'Capacity',d:0,p:1,src:'Clinical'},
+ {k:'sts_reps',l:'Single-leg sit-to-stand',u:'reps',g:'Capacity',d:0,p:1,src:'Clinical'},
+ {k:'ktw',l:'Knee-to-wall',u:'cm',g:'Capacity',d:1,p:1,src:'Clinical'},
+ {k:'sprint10',l:'10 m sprint',u:'s',g:'Speed',d:2,lb:1,src:'Timing gates'},
+ {k:'sprint20',l:'20 m sprint',u:'s',g:'Speed',d:2,lb:1,src:'Timing gates'},
+ {k:'maxvel',l:'Max sprint speed',u:'m/s',g:'Speed',d:2,src:'Flying sprint or GPS'},
+ {k:'visa_p',l:'VISA-P',u:'/100',g:'Tendon',d:0,src:'Questionnaire'},
+ {k:'visa_a',l:'VISA-A',u:'/100',g:'Tendon',d:0,src:'Questionnaire'},
+ {k:'pain_dsq',l:'Pain on single-leg decline squat',u:'/10',g:'Tendon',d:0,lb:1,src:'Pain 0–10'},
+ {k:'pain_calf',l:'Pain on single-leg calf raise',u:'/10',g:'Tendon',d:0,lb:1,src:'Pain 0–10'},
+ {k:'pain_hop',l:'Pain on hopping',u:'/10',g:'Tendon',d:0,lb:1,src:'Pain 0–10'},
+];
+const MK={}; M.forEach(m=>MK[m.k]=m);
+const CLIENT_COLS=['client_id','name','dob','sex','category','sport','position','condition','side_affected','goal','start_date','phase','norm_set'];
+const RESULT_COLS=(()=>{const c=['name','test_date','bodyweight_kg'];M.forEach(m=>{if(m.der)return;if(m.p){c.push(m.k+'_L',m.k+'_R')}else c.push(m.k)});c.push('notes');return c})();
+
+const REF_DEFAULT={ // [low, high]; for lower-is-better tests low is the slower/worse number
+ cmj_jh:{F:[22,32],M:[32,44]}, cmj_rsimod:{F:[.30,.45],M:[.40,.60]}, cmj_ppbm:{F:[38,48],M:[48,60]},
+ dj_rsi:{F:[1.2,1.8],M:[1.5,2.3]}, slcmj:{F:[10,15],M:[14,21]}, hop_rsi:{F:[1.0,1.5],M:[1.2,1.8]},
+ imtp_rel:{F:[25,35],M:[30,42]}, calf_reps:{F:[15,30],M:[15,30]}, sts_reps:{F:[8,20],M:[8,20]},
+ ktw:{F:[6,13],M:[6,13]}, sprint10:{F:[2.05,1.85],M:[1.88,1.70]}, sprint20:{F:[3.60,3.25],M:[3.25,2.95]},
+};
+// Football: senior 25th–75th percentile. Women = WSL, men = Premier League (VALD 2025/26 normative reports) unless noted.
+const REF_FOOTBALL={
+ cmj_jh:{F:[26.4,31.7],M:[35.3,42.4]}, cmj_ppbm:{F:[41.6,48.0],M:[51.7,60.4]},
+ sj_jh:{F:[25.6,31.1],M:[32.5,39.2]}, eur:{F:[0.90,1.15],M:[0.99,1.13]},
+ slcmj:{F:[13.0,16.9],M:[18.4,23.2]}, hop_rsi:{F:[1.22,1.52],M:[1.41,1.76]},
+ cmj_ftct:{F:[0.63,0.78]}, cmj_ci100:{F:[63,86]}, cmj_fzv:{F:[21.8,25.5],M:[22.5,27.0]}, dsi:{F:[0.60,0.80],M:[0.69,0.90]},
+ imtp:{F:[1739,2272],M:[2756,3305]}, imtp_rel:{F:[20.2,23.0],M:[34.72,40.06]},
+ iso_ke:{F:[373,567]}, nordic:{F:[292,361],M:[417,517]},
+ hip_add:{F:[138,185],M:[176,257]}, hip_abd:{F:[146,180],M:[189,252]},
+ sprint10:{F:[2.05,1.90],M:[1.80,1.65]}, sprint20:{F:[3.55,3.25],M:[3.05,2.85]}, maxvel:{F:[7.2,8.0],M:[8.3,9.5]},
+};
+const REF_SRC={
+ cmj_jh:'VALD WSL / Premier League 2025/26, senior 25th–75th.', cmj_ppbm:'VALD WSL / Premier League 2025/26, senior 25th–75th.',
+ sj_jh:'VALD WSL / Premier League 2025/26, senior 25th–75th.', eur:'Men: VALD Premier League 2025/26. Women: team-sport literature band (McGuigan et al. 2006), not women-specific.',
+ slcmj:'VALD single-leg jump, senior 25th–75th (closest proxy for single-leg CMJ).', hop_rsi:'VALD single-leg drop jump, senior 25th–75th (proxy for the 10/5 hop).',
+ imtp:'Men: Badby et al. 2025 (EFL first team). Women: VALD WSL 2025/26.', imtp_rel:'Men: Badby et al. 2025 (EFL). Women: single study, pro female club soccer (n=28), moderate confidence.',
+ iso_ke:'VALD DynaMo seated knee extension, WSL 2025/26. Test angle not confirmed. No men’s band.', nordic:'VALD NordBord, WSL and Premier League 2025/26, in-season.',
+ hip_add:'VALD ForceFrame supine (ankle), senior 25th–75th.', hip_abd:'VALD ForceFrame supine (ankle), senior 25th–75th.',
+ sprint10:'Men: Haugen et al. 2019. Women: derived from Vescovi 2012, moderate confidence.', sprint20:'Men: Haugen et al. 2019. Women: derived from Vescovi 2012, moderate confidence.',
+ cmj_ftct:'VALD Normative Data Report, 25th–75th. No men’s band in your Roar set.', cmj_ci100:'VALD Normative Data Report, 25th–75th. No men’s band in your Roar set.',
+ cmj_fzv:'VALD WSL / Premier League 2025/26, senior 25th–75th.', dsi:'Men: VALD Premier League 2025/26. Women: Sheppard et al. 2011 training band cited in the VALD WSL report, not a population percentile.',
+ maxvel:'Men: LaLiga match-speed data. Women: derived from Vescovi 2012 flying sprint, moderate confidence.',
+};
+const NORM_SETS={general:{label:'General active adults',short:'General',def:REF_DEFAULT},football:{label:'Football: WSL (women) / Premier League (men)',short:'Football',def:REF_FOOTBALL}};
+const REF_KEYS=M.filter(m=>m.g!=='Tendon'&&m.k!=='cmj_ci').map(m=>m.k);
+const PHASES=[
+ {n:'Clarity & Control',d:'Settle the tendon, find the right load, learn the plan.'},
+ {n:'Capacity Rebuild',d:'Heavy, slow strength until both sides match.'},
+ {n:'Return & Resilience',d:'Energy storage: jumping, hopping, running and sport.'},
+ {n:'Ongoing Maintenance',d:'Keep the capacity. Re-test every block.'},
+];
+// criteria for entering phase 2, 3, 4. P = pain test, I = isometric test, V = VISA score, S = single-leg capacity test
+const CRIT_DEF=[
+ {id:'g2p',gate:2,kind:'pain',ref:'P',op:'<=',t:3,txt:'Pain on {P} at or below {t}/10'},
+ {id:'g2i',gate:2,kind:'lsi',ref:'I',op:'>=',t:80,txt:'{I} symmetry at or above {t}%'},
+ {id:'g2v',gate:2,kind:'val',ref:'V',op:'>=',t:50,txt:'{V} at or above {t}'},
+ {id:'g3p',gate:3,kind:'pain',ref:'P',op:'<=',t:2,txt:'Pain on {P} at or below {t}/10'},
+ {id:'g3i',gate:3,kind:'lsi',ref:'I',op:'>=',t:90,txt:'{I} symmetry at or above {t}%'},
+ {id:'g3s',gate:3,kind:'lsi',ref:'S',op:'>=',t:90,txt:'{S} symmetry at or above {t}%'},
+ {id:'g3v',gate:3,kind:'val',ref:'V',op:'>=',t:70,txt:'{V} at or above {t}'},
+ {id:'g4h',gate:4,kind:'pain',ref:'pain_hop',op:'<=',t:2,txt:'Pain on hopping at or below {t}/10'},
+ {id:'g4j',gate:4,kind:'lsi',ref:'slcmj',op:'>=',t:90,txt:'Single-leg CMJ symmetry at or above {t}%'},
+ {id:'g4r',gate:4,kind:'lsi',ref:'hop_rsi',op:'>=',t:90,txt:'Single-leg hop RSI symmetry at or above {t}%'},
+ {id:'g4v',gate:4,kind:'val',ref:'V',op:'>=',t:80,txt:'{V} at or above {t}'},
+];
+
+/* ---------- example data (clearly marked) ---------- */
+const EX_CLIENTS=`client_id,name,dob,sex,category,sport,position,condition,side_affected,goal,start_date,phase
+ex1,Example · Mark T,1973-05-14,M,Tendon,Tennis and running,,Patellar tendinopathy,R,Back to two tennis matches a week without knee pain,2026-07-20,
+ex2,Example · Ella K,2007-02-03,F,Athlete,Football,Winger (NPL),,None,Faster first 10 m and a stronger single-leg base,2026-08-10,
+ex3,Example · Lisa M,1979-11-02,F,Tendon,Trail running,,Achilles tendinopathy,L,Run 10 km trails pain-free,2026-08-03,
+ex4,Example · Grace P,2004-06-21,F,Athlete,Football,Centre back (NPLW),,None,Stronger in duels and in the air,2026-09-01,
+ex5,Example · Mia S,2006-01-12,F,Athlete,Football,Striker (NPLW),,None,Top speed and repeat sprints,2026-09-01,
+ex6,Example · Tara N,2001-09-30,F,Athlete,Football,Fullback (NPLW),,None,Stay available all season,2026-09-15,`;
+const EX_RESULTS=(()=>{
+ const rows=[RESULT_COLS.join(',')];
+ const put=(o)=>rows.push(RESULT_COLS.map(c=>o[c]??'').join(','));
+ [['2026-07-21',96,{cmj_ct:980,cmj_ecc_dur:690,cmj_con_dur:290,cmj_depth:18.5,cmj_ftct:.49,cmj_ecc_rfd:38,cmj_fzv:19.6,cmj_ci100:70,cmj_ei_L:62,cmj_ei_R:44,cmj_li_L:141,cmj_li_R:110,cmj_jh:28.1,cmj_rsimod:.34,cmj_ppbm:44.2,imtp:2310,iso_ke_L:612,iso_ke_R:448,sts_reps_L:15,sts_reps_R:9,calf_reps_L:24,calf_reps_R:21,visa_p:46,pain_dsq:5,slcmj_L:13.2,slcmj_R:9.1,cmj_ci_L:118,cmj_ci_R:101,ktw_L:11,ktw_R:9,notes:'Initial assessment. Pain 5/10 on decline squat, worse after tennis.'}],
+  ['2026-08-18',95,{cmj_ct:930,cmj_ecc_dur:650,cmj_con_dur:280,cmj_depth:20.5,cmj_ftct:.52,cmj_ecc_rfd:42,cmj_fzv:20.4,cmj_ci100:74,cmj_ei_L:61,cmj_ei_R:48,cmj_li_L:139,cmj_li_R:116,cmj_jh:28.9,cmj_rsimod:.36,cmj_ppbm:45.0,imtp:2420,iso_ke_L:618,iso_ke_R:521,sts_reps_L:16,sts_reps_R:12,calf_reps_L:25,calf_reps_R:23,visa_p:58,pain_dsq:3,slcmj_L:13.4,slcmj_R:10.0,cmj_ci_L:119,cmj_ci_R:107,notes:'Re-test 1. Morning stiffness gone. Into heavy slow resistance.'}],
+  ['2026-09-22',94,{cmj_ct:870,cmj_ecc_dur:600,cmj_con_dur:270,cmj_depth:23.5,cmj_ftct:.57,cmj_ecc_rfd:47,cmj_fzv:21.3,cmj_ci100:78,cmj_ei_L:61,cmj_ei_R:53,cmj_li_L:137,cmj_li_R:121,cmj_jh:30.2,cmj_rsimod:.39,cmj_ppbm:46.8,imtp:2560,iso_ke_L:630,iso_ke_R:574,sts_reps_L:17,sts_reps_R:15,calf_reps_L:27,calf_reps_R:26,visa_p:69,pain_dsq:2,slcmj_L:13.6,slcmj_R:11.2,hop_rsi_L:1.32,hop_rsi_R:1.05,cmj_ci_L:121,cmj_ci_R:112,ktw_L:11.5,ktw_R:10.5,notes:'Re-test 2. Symmetry close. Started low-level hopping.'}],
+  ['2026-10-27',94,{cmj_ct:820,cmj_ecc_dur:560,cmj_con_dur:260,cmj_depth:26,cmj_ftct:.61,cmj_ecc_rfd:52,cmj_fzv:22.1,cmj_ci100:82,cmj_ei_L:60,cmj_ei_R:51,cmj_li_L:135,cmj_li_R:124,cmj_jh:31.0,cmj_rsimod:.41,cmj_ppbm:47.9,imtp:2640,iso_ke_L:641,iso_ke_R:603,sts_reps_L:18,sts_reps_R:17,calf_reps_L:28,calf_reps_R:27,visa_p:78,pain_dsq:1,pain_hop:2,slcmj_L:13.9,slcmj_R:12.1,hop_rsi_L:1.36,hop_rsi_R:1.18,cmj_ci_L:122,cmj_ci_R:115,notes:'Re-test 3. Phase 3. Hitting tennis balls twice a week.'}]
+ ].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Mark T',test_date:d,bodyweight_kg:bw},v)));
+ [['2026-10-13',64,{cmj_ct:800,cmj_ftct:.61,cmj_depth:29,cmj_jh:28.8,cmj_ppbm:45.2,sj_jh:27.9,imtp:1690,nordic_L:318,nordic_R:330,hip_add_L:172,hip_add_R:168,hip_abd_L:165,hip_abd_R:170,slcmj_L:14.2,slcmj_R:14.8,maxvel:7.4,sprint10:1.98,notes:'Pre-season testing.'}]].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Grace P',test_date:d,bodyweight_kg:bw},v)));
+ [['2026-10-13',57,{cmj_ct:690,cmj_ftct:.74,cmj_depth:27,cmj_jh:32.5,cmj_ppbm:49.8,sj_jh:29.1,imtp:1330,nordic_L:262,nordic_R:255,hip_add_L:131,hip_add_R:140,hip_abd_L:142,hip_abd_R:139,slcmj_L:16.1,slcmj_R:15.6,maxvel:8.1,sprint10:1.88,notes:'Pre-season testing. Fastest in the group, lowest Nordic.'}]].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Mia S',test_date:d,bodyweight_kg:bw},v)));
+ [['2026-10-20',60,{cmj_ct:760,cmj_ftct:.65,cmj_depth:30,cmj_jh:29.9,cmj_ppbm:46.4,sj_jh:28.0,imtp:1460,nordic_L:300,nordic_R:288,hip_add_L:150,hip_add_R:146,hip_abd_L:160,hip_abd_R:158,slcmj_L:15.0,slcmj_R:14.5,maxvel:7.7,sprint10:1.94,notes:'Pre-season testing.'}]].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Tara N',test_date:d,bodyweight_kg:bw},v)));
+ [['2026-08-11',58,{cmj_ct:760,cmj_ecc_dur:480,cmj_con_dur:280,cmj_depth:30,cmj_ftct:.62,cmj_ecc_rfd:60,cmj_fzv:22.6,cmj_ci100:66,cmj_ei_L:40,cmj_ei_R:44,cmj_li_L:82,cmj_li_R:88,dj_ct:225,sj_jh:25.9,nordic_L:268,nordic_R:301,hip_add_L:139,hip_add_R:151,hip_abd_L:149,hip_abd_R:155,maxvel:7.3,cmj_jh:27.4,cmj_rsimod:.38,cmj_ppbm:43.1,dj_rsi:1.41,imtp:1520,slcmj_L:12.1,slcmj_R:13.6,hop_rsi_L:1.22,hop_rsi_R:1.38,cmj_ci_L:74,cmj_ci_R:80,iso_ke_L:388,iso_ke_R:402,sprint10:1.99,sprint20:3.48,calf_reps_L:26,calf_reps_R:28,notes:'Pre-season testing.'}],
+  ['2026-10-06',58,{cmj_ct:700,cmj_ecc_dur:440,cmj_con_dur:260,cmj_depth:31,cmj_ftct:.70,cmj_ecc_rfd:68,cmj_fzv:23.9,cmj_ci100:73,cmj_ei_L:42,cmj_ei_R:44,cmj_li_L:85,cmj_li_R:88,dj_ct:205,sj_jh:27.2,nordic_L:292,nordic_R:309,hip_add_L:149,hip_add_R:156,hip_abd_L:154,hip_abd_R:158,maxvel:7.6,cmj_jh:29.6,cmj_rsimod:.43,cmj_ppbm:46.0,dj_rsi:1.58,imtp:1690,slcmj_L:13.4,slcmj_R:14.1,hop_rsi_L:1.35,hop_rsi_R:1.42,cmj_ci_L:78,cmj_ci_R:81,iso_ke_L:410,iso_ke_R:416,sprint10:1.93,sprint20:3.39,calf_reps_L:29,calf_reps_R:30,notes:'Block 2 re-test. Left leg catching up.'}]
+ ].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Ella K',test_date:d,bodyweight_kg:bw},v)));
+ [['2026-08-04',63,{cmj_ct:900,cmj_ecc_dur:620,cmj_con_dur:280,cmj_depth:27,cmj_ftct:.46,cmj_ei_L:41,cmj_ei_R:50,cmj_li_L:88,cmj_li_R:112,cmj_jh:21.0,cmj_rsimod:.27,imtp:1450,iso_calf_L:910,iso_calf_R:1240,calf_reps_L:11,calf_reps_R:26,visa_a:41,pain_calf:5,ktw_L:8,ktw_R:11,notes:'Initial. Pain 5/10 on single-leg calf raise.'}],
+  ['2026-09-08',63,{cmj_jh:21.8,cmj_rsimod:.29,imtp:1500,iso_calf_L:1060,iso_calf_R:1250,calf_reps_L:17,calf_reps_R:27,visa_a:55,pain_calf:3,ktw_L:9,ktw_R:11,notes:'Re-test 1. Walking pain-free.'}],
+  ['2026-10-20',62,{cmj_ct:840,cmj_ecc_dur:575,cmj_con_dur:265,cmj_depth:28,cmj_ftct:.51,cmj_ei_L:46,cmj_ei_R:50,cmj_li_L:98,cmj_li_R:111,cmj_jh:22.9,cmj_rsimod:.31,imtp:1580,iso_calf_L:1150,iso_calf_R:1270,calf_reps_L:22,calf_reps_R:28,visa_a:64,pain_calf:2,ktw_L:10,ktw_R:11,notes:'Re-test 2. Easy 3 km run-walk with no flare.'}]
+ ].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Lisa M',test_date:d,bodyweight_kg:bw},v)));
+ return rows.join('\n');
+})();
+
+/* ---------- storage ---------- */
+const KEY='valo-client-dash-v1';
+let S={clientsCsv:'',resultsCsv:'',urlC:'',urlR:'',refs2:{},crit:{},summary:{},examples:true,quad:'athletes',cloud:true,cq:{x:'cmj_jh',y:'imtp_rel'}};
+function load(){try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+load();
+if(S.refs&&!S.refs2.general){S.refs2.general=S.refs;delete S.refs}
+const setRefs=set=>(S.refs2&&S.refs2[set])||NORM_SETS[set].def;
+// reference band for a client: their norm set first, then general as a fallback
+function refFor(c,k){
+ const own=setRefs(c.norm)[k];if(own&&own[c.sex])return {r:own[c.sex],set:c.norm};
+ if(c.norm!=='general'){const g=setRefs('general')[k];if(g&&g[c.sex])return {r:g[c.sex],set:'general'}}
+ return null;
+}
+const CT=id=>S.crit[id]!=null?S.crit[id]:CRIT_DEF.find(c=>c.id===id).t;
+
+/* ---------- csv ---------- */
+function parseCSV(text){
+ const rows=[];let row=[],f='',q=false;const s=String(text||'').replace(/\r\n?/g,'\n');
+ for(let i=0;i<s.length;i++){const ch=s[i];
+  if(q){if(ch==='"'){if(s[i+1]==='"'){f+='"';i++}else q=false}else f+=ch}
+  else if(ch==='"')q=true; else if(ch===','){row.push(f);f=''} else if(ch==='\n'){row.push(f);rows.push(row);row=[];f=''} else f+=ch}
+ if(f.length||row.length){row.push(f);rows.push(row)}
+ const r=rows.map(x=>x.map(c=>c.trim()));
+ let h=0;for(let i=0;i<Math.min(5,r.length);i++){if(r[i].some(c=>c.toLowerCase()==='name')){h=i;break}}
+ const head=(r[h]||[]).map(x=>x.trim().toLowerCase());
+ return r.slice(h+1).filter(x=>x.some(c=>c)).map(x=>{const o={};head.forEach((k,i)=>o[k]=x[i]||'');return o});
+}
+const num=v=>{if(v==null||v==='')return null;const n=parseFloat(String(v).replace(/,/g,''));return isNaN(n)?null:n};
+const norm=s=>String(s||'').trim().toLowerCase().replace(/\s+/g,' ');
+
+/* ---------- model ---------- */
+let CLIENTS=[];
+function build(){
+ const cRows=parseCSV(S.clientsCsv), rRows=parseCSV(S.resultsCsv);
+ const byKey={};
+ CLIENTS=cRows.filter(r=>r.name).map((r,i)=>{
+  const sx=String(r.sex||'').toUpperCase().startsWith('M')?'M':'F';
+  const cond=r.condition||'';
+  const c={id:r.client_id||('c'+i),name:r.name,dob:r.dob,sex:sx,category:(r.category||'General').trim(),sport:r.sport||'',position:r.position||'',condition:cond,
+   side:(/^l/i.test(r.side_affected)?'L':/^r/i.test(r.side_affected)?'R':null),goal:r.goal||'',start:r.start_date||'',phaseSet:num(r.phase),
+   region:/achill|calf|heel/i.test(cond)?'achilles':/patell|knee|quad|jumper/i.test(cond)?'knee':null,tests:[],
+   norm:/^foot/i.test(r.norm_set)?'football':/^gen|^vald/i.test(r.norm_set)?'general':(/football|soccer|futsal/i.test(r.sport||'')?'football':'general')};
+  byKey[norm(c.name)]=c;if(r.client_id)byKey[norm(r.client_id)]=c;return c});
+ rRows.forEach(r=>{
+  const c=byKey[norm(r.name)]||byKey[norm(r.client_id)];if(!c||!r.test_date)return;
+  const t={date:r.test_date.slice(0,10),bw:num(r.bodyweight_kg),notes:r.notes||'',v:{}};
+  M.forEach(m=>{if(m.der)return;if(m.p){t.v[m.k+'_L']=num(r[m.k+'_l']);t.v[m.k+'_R']=num(r[m.k+'_r'])}else t.v[m.k]=num(r[m.k])});
+  t.v.imtp_rel=(t.v.imtp!=null&&t.bw)?t.v.imtp/t.bw:null;
+  t.v.eur=(t.v.cmj_jh!=null&&t.v.sj_jh)?t.v.cmj_jh/t.v.sj_jh:null;
+  t.v.dsi=(t.v.cmj_fzv!=null&&t.v.imtp_rel)?t.v.cmj_fzv/t.v.imtp_rel:null;
+  c.tests.push(t)});
+ CLIENTS.forEach(c=>{c.tests.sort((a,b)=>a.date.localeCompare(b.date));c.tendon=/tendon|rehab/i.test(c.category)||!!c.region||c.phaseSet!=null;if(c.tendon&&!c.region)c.region='knee'});
+}
+const has=(t,m)=>m.p?(t.v[m.k+'_L']!=null||t.v[m.k+'_R']!=null):t.v[m.k]!=null;
+function rep(t,m){if(!m.p)return t.v[m.k];const l=t.v[m.k+'_L'],r=t.v[m.k+'_R'];if(l==null&&r==null)return null;if(l==null||r==null)return l??r;return (l+r)/2}
+function lsiOf(c,t,m){const l=t.v[m.k+'_L'],r=t.v[m.k+'_R'];if(l==null||r==null||!l||!r)return null;
+ if(c.side){const inv=c.side==='L'?l:r,un=c.side==='L'?r:l;return inv/un*100}return Math.min(l,r)/Math.max(l,r)*100}
+function series(c,m){return c.tests.filter(t=>has(t,m))}
+function last(c,m){const s=series(c,m);return s[s.length-1]||null}
+function first(c,m){return series(c,m)[0]||null}
+function lastLsi(c,m){const s=c.tests.filter(t=>lsiOf(c,t,m)!=null);const t=s[s.length-1];return t?{v:lsiOf(c,t,m),t,first:lsiOf(c,s[0],m),n:s.length}:null}
+function age(dob){if(!dob)return null;const d=new Date(dob);if(isNaN(d))return null;return Math.floor((Date.now()-d)/31557600000)}
+function daysSince(d){return Math.round((Date.now()-new Date(d+'T00:00:00'))/86400000)}
+function fmt(v,d){if(v==null||isNaN(v))return '—';return Number(v).toLocaleString('en-AU',{minimumFractionDigits:d||0,maximumFractionDigits:d||0})}
+function fdate(d){if(!d)return '—';const x=new Date(d+'T00:00:00');return isNaN(x)?d:x.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})}
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+
+/* scoring 0–100 */
+function mScore(c,m){
+ const t=last(c,m);if(!t)return null;const v=rep(t,m);
+ if(m.k==='visa_p'||m.k==='visa_a')return clamp(v,0,100);
+ if(m.g==='Tendon')return clamp((10-v)*10,0,100);
+ const rf=refFor(c,m.k);if(!rf)return null;const r=rf.r;
+ return clamp(20+60*(v-r[0])/(r[1]-r[0]),0,100);
+}
+const lsiScore=v=>clamp((v-70)/30*100,0,100);
+function domainScores(c){
+ const out=[];
+ RING_GROUPS.forEach(g=>{
+  let xs=[];
+  if(g==='Symmetry'){M.filter(m=>m.p).forEach(m=>{const l=lastLsi(c,m);if(l)xs.push(lsiScore(l.v))})}
+  else M.filter(m=>m.g===g).forEach(m=>{const s=mScore(c,m);if(s!=null)xs.push(s)});
+  if(xs.length)out.push({g,s:xs.reduce((a,b)=>a+b,0)/xs.length});
+ });
+ return out;
+}
+const scoreCol=s=>s>=65?'var(--sage)':s>=45?'var(--amber)':'var(--flag)';
+const scoreWord=s=>s>=65?'On track':s>=45?'Building':'Priority';
+
+/* roadmap */
+function critRef(c,ref){
+ const a=c.region==='achilles';
+ if(ref==='P')return a?'pain_calf':'pain_dsq';
+ if(ref==='I')return a?'iso_calf':'iso_ke';
+ if(ref==='V')return a?'visa_a':'visa_p';
+ if(ref==='S')return a?'calf_reps':'sts_reps';
+ return ref;
+}
+function evalCrit(c,cd){
+ const m=MK[critRef(c,cd.ref)],t=CT(cd.id);
+ const lbl=cd.txt.replace('{t}',t).replace(/\{[PIVS]\}/,(m.l.replace(/^Pain on /,'').toLowerCase()===m.l.toLowerCase()?m.l:m.l.replace(/^Pain on /,'')));
+ let v=null;
+ if(cd.kind==='lsi'){const l=lastLsi(c,m);v=l?l.v:null}else{const x=last(c,m);v=x?rep(x,m):null}
+ const ok=v==null?null:(cd.op==='<='?v<=t:v>=t);
+ const vt=v==null?'Not tested':cd.kind==='lsi'?fmt(v,0)+'%':fmt(v,m.d)+(m.u.startsWith('/')?m.u:'');
+ return {label:lbl,ok,vt};
+}
+function phaseOf(c){
+ if(c.phaseSet>=1&&c.phaseSet<=4)return {p:Math.round(c.phaseSet),set:true};
+ let p=1;for(const g of [2,3,4]){const all=CRIT_DEF.filter(x=>x.gate===g).map(x=>evalCrit(c,x));if(all.every(r=>r.ok===true))p=g;else break}
+ return {p,set:false};
+}
+function flags(c){
+ const f=[];if(!c.tests.length){f.push(['No tests yet','c-stone']);return f}
+ const lt=c.tests[c.tests.length-1];
+ if(daysSince(lt.date)>42)f.push(['Re-test due','c-amber']);
+ let worst=null;M.filter(m=>m.p).forEach(m=>{const l=lastLsi(c,m);if(l&&(worst==null||l.v<worst))worst=l.v});
+ if(worst!=null&&worst<85)f.push(['Asymmetry '+fmt(worst,0)+'%','c-amber']);
+ ['pain_dsq','pain_calf','pain_hop'].forEach(k=>{const s=series(c,MK[k]);if(s.length>1&&s[s.length-1].v[k]>s[s.length-2].v[k])f.push(['Pain up','c-flag'])});
+ return f;
+}
+
+/* ---------- svg pieces ---------- */
+// Instrument-style ring: one segment per domain (fill = score /100, white tick = first test),
+// fine scale ticks inside, an optional outer Roadmap ring (4 phases, current phase filled by criteria met),
+// and curved labels that read upright all the way round.
+const RING_COL={on:'#9FC5A8',build:'#CFCAC0',focus:'#D9A95B'};
+function ringTone(d,ds){const min=Math.min(...ds.map(x=>x.s));return (ds.length>1&&d.s===min&&d.s<65)?'focus':d.s>=65?'on':'build'}
+function ring(ds,center,phase,base){
+ const cx=150,cy=150,R=96,W=13,TAU=Math.PI*2,n=Math.max(ds.length,1),gap=n>1?0.075:0,F='font-family="Inter,Arial,sans-serif"';
+ const pt=(a,r)=>[cx+r*Math.cos(a),cy+r*Math.sin(a)];
+ const arc=(a0,a1,r,sw)=>{const [x1,y1]=pt(a0,r),[x2,y2]=pt(a1,r);return `M${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${Math.abs(a1-a0)>Math.PI?1:0} ${sw==null?1:sw} ${x2.toFixed(2)},${y2.toFixed(2)}`};
+ let defs='',g='';
+ for(let i=0;i<100;i++){const a=-Math.PI/2+i/100*TAU,maj=i%25===0,[x1,y1]=pt(a,R-W/2-5),[x2,y2]=pt(a,R-W/2-(maj?12:8));
+  g+=`<line x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" stroke="#FFFFFF" stroke-opacity="${maj?.4:.13}" stroke-width="${maj?1.2:.8}"/>`}
+ if(phase){const rp=R+W/2+27;
+  for(let q=0;q<4;q++){const a0=-Math.PI/2+q*TAU/4+0.05,a1=-Math.PI/2+(q+1)*TAU/4-0.05;
+   g+=`<path d="${arc(a0,a1,rp)}" fill="none" stroke="#FFFFFF" stroke-opacity=".12" stroke-width="3" stroke-linecap="round"/>`;
+   const f=q+1<phase.p?1:q+1===phase.p?Math.max(.06,phase.frac):0;
+   if(f>0)g+=`<path class="rfill" pathLength="1" d="${arc(a0,a0+(a1-a0)*f,rp)}" fill="none" stroke="${q+1<phase.p?'#FFFFFF':'#D9A95B'}" stroke-width="3" stroke-linecap="round"/>`;
+   }
+ }
+ ds.forEach((d,i)=>{
+  const a0=-Math.PI/2+i*TAU/n+gap/2,a1=-Math.PI/2+(i+1)*TAU/n-gap/2,af=a0+(a1-a0)*clamp(d.s,0,100)/100,col=RING_COL[ringTone(d,ds)];
+  g+=`<path d="${arc(a0,a1,R)}" fill="none" stroke="#FFFFFF" stroke-opacity=".09" stroke-width="${W}"/>`;
+  if(d.s>0.5)g+=`<path class="rfill" pathLength="1" d="${arc(a0,af,R)}" fill="none" stroke="${col}" stroke-width="${W}" style="animation-delay:${i*70}ms"/>`;
+  const b=base&&base.find(x=>x.g===d.g);
+  if(b){const ab=a0+(a1-a0)*clamp(b.s,0,100)/100,[x1,y1]=pt(ab,R-W/2-1),[x2,y2]=pt(ab,R+W/2+1);g+=`<line x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" stroke="#161616" stroke-width="3"/><line x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" stroke="#FFFFFF" stroke-width="1.4"/>`}
+  const am=(a0+a1)/2,bottom=Math.sin(am)>0.2,lr=bottom?R+W/2+16:R+W/2+8;
+  defs+=`<path id="rl${i}" d="${bottom?arc(a1,a0,lr,0):arc(a0,a1,lr,1)}"/>`;
+  g+=`<text ${F} font-size="8.5" font-weight="600" letter-spacing="1.6" fill="#B3B2B2"><textPath href="#rl${i}" startOffset="50%" text-anchor="middle">${d.g.toUpperCase()}<tspan fill="#FFFFFF" dx="5">${Math.round(d.s)}</tspan></textPath></text>`;
+ });
+ if(!ds.length)g+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#FFFFFF" stroke-opacity=".09" stroke-width="${W}"/>`;
+ g+=`<text x="${cx}" y="${cy-22}" text-anchor="middle" ${F} font-size="8" font-weight="600" letter-spacing="1.8" fill="#B3B2B2">${center.eb}</text>`;
+ g+=`<text x="${cx}" y="${cy+12}" text-anchor="middle" ${F} font-size="38" font-weight="300" letter-spacing="-1" fill="#FFFFFF">${center.v}${center.unit?`<tspan font-size="14" fill="#B3B2B2" dx="2">${center.unit}</tspan>`:''}</text>`;
+ g+=`<text x="${cx}" y="${cy+31}" text-anchor="middle" ${F} font-size="10" fill="#D9A95B">${esc(center.s)}</text>`;
+ if(center.d)g+=`<text x="${cx}" y="${cy+46}" text-anchor="middle" ${F} font-size="9" fill="#B3B2B2">${esc(center.d)}</text>`;
+ const aria=(phase?`Roadmap phase ${phase.p} of 4. `:'')+ds.map(d=>`${d.g} ${Math.round(d.s)} out of 100`).join(', ');
+ return `<svg width="290" height="290" viewBox="0 0 300 300" role="img" aria-label="${esc(aria)}"><defs>${defs}</defs>${g}</svg>`;
+}
+
+function trendSvg(c,m){
+ const W=560,H=230,L=46,Rr=14,T=16,B=36;
+ const s=series(c,m);if(!s.length)return '<p class="note">No results for this test yet.</p>';
+ const lines=m.p?[{key:m.k+'_L',name:'Left',side:'L'},{key:m.k+'_R',name:'Right',side:'R'}]:[{key:m.k,name:m.l}];
+ const vals=[];s.forEach(t=>lines.forEach(ln=>{if(t.v[ln.key]!=null)vals.push(t.v[ln.key])}));
+ const ref=refFor(c,m.k)?refFor(c,m.k).r:null;
+ let lo=Math.min(...vals),hi=Math.max(...vals);
+ if(ref){lo=Math.min(lo,ref[0],ref[1]);hi=Math.max(hi,ref[0],ref[1])}
+ if(m.g==='Tendon'){lo=0;hi=m.u==='/100'?100:10}
+ if(hi===lo){hi+=1;lo-=1}const pad=(hi-lo)*.12;if(m.g!=='Tendon'){lo-=pad;hi+=pad}
+ const n=s.length,X=i=>n===1?L+(W-L-Rr)/2:L+(W-L-Rr)*i/(n-1),Y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo));
+ let g='';
+ for(let i=0;i<=4;i++){const v=lo+(hi-lo)*i/4,y=Y(v);g+=`<line x1="${L}" x2="${W-Rr}" y1="${y}" y2="${y}" stroke="#E8E6E0"/><text x="${L-8}" y="${y+4}" font-size="11" text-anchor="end" fill="#5C5B57">${fmt(v,m.d>1?2:m.d===1?1:0)}</text>`}
+ if(ref&&m.g!=='Tendon'){const y1=Y(Math.max(ref[0],ref[1])),y2=Y(Math.min(ref[0],ref[1]));g+=`<rect x="${L}" y="${y1}" width="${W-L-Rr}" height="${y2-y1}" fill="#9FC5A8" opacity=".28"/>`}
+ s.forEach((t,i)=>{g+=`<text x="${X(i)}" y="${H-12}" font-size="11" text-anchor="middle" fill="#5C5B57">${new Date(t.date+'T00:00:00').toLocaleDateString('en-AU',{day:'numeric',month:'short'})}</text>`});
+ lines.forEach(ln=>{
+  const inv=c.side&&ln.side===c.side;const col=m.p?(inv?'#D9A95B':(c.side?'#161616':(ln.side==='L'?'#161616':'#D9A95B'))):'#161616';
+  let d='',pen=false;s.forEach((t,i)=>{const v=t.v[ln.key];if(v==null){pen=false;return}d+=(pen?'L':'M')+X(i).toFixed(1)+','+Y(v).toFixed(1)+' ';pen=true});
+  g+=`<path d="${d}" fill="none" stroke="${col}" stroke-width="2.4"/>`;
+  s.forEach((t,i)=>{const v=t.v[ln.key];if(v==null)return;const lastPt=i===n-1;g+=`<circle cx="${X(i)}" cy="${Y(v)}" r="${lastPt?5:3.5}" fill="${lastPt?col:'#FFFFFF'}" stroke="${col}" stroke-width="2"/>`});
+ });
+ const leg=m.p?`<div class="tleg"><span><i style="background:#161616"></i>${c.side?(c.side==='L'?'Right (unaffected)':'Left (unaffected)'):'Left'}</span><span><i style="background:#D9A95B"></i>${c.side?(c.side==='L'?'Left (affected)':'Right (affected)'):'Right'}</span>${ref?'<span><i style="background:#9FC5A8"></i>Reference range</span>':''}</div>`:(ref?`<div class="tleg"><span><i style="background:#9FC5A8"></i>Reference range</span></div>`:'');
+ return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(m.l)} over time">${g}</svg>${leg}`;
+}
+
+/* ---------- quadrants + density heat map (ported from the Roar dashboard) ---------- */
+const QUADS=[
+ {id:'str',t:'Strength profile',s:'Maximal strength against explosive power',x:{k:'imtp_rel'},y:{k:'cmj_ppbm'},lab:{tl:'Explosive, strength lagging',tr:'Strong and explosive',bl:'Build both',br:'Strong, not yet explosive'}},
+ {id:'ham',t:'Hamstring strain risk',s:'Top speed outrunning hamstring strength',x:{k:'nordic'},y:{k:'maxvel'},lab:{tl:'Fast, hamstrings lagging',tr:'Fast and protected',bl:'Build both',br:'Strong, build speed'}},
+ {id:'groin',t:'Groin and adductor risk',s:'Adductor strength against hamstring strength',x:{k:'nordic'},y:{k:'hip_add'},lab:{tl:'Adductor-dominant',tr:'Robust',bl:'Build both',br:'Adductors lagging'}},
+ {id:'ssc',t:'Elastic vs concentric',s:'How much the countermovement adds',x:{k:'sj_jh'},y:{k:'cmj_jh'},lab:{tl:'Elastic, build base power',tr:'Powerful and elastic',bl:'Build both',br:'Powerful, poor elastic use'}},
+ {id:'strat',t:'Jump strategy',s:'How quickly they jump against how high',x:{k:'cmj_ct'},y:{k:'cmj_jh'},lab:{tl:'Quick and high',tr:'High, but slow to get there',bl:'Quick, but low',br:'Slow and low'}},
+ {id:'tend',t:'Tendon readiness',s:'Strength symmetry against symptoms',x:{k:'iso_ke',lsi:1,alt:'iso_calf'},y:{k:'visa_p',alt:'visa_a'},lab:{tl:'Symptoms settling, strength lagging',tr:'Ready to progress',bl:'Early phase',br:'Strong, still symptomatic'},tendon:1},
+];
+function axK(c,ax){return (c.region==='achilles'&&ax.alt)?ax.alt:ax.k}
+function axVal(c,t,ax){const m=MK[axK(c,ax)];return ax.lsi?lsiOf(c,t,m):rep(t,m)}
+function axLabel(c,ax){const m=MK[axK(c,ax)];return ax.lsi?m.l+' symmetry (%)':m.l+(m.u?' ('+m.u.replace(/^\//,'0–')+')':'')}
+function axRef(c,ax){
+ const k=axK(c,ax);
+ if(ax.lsi)return {mid:90,band:[90,100]};
+ if(k==='visa_p'||k==='visa_a')return {mid:80,band:[80,100]};
+ const rf=refFor(c,k);if(!rf)return null;const r=rf.r;return {mid:(r[0]+r[1])/2,band:[Math.min(r[0],r[1]),Math.max(r[0],r[1])]};
+}
+const MS_TABLE={1:['left','bottom'],2:['bottom','right'],3:['left','right'],4:['right','top'],5:[['right','top'],['bottom','left']],6:['bottom','top'],7:['left','top'],8:['top','left'],9:['top','bottom'],10:[['top','left'],['right','bottom']],11:['top','right'],12:['right','left'],13:['right','bottom'],14:['bottom','left']};
+function msSegs(vals,gw,gh,th){
+ const at=(x,y)=>vals[y*(gw+1)+x],lerp=(a,b,va,vb)=>vb===va?(a+b)/2:a+(th-va)/(vb-va)*(b-a),out=[];
+ for(let cy=0;cy<gh;cy++)for(let cx=0;cx<gw;cx++){
+  const tl=at(cx,cy),tr=at(cx+1,cy),br=at(cx+1,cy+1),bl=at(cx,cy+1);let i=0;
+  if(tl>th)i|=8;if(tr>th)i|=4;if(br>th)i|=2;if(bl>th)i|=1;if(i===0||i===15)continue;
+  const p={top:[cx+lerp(0,1,tl,tr),cy],right:[cx+1,cy+lerp(0,1,tr,br)],bottom:[cx+lerp(0,1,bl,br),cy+1],left:[cx,cy+lerp(0,1,tl,bl)]};
+  const e=MS_TABLE[i];if(Array.isArray(e[0]))e.forEach(([a,b])=>out.push([p[a],p[b]]));else out.push([p[e[0]],p[e[1]]]);
+ }return out;
+}
+function msLoops(segs){
+ const key=p=>p[0].toFixed(4)+','+p[1].toFixed(4),by=new Map();
+ segs.forEach((s,i)=>{const k=key(s[0]);if(!by.has(k))by.set(k,[]);by.get(k).push(i)});
+ const used=new Array(segs.length).fill(false),loops=[];
+ for(let i=0;i<segs.length;i++){if(used[i])continue;const lp=[segs[i][0],segs[i][1]];used[i]=true;let g=0;
+  while(g++<segs.length+5){const cand=(by.get(key(lp[lp.length-1]))||[]).filter(j=>!used[j]);if(!cand.length)break;used[cand[0]]=true;lp.push(segs[cand[0]][1]);if(key(lp[lp.length-1])===key(lp[0]))break}
+  if(lp.length>=3)loops.push(lp)}
+ return loops;
+}
+function bandwidth(pts,fb){const n=pts.length;if(n<2)return fb;const mx=pts.reduce((a,p)=>a+p[0],0)/n,my=pts.reduce((a,p)=>a+p[1],0)/n;
+ const sd=Math.sqrt((pts.reduce((a,p)=>a+(p[0]-mx)**2,0)/n+pts.reduce((a,p)=>a+(p[1]-my)**2,0)/n)/2);return Math.max(22,Math.min(70,1.06*sd*Math.pow(n,-0.2)*0.6))}
+function cloud(pts,w,h,bw){
+ if(!pts.length)return '';const gw=150,gh=Math.max(16,Math.round(gw*h/w)),cw=w/gw,ch=h/gh,b2=2*bw*bw,grid=new Float32Array((gw+1)*(gh+1));let mx=0;
+ for(let y=0;y<=gh;y++)for(let x=0;x<=gw;x++){let d=0;for(const p of pts){const dx=x*cw-p[0],dy=y*ch-p[1];d+=Math.exp(-(dx*dx+dy*dy)/b2)}grid[y*(gw+1)+x]=d;if(d>mx)mx=d}
+ if(mx<=0)return '';
+ const bands=[[.12,'#FBF3E3'],[.28,'#F4E1BC'],[.44,'#EDCD95'],[.60,'#E2B46A'],[.76,'#C99446'],[.90,'#8A6416']];
+ let s='';bands.forEach(([t,col])=>msLoops(msSegs(grid,gw,gh,t*mx)).forEach(lp=>{s+=`<path d="M${lp.map(p=>(p[0]*cw).toFixed(1)+','+(p[1]*ch).toFixed(1)).join('L')}Z" fill="${col}"/>`}));
+ return s;
+}
+function quadSvg(c,q){
+ const own=[];c.tests.forEach(t=>{const x=axVal(c,t,q.x),y=axVal(c,t,q.y);if(x!=null&&y!=null)own.push({x,y,d:t.date})});
+ if(!own.length){const lx=last(c,MK[axK(c,q.x)]),ly=last(c,MK[axK(c,q.y)]);if(lx&&ly&&!q.x.lsi&&!q.y.lsi)own.push({x:axVal(c,lx,q.x),y:axVal(c,ly,q.y),d:'latest'})}
+ if(!own.length)return null;
+ const others=CLIENTS.filter(o=>o!==c&&o.sex===c.sex&&(!!o.tendon===!!c.tendon||!q.tendon)).map(o=>{const t=[...o.tests].reverse().find(t=>axVal(o,t,q.x)!=null&&axVal(o,t,q.y)!=null);return t?{x:axVal(o,t,q.x),y:axVal(o,t,q.y),n:o.name}:null}).filter(Boolean);
+ const rx=axRef(c,q.x),ry=axRef(c,q.y);
+ const xs=[...own,...others].map(p=>p.x),ys=[...own,...others].map(p=>p.y);
+ if(rx)xs.push(...rx.band);if(ry)ys.push(...ry.band);
+ const med=a=>{const s=[...a].sort((p,q)=>p-q),m=Math.floor(s.length/2);return s.length%2?s[m]:(s[m-1]+s[m])/2};
+ const xd=rx?rx.mid:med([...own,...others].map(p=>p.x)),yd=ry?ry.mid:med([...own,...others].map(p=>p.y));
+ const dom=(a)=>{let lo=Math.min(...a),hi=Math.max(...a),sp=hi-lo||Math.abs(hi)||1;return [lo-sp*.22,hi+sp*.22]};
+ const [x0,x1]=dom(xs),[y0,y1]=dom(ys);
+ const W=600,H=400,L=54,R=14,T=14,B=46,CW=W-L-R,CH=H-T-B,X=v=>L+(v-x0)/(x1-x0)*CW,Y=v=>T+CH-(v-y0)/(y1-y0)*CH;
+ const dx=MK[axK(c,q.x)].d,dy=MK[axK(c,q.y)].d;
+ let g=`<rect x="${L}" y="${T}" width="${CW}" height="${CH}" fill="#FFFFFF"/>`;
+ const cpts=[...others,...own].map(p=>[X(p.x)-L,Y(p.y)-T]);
+ if(S.cloud&&cpts.length>=4)g+=`<g transform="translate(${L},${T})">${cloud(cpts,CW,CH,bandwidth(cpts,50))}</g>`;
+ if(rx&&ry)g+=`<rect x="${X(rx.band[0])}" y="${Y(ry.band[1])}" width="${X(rx.band[1])-X(rx.band[0])}" height="${Y(ry.band[0])-Y(ry.band[1])}" fill="#9FC5A8" fill-opacity=".22" stroke="#3F7D55" stroke-dasharray="4 4"/>`;
+ for(let i=0;i<=4;i++){const vx=x0+(x1-x0)*i/4,vy=y0+(y1-y0)*i/4;
+  g+=`<text x="${X(vx)}" y="${H-B+16}" font-size="11" text-anchor="middle" fill="#5C5B57">${fmt(vx,q.x.lsi?0:dx)}</text><text x="${L-7}" y="${Y(vy)+4}" font-size="11" text-anchor="end" fill="#5C5B57">${fmt(vy,dy)}</text>`}
+ g+=`<line x1="${X(xd)}" x2="${X(xd)}" y1="${T}" y2="${T+CH}" stroke="#161616" stroke-width="1.5"/><line x1="${L}" x2="${L+CW}" y1="${Y(yd)}" y2="${Y(yd)}" stroke="#161616" stroke-width="1.5"/>`;
+ g+=`<rect x="${L}" y="${T}" width="${CW}" height="${CH}" fill="none" stroke="#E8E6E0"/>`;
+ const corner=(tx,anchor,ty,txt)=>`<text x="${tx}" y="${ty}" font-size="10.5" font-weight="600" letter-spacing=".06em" text-anchor="${anchor}" fill="#5C5B57">${esc(txt.toUpperCase())}</text>`;
+ g+=corner(L+8,'start',T+16,q.lab.tl)+corner(L+CW-8,'end',T+16,q.lab.tr)+corner(L+8,'start',T+CH-8,q.lab.bl)+corner(L+CW-8,'end',T+CH-8,q.lab.br);
+ others.forEach(p=>{g+=`<circle cx="${X(p.x)}" cy="${Y(p.y)}" r="5.5" fill="#B3B2B2" stroke="#FFFFFF" stroke-width="1.5"><title>Another client</title></circle>`});
+ if(own.length>1)g+=`<path d="M${own.map(p=>X(p.x).toFixed(1)+','+Y(p.y).toFixed(1)).join('L')}" fill="none" stroke="#D9A95B" stroke-width="2.5"/>`;
+ own.forEach((p,i)=>{const lastP=i===own.length-1;g+=`<circle cx="${X(p.x)}" cy="${Y(p.y)}" r="${lastP?9:4.5}" fill="${lastP?'#161616':'#D9A95B'}" stroke="#FFFFFF" stroke-width="2"><title>${p.d}: ${fmt(p.x,dx)} / ${fmt(p.y,dy)}</title></circle>`});
+ const lp=own[own.length-1],la=X(lp.x)>L+CW-110?'end':'start',lx=X(lp.x)+(la==='end'?-13:13);
+ g+=`<text x="${lx}" y="${Y(lp.y)-8}" font-size="12" font-weight="600" text-anchor="${la}" fill="#161616">${own.length>1?'Latest':'Now'}</text>`;
+ g+=`<text x="${L+CW/2}" y="${H-8}" font-size="12" text-anchor="middle" fill="#161616">${esc(axLabel(c,q.x))}</text>`;
+ g+=`<text x="14" y="${T+CH/2}" font-size="12" text-anchor="middle" fill="#161616" transform="rotate(-90 14 ${T+CH/2})">${esc(axLabel(c,q.y))}</text>`;
+ return {svg:`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(q.t)} quadrant">${g}</svg>`,n:others.length,band:!!(rx&&ry),own:own.length};
+}
+function quadSection(c){
+ const show=S.quad==='all'||(S.quad==='athletes'&&!c.tendon);if(!show)return '';
+ const list=QUADS.filter(q=>q.tendon?c.tendon:true);
+ const cq={id:'custom',t:'Your pick',s:'Any two tests',x:{k:S.cq.x},y:{k:S.cq.y},lab:{tl:'',tr:'',bl:'',br:''}};
+ const cards=[];[...list,cq].forEach(q=>{const r=quadSvg(c,q);if(r||q.id==='custom')cards.push({q,r})});
+ if(cards.length<=1&&!cards[0].r)return '';
+ const opts=sel=>REF_KEYS.concat(['visa_p','visa_a']).map(k=>`<option value="${k}" ${k===sel?'selected':''}>${esc(MK[k].l)}</option>`).join('');
+ const setName=NORM_SETS[c.norm].label;
+ return `<section class="sec"><div class="eb">Quadrants</div><h2 class="h2">Where ${esc(c.name.replace(/^Example · /,''))} sits on two qualities at once</h2>
+  <p class="lead">Dividers sit at the middle of the ${esc(setName)} reference range (25th–75th percentile); the green box is that range on both tests. Amber dots trace this client's tests; the black dot is the latest. Grey dots are other ${c.sex==='F'?'female':'male'} clients, shown anonymously${S.cloud?', and the shaded heat map shows where they cluster':''}.</p>
+  <div class="btns screen"><label class="msg" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="cloudTg" ${S.cloud?'checked':''}> Heat map</label></div>
+  <div class="qgrid">${cards.map(({q,r})=>`<div class="qcard"><div class="eb">${esc(q.s)}</div><h3>${esc(q.t)}</h3>
+   ${q.id==='custom'?`<div class="qsel screen"><select id="cqX" aria-label="Horizontal axis">${opts(S.cq.x)}</select><select id="cqY" aria-label="Vertical axis">${opts(S.cq.y)}</select></div>`:''}
+   ${r?r.svg:'<p class="msg" style="padding:30px 0">This client has no results for one of these tests.</p>'}
+   ${r&&!r.band&&q.id!=='custom'?'<p class="msg">No reference range for one of these tests in this set, so dividers sit at the client median.</p>':''}</div>`).join('')}</div></section>`;
+}
+
+/* ---------- how they jump: strategy, phases, compensation ---------- */
+// Rough guide values for a two-handed CMJ on a force plate; the client's own baseline always takes priority.
+const JS={ctFast:750,ctSlow:900,depthShallow:22,depthDeep:38};
+const JUMP_KEYS=['cmj_ct','cmj_ecc_dur','cmj_con_dur','cmj_depth','cmj_ftct','cmj_ecc_rfd','cmj_fzv','cmj_ci100','cmj_ei','cmj_li','eur','dsi','dj_ct'];
+const pc=(a,b)=>(a==null||b==null||!a)?null:(b-a)/Math.abs(a)*100;
+function jumpFindings(c){
+ const F=[],lt=k=>{const t=last(c,MK[k]);return t?rep(t,MK[k]):null},bt=k=>{const s=series(c,MK[k]);return s.length>1?rep(s[0],MK[k]):null};
+ const refPos=k=>{const r=refFor(c,k),v=lt(k);if(!r||v==null)return null;const lo=Math.min(...r.r),hi=Math.max(...r.r);return v<lo?'low':v>hi?'high':'mid'};
+ const load=c.region==='achilles'?'the Achilles':'the knee tendon',joint=c.region==='achilles'?'calf and Achilles':'knee';
+ // 1. contraction time
+ const ct=lt('cmj_ct'),ct0=bt('cmj_ct'),jh=lt('cmj_jh'),jh0=bt('cmj_jh');
+ if(ct!=null&&ct0!=null){const d=pc(ct0,ct),same=jh!=null&&jh0!=null&&Math.abs(pc(jh0,jh))<5;
+  if(d>=10)F.push({tone:'watch',title:'Slower to switch from the dip into the jump',
+   plain:`You now take ${fmt(ct)} ms to go down and back up, compared with ${fmt(ct0)} ms at your first test.`+(same?` Your jump height hasn't changed, so from the outside the jump looks the same. Underneath, your body is buying extra time to get there. That is one of the most common ways we protect a sore or tired leg.`:''),
+   clin:`Contraction time +${fmt(d,0)}% vs baseline (${fmt(ct0)} → ${fmt(ct)} ms)${same?`, jump height within 5% (${fmt(jh0,1)} → ${fmt(jh,1)} cm): output kept by a slower strategy, which jump height alone would miss`:''}. Check recent load and fatigue${c.tendon?', and the 24-hour pain response':''}.`});
+  else if(d<=-8)F.push({tone:'good',title:'Quicker from the dip into the jump',
+   plain:`You get from the bottom of the dip into the air faster than at your first test (${fmt(ct0)} → ${fmt(ct)} ms). Your body trusts the leg more and isn't holding back.`,
+   clin:`Contraction time ${fmt(d,0)}% vs baseline${jh!=null&&jh0!=null?`; jump height ${pc(jh0,jh)>=0?'+':''}${fmt(pc(jh0,jh),0)}%`:''}.`});
+ } else if(ct!=null&&ct>=JS.ctSlow)F.push({tone:'watch',title:'A slow, drawn-out jump',
+   plain:`You take ${fmt(ct)} ms to dip and push off. That is on the slow side: you rely on time rather than a quick, springy bounce.`,
+   clin:`Contraction time ${fmt(ct)} ms (rough guide: under ${JS.ctFast} ms quick, over ${JS.ctSlow} ms slow). The next test sets the client's own baseline.`});
+ // 2. depth
+ const dp=lt('cmj_depth'),dp0=bt('cmj_depth');
+ if(dp!=null){const d=pc(dp0,dp);
+  if((d!=null&&d<=-15)||dp<JS.depthShallow)F.push({tone:'watch',title:'A shallow dip',
+   plain:`You only dip about ${fmt(dp,0)} cm before jumping${d!=null&&d<=-15?`, less than at your first test (${fmt(dp0,0)} cm)`:''}. Staying fairly straight means the ${joint} doesn't have to take as much load. ${c.tendon?`With a sore tendon that is a natural way to protect it, and it's something we'll gradually take away.`:`It also limits how much power you can build before you leave the ground.`}`,
+   clin:`Countermovement depth ${fmt(dp,1)} cm${d!=null?` (${d>=0?'+':''}${fmt(d,0)}% vs baseline)`:''}. Stiff, shallow strategy: less knee flexion lowers ${load} load${c.tendon?' and is expected while it is irritable':''}, but caps impulse.`});
+  else if(d!=null&&d>=15&&c.tendon)F.push({tone:'good',title:'Dipping deeper again',
+   plain:`You're bending further into the dip (${fmt(dp0,0)} → ${fmt(dp,0)} cm). It shows you're more comfortable loading the ${joint} again.`,
+   clin:`Depth +${fmt(d,0)}% vs baseline: more willingness to load into flexion.`});
+  else if(dp>JS.depthDeep)F.push({tone:'info',title:'A deep dip',
+   plain:`You sink deep (${fmt(dp,0)} cm) before jumping. That gives you plenty of room to push, but it takes time. A slightly shorter dip usually makes the jump snappier.`,
+   clin:`Depth ${fmt(dp,1)} cm, deep strategy. Read with contraction time and FT:CT to judge efficiency.`});
+ }
+ // 3. braking / push-off / landing symmetry
+ const tPh=[...c.tests].reverse().find(t=>lsiOf(c,t,MK.cmj_ei)!=null||lsiOf(c,t,MK.cmj_li)!=null||lsiOf(c,t,MK.cmj_ci)!=null);
+ if(tPh){const b=lsiOf(c,tPh,MK.cmj_ei),p=lsiOf(c,tPh,MK.cmj_ci),l=lsiOf(c,tPh,MK.cmj_li);
+  let side=c.side?(c.side==='L'?'left':'right'):null;
+  if(!side){const k=['cmj_ei','cmj_li','cmj_ci'].find(k=>tPh.v[k+'_L']!=null&&tPh.v[k+'_R']!=null);side=k&&tPh.v[k+'_L']<tPh.v[k+'_R']?'left':'right'}
+  const leg=c.side?`your ${side} (sore) leg`:`your ${side} leg`;
+  if(b!=null&&b<90&&(p==null||b<p-5))F.push({tone:'watch',title:'Offloading when braking',
+   plain:`When you slow yourself down at the bottom of the dip, ${leg} does only ${fmt(b,0)}% of the work of the other leg${p!=null?`, even though it does ${fmt(p,0)}% when you push off`:''}. Braking is the part of the jump that loads ${load} the most, so your body quietly hands that job to the other side.`,
+   clin:`Eccentric deceleration impulse symmetry ${fmt(b,0)}%${p!=null?` vs concentric impulse ${fmt(p,0)}%`:''}: braking-phase offload of the ${side} side. Bilateral output can look normal while that side under-loads eccentrically. Bias single-leg eccentric and landing work.`});
+  else if(p!=null&&p<90)F.push({tone:'watch',title:'Less push from one leg',
+   plain:`When you push off, ${leg} produces ${fmt(p,0)}% of what the other leg does.`,
+   clin:`Concentric impulse symmetry ${fmt(p,0)}%${b!=null?`, braking ${fmt(b,0)}%`:''}.`});
+  if(l!=null&&l<90)F.push({tone:'watch',title:'Landing more on one leg',
+   plain:`When you land, ${leg} absorbs only ${fmt(l,0)}% of what the other leg does. Landing is where most of the impact goes, so we want both legs sharing it before you go back to ${c.tendon?'running and jumping':'full training'}.`,
+   clin:`Landing impulse symmetry ${fmt(l,0)}%. A landing asymmetry is worth clearing before return to sport, even when take-off symmetry looks fine.`});
+  const all=[b,p,l].filter(v=>v!=null);
+  if(all.length>=2&&all.every(v=>v>=90))F.push({tone:'good',title:'Both legs share the work',
+   plain:`Braking, pushing off and landing are all within 10% between your legs. You aren't favouring a side.`,
+   clin:`Phase symmetry ≥ 90%: braking ${fmt(b,0)}%, propulsion ${fmt(p,0)}%, landing ${fmt(l,0)}%.`});
+ }
+ // 4. braking speed
+ const rf=lt('cmj_ecc_rfd'),rf0=bt('cmj_ecc_rfd'),drf=pc(rf0,rf);
+ if(drf!=null&&drf<=-15)F.push({tone:'watch',title:'Braking more softly',
+  plain:`You slow down into the dip more gently than at your first test. A softer brake takes load off ${load}, which is often how the body protects it.`,
+  clin:`Eccentric deceleration RFD/BM ${fmt(drf,0)}% vs baseline (${fmt(rf0)} → ${fmt(rf)} N/s/kg).`});
+ else if(drf!=null&&drf>=15)F.push({tone:'good',title:'Braking harder and faster',
+  plain:`You stop yourself at the bottom of the dip more sharply than before (${fmt(rf0)} → ${fmt(rf)}). That's the leg accepting load quickly again.`,
+  clin:`Eccentric deceleration RFD/BM +${fmt(drf,0)}% vs baseline.`});
+ // 5. force at the bottom
+ if(refPos('cmj_fzv')==='low')F.push({tone:'watch',title:'Less force at the turnaround',
+  plain:`At the very bottom of the dip, where you change direction, you produce less force for your body weight than the comparison group. That moment needs strength, so heavy strength work carries straight into it.`,
+  clin:`Force at zero velocity/BM ${fmt(lt('cmj_fzv'),1)} N/kg, below the ${NORM_SETS[refFor(c,'cmj_fzv').set].short.toLowerCase()} 25th percentile. Low-velocity force deficit: responds to maximal strength work.`});
+ // 6. efficiency
+ const ek=lt('cmj_ftct')!=null?'cmj_ftct':'cmj_rsimod',ep=refPos(ek);
+ if(ep==='low')F.push({tone:'watch',title:'Not much jump for the time spent',
+  plain:`For the time you spend on the ground getting ready, you don't get much height back. The jump is more of a push than a spring.`,
+  clin:`${MK[ek].l} ${fmt(lt(ek),2)}, below the reference range: force-dominant, slow stretch-shortening use.`});
+ else if(ep==='high')F.push({tone:'good',title:'Springy and efficient',
+  plain:`You get a lot of height back for a short time on the ground. The jump is quick and springy.`,
+  clin:`${MK[ek].l} ${fmt(lt(ek),2)}, above the reference range: elastic, reactive strategy.`});
+ // 7. stretch use (EUR)
+ const eur=lt('eur');
+ if(eur!=null&&eur<1.0)F.push({tone:'watch',title:'Not using the dip yet',
+  plain:`You jump about as high from a still squat as you do with a dip first. Normally the quick dip loads the muscles and tendons like a spring and adds height, so that spring isn't working for you yet.`,
+  clin:`Eccentric utilisation ratio ${fmt(eur,2)} (CMJ ÷ SJ). Little contribution from the countermovement: prioritise reactive and plyometric work over more maximal strength${c.tendon?', once tendon loading tolerance allows':''}.`});
+ else if(eur!=null&&eur>=1.1)F.push({tone:'good',title:'Good use of the dip',
+  plain:`The quick dip adds clear height compared with jumping from a still squat. Your muscles and tendons are working like a spring.`,
+  clin:`Eccentric utilisation ratio ${fmt(eur,2)}: good stretch-shortening use.`});
+ // 8. dynamic strength index
+ const dsi=lt('dsi');
+ if(dsi!=null&&dsi<0.6)F.push({tone:'info',title:'Stronger than the jump shows',
+  plain:`Your strength test is good, but your jump only uses part of that strength. The strength is there; the next step is learning to use it quickly.`,
+  clin:`DSI ${fmt(dsi,2)} (CMJ force at zero velocity ÷ IMTP relative). Bias ballistic and contrast work over more maximal strength.`});
+ else if(dsi!=null&&dsi>0.8)F.push({tone:'info',title:'Strength is the ceiling',
+  plain:`You already use most of your strength when you jump. To jump higher, you mainly need to get stronger.`,
+  clin:`DSI ${fmt(dsi,2)}: dynamic output near the isometric ceiling. Bias maximal strength.`});
+ // 9. early push-off
+ if(refPos('cmj_ci100')==='low')F.push({tone:'watch',title:'Slow to switch on',
+  plain:`In the first tenth of a second of pushing off, you build force slowly. It shows up in quick moves like a first step or a fast change of direction, even when the full jump looks fine.`,
+  clin:`Concentric impulse-100ms ${fmt(lt('cmj_ci100'))} N·s, below the reference range: early rate of force development.`});
+ // 10. drop jump contacts
+ const djc=lt('dj_ct');
+ if(djc!=null&&djc>250)F.push({tone:'info',title:'Long ground contacts when bouncing',
+  plain:`When you drop and bounce, you stay on the ground about ${fmt(djc)} ms. You're absorbing then pushing rather than bouncing straight back up${c.tendon?', which is normal at this stage of rehab':''}.`,
+  clin:`Drop jump contact time ${fmt(djc)} ms (over 250 ms is a long-contact strategy).`});
+ return F;
+}
+function jumpTimeline(c){
+ const ts=c.tests.filter(t=>t.v.cmj_ct!=null||t.v.cmj_ecc_dur!=null).slice(-4);if(!ts.length)return '';
+ const rows=ts.map(t=>{const v=t.v;let ecc=v.cmj_ecc_dur,con=v.cmj_con_dur,ct=v.cmj_ct;
+  if(ecc==null&&ct!=null&&con!=null)ecc=ct-con;if(con==null&&ct!=null&&ecc!=null)con=ct-ecc;if(ct==null&&ecc!=null&&con!=null)ct=ecc+con;
+  const fl=(v.cmj_ftct&&ct)?v.cmj_ftct*ct:(v.cmj_jh?2*Math.sqrt(2*v.cmj_jh/100/9.81)*1000:null);
+  return {t,ecc,con,ct,fl,dp:v.cmj_depth,tot:(ct||0)+(fl||0)}});
+ const mx=Math.max(...rows.map(r=>r.tot));
+ const seg=(cls,ms,label)=>ms?`<span class="seg ${cls}" style="width:${ms/mx*100}%" title="${label}: ${fmt(ms)} ms">${ms/mx>.12?label+' '+fmt(ms):''}</span>`:'';
+ return `<div class="tlwrap"><div class="tleg" style="margin-top:0"><span><i style="background:var(--charcoal)"></i>Dip (braking)</span><span><i style="background:var(--amber)"></i>Push-off</span><span><i style="background:var(--grey)"></i>Dip + push-off</span><span><i style="background:var(--sage)"></i>In the air</span></div>
+  ${rows.map(r=>`<div class="tl"><span class="cap">${fdate(r.t.date)}</span><div class="tlbar">${r.ecc!=null&&r.con!=null?seg('s-dip',r.ecc,'Dip')+seg('s-push',r.con,'Push'):seg('s-both',r.ct,'Dip + push')}${seg('s-fly',r.fl,'Air')}</div><span class="cap" style="text-align:right">${r.dp!=null?fmt(r.dp,0)+' cm dip':''}</span></div>`).join('')}</div>`;
+}
+function jumpSection(c){
+ if(!JUMP_KEYS.some(k=>series(c,MK[k]).length))return '';
+ const lt=k=>{const t=last(c,MK[k]);return t?rep(t,MK[k]):null},ct=lt('cmj_ct'),dp=lt('cmj_depth');
+ const sp=ct==null?null:ct<=JS.ctFast?'quick':ct>=JS.ctSlow?'slow':'moderate-speed';
+ const dd=dp==null?null:dp<JS.depthShallow?'shallow':dp>JS.depthDeep?'deep':'mid-depth';
+ const label=sp&&dd?`a ${sp}, ${dd} jump`:sp?`a ${sp} jump`:dd?`a ${dd} dip`:null;
+ const who=c.name.replace(/^Example · /,'').split(' ')[0];
+ const F=jumpFindings(c),voice=S.voice==='clin'?'clin':'plain';
+ const card=(k,cap)=>{const m=MK[k],v=lt(k);if(v==null)return '';return `<div class="card"><div class="eb">${cap}</div><div class="big">${fmt(v,m.d)}<small>${esc(m.u)}</small></div><p class="cap">${esc(m.l)} · ${chg(c,m)}${series(c,m).length>1?' since baseline':''}</p></div>`};
+ const cards=[card('cmj_ct','Speed of the jump'),card('cmj_depth','Depth of the dip'),card(lt('cmj_ftct')!=null?'cmj_ftct':'cmj_rsimod','Return on the time spent'),card('cmj_ecc_rfd','How hard they brake')].filter(Boolean).slice(0,4);
+ const phT=c.tests.filter(t=>['cmj_ei','cmj_ci','cmj_li'].some(k=>lsiOf(c,t,MK[k])!=null)).slice(-4);
+ const cell=v=>v==null?'<td class="r">—</td>':`<td class="r"><span class="chip ${v>=90?'c-sage':v>=80?'c-amber':'c-flag'}">${fmt(v,0)}%</span></td>`;
+ return `<section class="sec"><div class="eb">How ${esc(who)} jumps</div><h2 class="h2">${label?`${esc(who)} uses ${label}`:'How the jump is produced'}</h2>
+  <p class="lead">Jump height only tells us how high. The force plate shows how the jump is made: how deep and how fast the dip is, how hard each leg brakes and pushes, and how they land. That is where compensation shows up${c.tendon?', often well before pain or jump height change':''}.</p>
+  <div class="btns screen"><div class="seg2" role="group" aria-label="Explain for"><button type="button" data-voice="plain" aria-pressed="${voice==='plain'}">Explain for the client</button><button type="button" data-voice="clin" aria-pressed="${voice==='clin'}">Clinician detail</button></div></div>
+  ${cards.length?`<div class="grid4">${cards.join('')}</div>`:''}
+  ${jumpTimeline(c)?`<h3 class="h3">The jump, phase by phase</h3><p class="cap">Each bar is one countermovement jump, start to landing, on the same time scale.</p>${jumpTimeline(c)}`:''}
+  ${phT.length?`<h3 class="h3">Left vs right in each phase</h3><p class="cap">${c.side?`Affected leg as a percentage of the unaffected leg.`:'Weaker leg as a percentage of the stronger leg.'} 90% or more is the usual target.</p>
+   <div class="tw"><table><thead><tr><th>Test</th><th class="r">Braking</th><th class="r">Pushing off</th><th class="r">Landing</th></tr></thead><tbody>${phT.map(t=>`<tr><td>${fdate(t.date)}</td>${cell(lsiOf(c,t,MK.cmj_ei))}${cell(lsiOf(c,t,MK.cmj_ci))}${cell(lsiOf(c,t,MK.cmj_li))}</tr>`).join('')}</tbody></table></div>`:''}
+  ${F.length?`<h3 class="h3">What it means</h3><div class="fnds">${F.map(f=>`<div class="fnd"><span class="chip ${f.tone==='good'?'c-sage':f.tone==='watch'?'c-amber':'c-stone'}">${f.tone==='good'?'Going well':f.tone==='watch'?'Watch':'Note'}</span><div><h4>${esc(f.title)}</h4><p>${esc(f[voice])}</p></div></div>`).join('')}</div>`:''}
+ </section>`;
+}
+
+/* ---------- clinician brief: summary, action points, evidence ---------- */
+const LIT={
+ silbernagel2007:'Silbernagel KG, Thomeé R, Eriksson BI, Karlsson J. Continued sports activity, using a pain-monitoring model, during rehabilitation in patients with Achilles tendinopathy: a randomized controlled study. Am J Sports Med. 2007;35(6):897–906.',
+ rio2015:'Rio E, Kidgell D, Purdam C, et al. Isometric exercise induces analgesia and reduces inhibition in patellar tendinopathy. Br J Sports Med. 2015;49(19):1277–83.',
+ vanark2016:'van Ark M, Cook JL, Docking SI, et al. Do isometric and isotonic exercise programs reduce pain in athletes with patellar tendinopathy in-season? A randomised clinical trial. J Sci Med Sport. 2016;19(9):702–6.',
+ malliaras2015:'Malliaras P, Cook J, Purdam C, Rio E. Patellar tendinopathy: clinical diagnosis, load management, and advice for challenging case presentations. J Orthop Sports Phys Ther. 2015;45(11):887–98.',
+ kongsgaard2009:'Kongsgaard M, Kovanen V, Aagaard P, et al. Corticosteroid injections, eccentric decline squat training and heavy slow resistance training in patellar tendinopathy. Scand J Med Sci Sports. 2009;19(6):790–802.',
+ breda2021:'Breda SJ, Oei EHG, Zwerver J, et al. Effectiveness of progressive tendon-loading exercise therapy in patients with patellar tendinopathy: a randomised clinical trial. Br J Sports Med. 2021;55(9):501–9.',
+ beyer2015:'Beyer R, Kongsgaard M, Hougs Kjær B, et al. Heavy slow resistance versus eccentric training as treatment for Achilles tendinopathy: a randomized controlled trial. Am J Sports Med. 2015;43(7):1704–11.',
+ oneill2019:'O’Neill S, Barry S, Watson P. Plantarflexor strength and endurance deficits associated with mid-portion Achilles tendinopathy: the role of soleus. Phys Ther Sport. 2019;37:69–76.',
+ jordan2015:'Jordan MJ, Aagaard P, Herzog W. Lower limb asymmetry in mechanical muscle function: a comparison between ski racers with and without ACL reconstruction. Scand J Med Sci Sports. 2015;25(3):e301–9.',
+ grindem2016:'Grindem H, Snyder-Mackler L, Moksnes H, Engebretsen L, Risberg MA. Simple decision rules can reduce reinjury risk by 84% after ACL reconstruction: the Delaware-Oslo ACL cohort study. Br J Sports Med. 2016;50(13):804–8.',
+ mjolsnes2004:'Mjølsnes R, Arnason A, Østhagen T, Raastad T, Bahr R. A 10-week randomized trial comparing eccentric vs. concentric hamstring strength training in well-trained soccer players. Scand J Med Sci Sports. 2004;14(5):311–7.',
+ vanderhorst2015:'van der Horst N, Smits DW, Petersen J, Goedhart EA, Backx FJ. The preventive effect of the Nordic hamstring exercise on hamstring injuries in amateur soccer players: a randomized controlled trial. Am J Sports Med. 2015;43(6):1316–23.',
+ vandyk2019:'van Dyk N, Behan FP, Whiteley R. Including the Nordic hamstring exercise in injury prevention programmes halves the rate of hamstring injuries: a systematic review and meta-analysis of 8459 athletes. Br J Sports Med. 2019;53(21):1362–70.',
+ opar2015:'Opar DA, Williams MD, Timmins RG, et al. Eccentric hamstring strength and hamstring injury risk in Australian footballers. Med Sci Sports Exerc. 2015;47(4):857–65.',
+ haroy2019:'Harøy J, Clarsen B, Wiger EG, et al. The Adductor Strengthening Programme prevents groin problems among male football players: a cluster-randomised controlled trial. Br J Sports Med. 2019;53(3):150–7.',
+ tyler2001:'Tyler TF, Nicholas SJ, Campbell RJ, McHugh MP. The association of hip strength and flexibility with the incidence of adductor muscle strains in professional ice hockey players. Am J Sports Med. 2001;29(2):124–8.',
+ suchomel2016:'Suchomel TJ, Nimphius S, Stone MH. The importance of muscular strength in athletic performance. Sports Med. 2016;46(10):1419–49.',
+ comfort2018:'Comfort P, Thomas C, Dos’Santos T, et al. Comparison of methods of calculating dynamic strength index. Int J Sports Physiol Perform. 2018;13(3):320–5.',
+ markovic2007:'Markovic G. Does plyometric training improve vertical jump height? A meta-analytical review. Br J Sports Med. 2007;41(6):349–55.',
+ mcguigan2006:'McGuigan MR, Doyle TLA, Newton M, et al. Eccentric utilization ratio: effect of sport and phase of training. J Strength Cond Res. 2006;20(4):992–5.',
+ gathercole2015:'Gathercole R, Sporer B, Stellingwerff T, Sleivert G. Alternative countermovement-jump analysis to quantify acute neuromuscular fatigue. Int J Sports Physiol Perform. 2015;10(1):84–92.',
+ petrakos2016:'Petrakos G, Morin JB, Egan B. Resisted sled sprint training to improve sprint performance: a systematic review. Sports Med. 2016;46(3):381–400.',
+ backman2011:'Backman LJ, Danielson P. Low range of ankle dorsiflexion predisposes for patellar tendinopathy in junior elite basketball players: a 1-year prospective study. Am J Sports Med. 2011;39(12):2626–33.',
+};
+const LIT_SHORT={silbernagel2007:'Silbernagel 2007',rio2015:'Rio 2015',vanark2016:'van Ark 2016',malliaras2015:'Malliaras 2015',kongsgaard2009:'Kongsgaard 2009',breda2021:'Breda 2021',beyer2015:'Beyer 2015',oneill2019:'O’Neill 2019',jordan2015:'Jordan 2015',grindem2016:'Grindem 2016',mjolsnes2004:'Mjølsnes 2004',vanderhorst2015:'van der Horst 2015',vandyk2019:'van Dyk 2019',opar2015:'Opar 2015',haroy2019:'Harøy 2019',tyler2001:'Tyler 2001',suchomel2016:'Suchomel 2016',comfort2018:'Comfort 2018',markovic2007:'Markovic 2007',mcguigan2006:'McGuigan 2006',gathercole2015:'Gathercole 2015',petrakos2016:'Petrakos 2016',backman2011:'Backman 2011'};
+const PRIO=[null,{t:'Priority',c:'c-ink'},{t:'Next',c:'c-amber'},{t:'Consider',c:'c-stone'}];
+function clinActions(c){
+ const A=[],add=(pr,area,title,why,dos,refs)=>A.push({pr,area,title,why,dos,refs});
+ const lt=k=>{const t=last(c,MK[k]);return t?rep(t,MK[k]):null};
+ const below=k=>{const r=refFor(c,k),v=lt(k);if(!r||v==null)return false;const m=MK[k];return m.lb?v>Math.max(...r.r):v<Math.min(...r.r)};
+ const L=k=>{const l=lastLsi(c,MK[k]);return l?l.v:null};
+ const ach=c.region==='achilles',ph=c.tendon?phaseOf(c).p:null;
+ const P=critRef(c,'P'),I=critRef(c,'I'),S=critRef(c,'S'),pv=lt(P),il=L(I),sl=L(S);
+ // tendon: irritability
+ if(c.tendon&&pv!=null&&pv>3)add(1,'Load management','Settle the tendon before progressing load',
+  `Pain ${fmt(pv)}/10 on ${MK[P].l.replace(/^Pain on /,'')}.`,
+  ['Use the pain-monitoring model: up to 5/10 during exercise is acceptable if pain and stiffness return to baseline by the next morning [silbernagel2007].',
+   `Isometric ${ach?'calf (straight- and bent-knee) holds':'knee extension or wall-squat holds'}, 5 × 45 s at about 70% of maximum with 2 min rest, for short-term pain relief [rio2015]. An in-season trial found isotonic loading as effective, so treat isometrics as a tolerance tool rather than the whole programme [vanark2016].`,
+   `Hold back energy-storage loading (jumping, sprinting, change of direction) until pain on the provocation test is 3/10 or lower${ach?'':' [malliaras2015]'}.`],
+  ach?['silbernagel2007','rio2015','vanark2016']:['silbernagel2007','rio2015','vanark2016','malliaras2015']);
+ // tendon: strength
+ if(c.tendon&&il!=null&&il<90)add(il<80?1:2,'Tendon strength',`Close the ${ach?'calf':'quadriceps'} strength gap`,
+  `${MK[I].l} symmetry ${fmt(il,0)}% (target 90%).`,
+  ach?['Heavy slow resistance 3×/week for 12 weeks: seated and standing heel raises, 3–4 sets progressing from 15RM to 6RM, 3 s up / 3 s down [beyer2015].','Include bent-knee (soleus) loading: soleus strength and endurance deficits are common in mid-portion Achilles tendinopathy [oneill2019].','Add an extra unilateral set on the affected side until symmetry reaches 90%.']
+     :['Heavy slow resistance 3×/week for 12 weeks: squat, leg press and hack squat, 3–4 sets progressing from 15RM to 6RM, 3 s down / 3 s up [kongsgaard2009].','Progress in stages (isometric → isotonic → energy storage → sport); a staged progressive tendon-loading programme outperformed eccentric-only training on VISA-P [breda2021].','Add an extra unilateral set on the affected side until symmetry reaches 90%.'],
+  ach?['beyer2015','oneill2019']:['kongsgaard2009','breda2021']);
+ // tendon: strength endurance
+ if(c.tendon&&sl!=null&&sl<90)add(2,'Capacity',`Build single-leg ${ach?'calf':'quadriceps'} endurance`,
+  `${MK[S].l} symmetry ${fmt(sl,0)}%.`,
+  [ach?'Single-leg heel raises to fatigue 3–4×/week on the affected side, straight and bent knee, until reps are within 10% of the other side [oneill2019].':'Single-leg sit-to-stand and step-up volume on the affected side until reps are within 10% of the other side.'],
+  ach?['oneill2019']:[]);
+ // tendon: energy storage phase
+ const ph_=lt('pain_hop'),hl=L('hop_rsi'),jl=L('slcmj');
+ if(c.tendon&&ph>=3&&((ph_!=null&&ph_>2)||(hl!=null&&hl<90)||(jl!=null&&jl<90)))add(2,'Energy storage','Progress jumping and running load in steps',
+  [ph_!=null?`Hop pain ${fmt(ph_)}/10`:'',hl!=null?`hop RSI symmetry ${fmt(hl,0)}%`:'',jl!=null?`single-leg CMJ symmetry ${fmt(jl,0)}%`:''].filter(Boolean).join(', ')+'.',
+  ['Step through bilateral low-height jumps → unilateral hops → bounding and sprinting, with 48–72 h between energy-storage sessions and next-morning pain checked each time [malliaras2015].'],['malliaras2015']);
+ // jump strategy: braking / landing offload
+ const tPh=[...c.tests].reverse().find(t=>lsiOf(c,t,MK.cmj_ei)!=null||lsiOf(c,t,MK.cmj_li)!=null);
+ if(tPh){const b=lsiOf(c,tPh,MK.cmj_ei),p=lsiOf(c,tPh,MK.cmj_ci),l=lsiOf(c,tPh,MK.cmj_li);
+  if((b!=null&&b<90&&(p==null||b<p-5))||(l!=null&&l<90))add(2,'Jump strategy','Load the braking and landing phases on the weaker side',
+   [b!=null?`CMJ braking symmetry ${fmt(b,0)}%`:'',p!=null?`push-off ${fmt(p,0)}%`:'',l!=null?`landing ${fmt(l,0)}%`:''].filter(Boolean).join(', ')+'.',
+   ['Unilateral eccentric work biased to the weaker leg (slow-eccentric split squats, eccentric step-downs, single-leg decline squats) and landing drills progressing from bilateral stick landings to single-leg drop-and-stick.',
+    'Re-test braking and landing impulse, not just jump height: eccentric-phase asymmetries can persist after concentric output has recovered [jordan2015].'],['jordan2015']);}
+ // fatigue
+ const ct=lt('cmj_ct'),sct=series(c,MK.cmj_ct);
+ if(sct.length>1){const ct0=rep(sct[0],MK.cmj_ct),jh=lt('cmj_jh'),js=series(c,MK.cmj_jh),jh0=js.length>1?rep(js[0],MK.cmj_jh):null;
+  if(pc(ct0,ct)>=10&&jh!=null&&jh0!=null&&Math.abs(pc(jh0,jh))<5)add(1,'Monitoring','Check for accumulated fatigue',
+   `Contraction time +${fmt(pc(ct0,ct),0)}% with jump height unchanged.`,
+   ['Contraction time and FT:CT pick up neuromuscular fatigue that jump height misses [gathercole2015]. Review the last 7 days of training and match load, sleep and soreness; consider trimming high-intensity volume for 48–72 h, then re-test.'],['gathercole2015']);}
+ // asymmetry (non-tendon)
+ if(!c.tendon){const worst=['iso_ke','slcmj','hop_rsi','iso_calf'].map(k=>({k,v:L(k)})).filter(x=>x.v!=null&&x.v<90).sort((a,b)=>a.v-b.v)[0];
+  if(worst)add(2,'Symmetry','Close the side-to-side gap',`${MK[worst.k].l} symmetry ${fmt(worst.v,0)}%.`,
+   ['Unilateral strength and jump work biased to the weaker side until symmetry is 90% or more. Meeting ≥90% symmetry criteria cut reinjury risk markedly after ACL reconstruction [grindem2016]; outside ACL rehab, use the threshold as a guide rather than a rule.'],['grindem2016']);}
+ // hamstrings
+ const nl=L('nordic');
+ if(below('nordic')||(nl!=null&&nl<85))add(c.norm==='football'?1:2,'Injury risk','Build eccentric hamstring strength',
+  `Nordic ${fmt(lt('nordic'))} N (both-leg average)${below('nordic')?', below the reference range':''}${nl!=null?`, symmetry ${fmt(nl,0)}%`:''}.`,
+  ['Nordic hamstring exercise using the Mjølsnes 10-week progression [mjolsnes2004], then one session a week to maintain.','Programmes including the Nordic roughly halve hamstring injury rates [vandyk2019; vanderhorst2015].',c.sex==='M'?'In elite Australian footballers, preseason Nordic force under 256 N was linked with higher hamstring injury risk [opar2015].':''].filter(Boolean),
+  c.sex==='M'?['mjolsnes2004','vandyk2019','vanderhorst2015','opar2015']:['mjolsnes2004','vandyk2019','vanderhorst2015']);
+ // adductors
+ const t=last(c,MK.hip_add),tb=t&&t.v;let ratio=null;
+ if(tb&&tb.hip_abd_L&&tb.hip_abd_R&&tb.hip_add_L!=null&&tb.hip_add_R!=null)ratio=Math.min(tb.hip_add_L/tb.hip_abd_L,tb.hip_add_R/tb.hip_abd_R);
+ if(below('hip_add')||(ratio!=null&&ratio<0.8))add(c.norm==='football'?1:2,'Injury risk','Strengthen the adductors',
+  `${below('hip_add')?'Hip adduction below the reference range. ':''}${ratio!=null?`Lowest adduction:abduction ratio ${fmt(ratio,2)}.`:''}`,
+  ['Copenhagen adduction programme: short to long lever, one set per side building reps over 8 weeks, 2–3×/week in preseason then once a week in season. It reduced groin problems by 41% in male footballers [haroy2019].',
+   'An adduction:abduction strength ratio under 0.8 was linked with a 17-fold higher adductor strain rate in professional ice hockey [tyler2001].'],['haroy2019','tyler2001']);
+ // maximal strength
+ if(below('imtp_rel'))add(2,'Strength','Raise maximal strength',`IMTP ${fmt(lt('imtp_rel'),1)} N/kg, below the reference range.`,
+  ['Heavy compound lifting (about 80–90% 1RM, 3–5 reps) 2–3×/week. Greater maximal strength underpins jumping, sprinting and change of direction, and is linked with lower injury risk [suchomel2016].'],['suchomel2016']);
+ // DSI
+ const dsi=lt('dsi');
+ if(dsi!=null&&dsi<0.6)add(3,'Power','Turn strength into speed',`DSI ${fmt(dsi,2)}.`,
+  ['Ballistic and plyometric work (jump squats at 0–30% 1RM, depth jumps, contrast pairs) rather than more maximal strength. Read DSI with how it was calculated in mind [comfort2018].'],['comfort2018']);
+ else if(dsi!=null&&dsi>0.8&&!below('imtp_rel'))add(3,'Power','Raise the strength ceiling',`DSI ${fmt(dsi,2)}.`,
+  ['Dynamic output is close to the isometric ceiling: bias maximal strength work [suchomel2016; comfort2018].'],['suchomel2016','comfort2018']);
+ // reactive strength
+ const eur=lt('eur'),lowEff=below('cmj_ftct')||below('cmj_rsimod');
+ if(((eur!=null&&eur<1.0)||lowEff)&&!(c.tendon&&ph<3))add(3,'Reactive strength','Develop the stretch-shortening cycle',
+  [eur!=null?`EUR ${fmt(eur,2)}`:'',lowEff?'FT:CT or RSI-mod below the reference range':''].filter(Boolean).join(', ')+'.',
+  ['Plyometrics twice a week for 6–10 weeks (pogo hops, hurdle hops, drop jumps), progressing ground contacts. Plyometric training reliably improves CMJ height [markovic2007].',eur!=null?'EUR (CMJ ÷ squat jump) tracks how much the countermovement adds [mcguigan2006].':''].filter(Boolean),eur!=null?['markovic2007','mcguigan2006']:['markovic2007']);
+ // speed
+ if(below('sprint10')||below('sprint20'))add(3,'Speed','Develop acceleration',`${below('sprint10')?'10 m':'20 m'} sprint slower than the reference range.`,
+  ['Weekly maximal sprint exposure (10–30 m accelerations with full recovery) plus resisted sled sprints, which improve acceleration, mainly in less-trained athletes [petrakos2016].'],['petrakos2016']);
+ // dorsiflexion
+ const kt=last(c,MK.ktw);
+ if(kt&&kt.v.ktw_L!=null&&kt.v.ktw_R!=null&&(Math.min(kt.v.ktw_L,kt.v.ktw_R)<10||Math.abs(kt.v.ktw_L-kt.v.ktw_R)>2)&&c.region!=='achilles')add(3,'Mobility','Improve ankle dorsiflexion',
+  `Knee-to-wall L ${fmt(kt.v.ktw_L,1)} cm / R ${fmt(kt.v.ktw_R,1)} cm (working cut-off: under 10 cm or more than 2 cm between sides).`,
+  ['Weight-bearing ankle mobility and loaded dorsiflexion work. Low dorsiflexion range predicted patellar tendinopathy in junior elite basketball players [backman2011].'],['backman2011']);
+ return A.sort((a,b)=>a.pr-b.pr).slice(0,6);
+}
+function clinBrief(c){
+ if(!c.tests.length)return '';
+ const lt0=c.tests[0],lt=c.tests[c.tests.length-1],a=age(c.dob);
+ const latestKeys=M.filter(m=>!m.der&&has(lt,m));
+ const groupsDone=[...new Set(latestKeys.map(m=>m.g==='Strategy'?'jump strategy':m.g.toLowerCase()))];
+ const ph=c.tendon?phaseOf(c):null;
+ const snap=`${esc(c.name.replace(/^Example · /,''))}${a!=null?`, ${a}`:''}, ${esc([c.condition,c.sport].filter(Boolean).join(', ')||c.category)}${c.side?` (${c.side==='L'?'left':'right'})`:''}. ${c.tests.length} test session${c.tests.length===1?'':'s'} since ${fdate(lt0.date)}; latest ${fdate(lt.date)} (${daysSince(lt.date)} days ago) covered ${latestKeys.length} tests across ${groupsDone.join(', ')}.${ph?` Roadmap phase ${ph.p}: ${PHASES[ph.p-1].n}.`:''}`;
+ // changes since baseline
+ const ups=[],downs=[];
+ M.forEach(m=>{const s=series(c,m);if(s.length<2||m.neu)return;const va=rep(s[0],m),vb=rep(s[s.length-1],m);if(va==null||vb==null||!va)return;
+  const d=m.g==='Tendon'?vb-va:pc(va,vb),good=m.lb?d<0:d>0,mag=m.g==='Tendon'?Math.abs(d)*(m.u==='/10'?10:1):Math.abs(d);
+  const txt=`${m.l}: ${fmt(va,m.d)} → ${fmt(vb,m.d)}${m.u?' '+m.u.replace(/^\//,'/'):''} (${d>0?'+':''}${fmt(d,m.g==='Tendon'?0:0)}${m.g==='Tendon'?' pts':'%'})`;
+  if(mag>=5)(good?ups:downs).push({mag,txt})});
+ ups.sort((a,b)=>b.mag-a.mag);downs.sort((a,b)=>b.mag-a.mag);
+ // deficits now
+ const def=[];
+ M.filter(m=>m.p).forEach(m=>{const l=lastLsi(c,m);if(l&&l.v<90)def.push(`${m.l} symmetry ${fmt(l.v,0)}%`)});
+ M.forEach(m=>{if(m.g==='Tendon'||m.p)return;const r=refFor(c,m.k),t=last(c,m);if(!r||!t)return;const v=rep(t,m);if(m.lb?v>Math.max(...r.r):v<Math.min(...r.r))def.push(`${m.l} ${fmt(v,m.d)} ${m.u}, below the ${NORM_SETS[r.set].short.toLowerCase()} range`)});
+ ['pain_dsq','pain_calf','pain_hop'].forEach(k=>{const t=last(c,MK[k]);if(t&&t.v[k]>2)def.push(`${MK[k].l} ${fmt(t.v[k])}/10`)});
+ // tests not yet done
+ const core=c.region==='achilles'?['visa_a','pain_calf','iso_calf','calf_reps','cmj_jh']:c.tendon?['visa_p','pain_dsq','iso_ke','sts_reps','cmj_jh'].concat(ph&&ph.p>=3?['hop_rsi','pain_hop','slcmj']:[]):['cmj_jh','cmj_ct','imtp','slcmj','sprint10'].concat(c.norm==='football'?['nordic','hip_add','hip_abd','maxvel']:[]);
+ const missing=core.filter(k=>!series(c,MK[k]).length).map(k=>MK[k].l);
+ const next=new Date(new Date(lt.date+'T00:00:00').getTime()+42*86400000);
+ // actions + references
+ const A=clinActions(c),order=[];
+ const cite=s=>esc(s).replace(/\[([a-z0-9;\s]+)\]/g,(x,ids)=>'['+ids.split(/;\s*/).map(id=>{if(!LIT[id])return id;if(!order.includes(id))order.push(id);return `<a href="#ref-${id}" class="ref">${order.indexOf(id)+1}</a>`}).join(', ')+']');
+ const acts=A.map((x,i)=>`<li class="act"><div class="acthd"><span class="actn">${i+1}</span><span class="chip ${PRIO[x.pr].c}">${PRIO[x.pr].t}</span><span class="eb">${esc(x.area)}</span></div>
+   <h4>${esc(x.title)}</h4><p class="why">${esc(x.why)}</p><ul>${x.dos.map(d=>`<li>${cite(d)}</li>`).join('')}</ul></li>`).join('');
+ const list=(arr,empty)=>arr.length?`<ul class="blist">${arr.map(t=>`<li>${typeof t==='string'?esc(t):esc(t.txt)}</li>`).join('')}</ul>`:`<p class="cap">${empty}</p>`;
+ return `<section class="brief clin-only" aria-label="Clinician brief">
+  <div class="briefhd"><div><div class="eb">Clinician brief · not on the client printout</div><h2 class="h2">Clinical summary and action points</h2></div>
+   <label class="msg screen" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="printClin" ${S.printClin?'checked':''}> Include in printout</label></div>
+  <p class="snap">${snap}</p>
+  <div class="bgrid">
+   <div><div class="eb">Improved since first test</div>${list(ups.slice(0,5),c.tests.length>1?'No change of 5% or more yet.':'Baseline only.')}</div>
+   <div><div class="eb">Still below target</div>${list(def.slice(0,6),'Nothing below target on the tests run.')}</div>
+   <div><div class="eb">Moved the wrong way</div>${list(downs.slice(0,4),'Nothing has dropped by 5% or more.')}</div>
+  </div>
+  <div class="eb" style="margin-top:20px">Action points, in priority order</div>
+  ${A.length?`<ol class="acts">${acts}</ol>`:'<p class="cap" style="margin-top:8px">No flags on the current results. Keep progressing the plan and re-test on schedule.</p>'}
+  <div class="bgrid two">
+   <div><div class="eb">Next re-test</div><p class="cap" style="margin-top:6px"><b style="color:var(--ink);font-weight:600">${next.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})}</b>, six weeks after the last test.</p></div>
+   <div><div class="eb">Not tested yet, worth adding</div>${list(missing,'All core tests for this profile are on record.')}</div>
+  </div>
+  ${order.length?`<details class="refs"><summary>References (${order.length})</summary><ol>${order.map(id=>`<li id="ref-${id}">${esc(LIT[id])}</li>`).join('')}</ol></details>`:''}
+  <p class="cap" style="margin-top:12px">Suggestions are generated from the results against your thresholds and the cited evidence. They support clinical reasoning; they don't replace it. Doses are the protocols used in the cited studies.</p>
+ </section>`;
+}
+
+/* ---------- views ---------- */
+let VIEW='client',SEL=null,MET=null;
+const main=document.getElementById('main'),hero=document.getElementById('hero');
+
+function chg(c,m){
+ const a=first(c,m),b=last(c,m);if(!a||!b||a===b)return '<span class="flat">Baseline</span>';
+ const va=rep(a,m),vb=rep(b,m);if(va==null||vb==null||!va)return '';
+ const d=m.g==='Tendon'?vb-va:(vb-va)/Math.abs(va)*100;const good=m.lb?d<0:d>0;
+ const cls=(Math.abs(d)<0.5||m.neu)?'flat':good?'up':'down';
+ return `<span class="${cls}">${d>0?'+':''}${fmt(d,m.g==='Tendon'?0:1)}${m.g==='Tendon'?'':'%'}</span>`;
+}
+function barFor(c,m,v){
+ let lo,hi,band=null,th=null;
+ if(m.k==='visa_p'||m.k==='visa_a'){lo=0;hi=100;th=80}
+ else if(m.g==='Tendon'){lo=10;hi=0;th=2}
+ else{const rf=refFor(c,m.k),r=rf&&rf.r;if(!r)return `<div class="bar none">${m.p?'See left vs right':'No reference set'}</div>`;
+  const span=Math.abs(r[1]-r[0]);const mn=Math.min(r[0],r[1])-span*.6,mx=Math.max(r[0],r[1])+span*.6;lo=m.lb?mx:mn;hi=m.lb?mn:mx;band=r}
+ const P=x=>clamp((x-lo)/(hi-lo)*100,0,100);
+ let h='<div class="bar">';
+ if(band){const a=P(band[0]),b=P(band[1]);h+=`<span class="band" style="left:${Math.min(a,b)}%;width:${Math.abs(b-a)}%"></span>`}
+ if(th!=null)h+=`<span class="th" style="left:${P(th)}%"></span>`;
+ h+=`<span class="mk" style="left:${P(v)}%"></span></div>`;return h;
+}
+
+function renderHeroClient(c){
+ const a=age(c.dob),ds=domainScores(c),ph=c.tendon?phaseOf(c):null;
+ const overall=ds.length?Math.round(ds.reduce((x,y)=>x+y.s,0)/ds.length):null;
+ const base=c.tests.length>1?domainScores(Object.assign({},c,{tests:c.tests.slice(0,1)})):null;
+ const ov0=base&&base.length?base.reduce((x,y)=>x+y.s,0)/base.length:null;
+ let phase=null;
+ if(ph){const gate=Math.min(ph.p+1,4),items=CRIT_DEF.filter(x=>x.gate===gate).map(x=>evalCrit(c,x));phase={p:ph.p,frac:ph.p===4?1:items.filter(i=>i.ok).length/items.length,met:items.filter(i=>i.ok).length,of:items.length,gate}}
+ const center=ph?{eb:'ROADMAP PHASE',v:ph.p,unit:'/4',s:PHASES[ph.p-1].n,d:ph.p<4?`${phase.met} of ${phase.of} criteria for phase ${phase.gate}`:'All criteria met'}
+  :{eb:'PROFILE SCORE',v:overall==null?'—':overall,unit:overall==null?'':'/100',s:overall==null?'No results yet':scoreWord(overall),d:ov0!=null&&overall!=null?`${overall-Math.round(ov0)>=0?'+':''}${overall-Math.round(ov0)} since first test`:''};
+ const lt=c.tests[c.tests.length-1];
+ const desc=[c.condition,c.sport,c.position].filter(Boolean).join(' · ');
+ hero.innerHTML=`<div class="heroGrid"><div>
+  <div class="eb" style="color:var(--soft)">VALO ${c.tendon?'Rehabilitation':'Performance'} · Client report</div>
+  <h1>${esc(c.name)}</h1>
+  <p class="sub">${esc(c.goal||desc||'')}</p>
+  <div class="meta">
+   <div><span>Profile</span><b>${esc(c.category)}${a!=null?' · '+a+' y':''}</b></div>
+   ${desc?`<div><span>${c.condition?'Condition':'Sport'}</span><b>${esc(desc)}</b></div>`:''}
+   ${c.side?`<div><span>Affected side</span><b>${c.side==='L'?'Left':'Right'}</b></div>`:''}
+   <div><span>Compared with</span><b>${esc(NORM_SETS[c.norm].short)} norms</b></div>
+   <div><span>Tests</span><b>${c.tests.length}${lt?' · last '+fdate(lt.date):''}</b></div>
+  </div></div>
+  <div class="ringBox">${ring(ds,center,phase,base)}
+   <div class="rkey"><span><i style="background:${RING_COL.on}"></i>On track (65+)</span><span><i style="background:${RING_COL.build}"></i>Building</span><span><i style="background:${RING_COL.focus}"></i>Focus</span>${base?'<span><i class="tk"></i>First test</span>':''}</div>
+   <p class="rcap">${ds.length?`Each segment is scored out of 100 against ${esc(NORM_SETS[c.norm].short.toLowerCase())} norms and this client's symmetry.`:'Scores appear after the first test.'}${phase?' The outer ring tracks the Roadmap: white phases are done, amber shows progress through the current one.':''}</p>
+  </div></div>`;
+}
+
+function headlines(c){
+ const pick=c.region==='achilles'?['visa_a','pain_calf','iso_calf','calf_reps']:c.tendon?['visa_p','pain_dsq','iso_ke','sts_reps']:['cmj_jh','imtp_rel','sprint10','slcmj'];
+ const out=[];
+ pick.forEach(k=>{const m=MK[k];if(m.p){const l=lastLsi(c,m);if(l){const d=l.n>1?l.v-l.first:null;out.push({big:fmt(l.v,0)+'<small>%</small>',cap:m.l+' symmetry'+(d!=null?` · <span class="${d>=0?'up':'down'}">${d>0?'+':''}${fmt(d,0)} pts</span> since baseline`:'')})}else{const t=last(c,m);if(t)out.push({big:fmt(rep(t,m),m.d)+`<small>${m.u}</small>`,cap:m.l+' (average of both sides)'})}}
+  else{const t=last(c,m);if(t)out.push({big:fmt(rep(t,m),m.d)+`<small>${m.u}</small>`,cap:m.l+' · '+chg(c,m)+' since baseline'})}});
+ if(out.length<4){for(const m of M){if(out.length>=4)break;if(pick.includes(m.k)||m.p)continue;const t=last(c,m);if(t)out.push({big:fmt(rep(t,m),m.d)+`<small>${m.u}</small>`,cap:m.l+' · '+chg(c,m)+' since baseline'})}}
+ return out.slice(0,4);
+}
+
+function renderClient(){
+ const c=CLIENTS.find(x=>x.id===SEL)||CLIENTS[0];if(!c){renderEmpty();return}SEL=c.id;
+ renderHeroClient(c);
+ const tested=M.filter(m=>series(c,m).length);
+ if(!MET||!tested.find(m=>m.k===MET))MET=tested[0]?tested[0].k:null;
+ let h='';
+ h+=clinBrief(c);
+ // at a glance
+ const hl=headlines(c);
+ h+=`<section class="sec first"><div class="eb">At a glance</div><h2 class="h2">${c.tests.length>1?'What has changed since the first test':'Where things start'}</h2>
+  <div class="grid4">${hl.map(x=>`<div class="card"><div class="big">${x.big}</div><p class="cap">${x.cap}</p></div>`).join('')||'<p class="empty">No results yet. Add a row for this client on the Results tab.</p>'}</div></section>`;
+ // roadmap
+ if(c.tendon){
+  const ph=phaseOf(c);const gate=Math.min(ph.p+1,4);
+  const items=CRIT_DEF.filter(x=>x.gate===gate).map(x=>evalCrit(c,x));const met=items.filter(i=>i.ok).length;
+  h+=`<section class="sec"><div class="eb">VALO Knee Recovery Roadmap${c.region==='achilles'?' · Achilles':''}</div><h2 class="h2">Phase ${ph.p}: ${PHASES[ph.p-1].n}</h2>
+   <p class="lead">Each phase has clear criteria. When every box for the next phase is ticked, we move up. ${ph.set?'Phase set in the sheet.':'Phase worked out from the latest results.'}</p>
+   <div class="loop">${PHASES.map((p,i)=>`<div class="step ${i+1<ph.p?'done':i+1===ph.p?'now':''}"><div class="n">PHASE ${i+1}${i+1<ph.p?' · DONE':i+1===ph.p?' · NOW':''}</div><h3>${p.n}</h3><p>${p.d}</p></div>`).join('')}</div>
+   ${ph.p<4?`<div class="gate"><div class="eb">To move into phase ${gate} · ${met} of ${items.length} met</div><h3 style="margin-top:6px">${PHASES[gate-1].n}</h3>
+    ${items.map(i=>`<div class="crit"><span class="tick ${i.ok===true?'t-met':i.ok===false?'t-not':'t-nod'}" aria-label="${i.ok===true?'Met':i.ok===false?'Not yet':'Not tested'}">${i.ok===true?'✓':i.ok===false?'–':'?'}</span><span>${esc(i.label)}</span><span class="v">${i.vt}</span></div>`).join('')}</div>`
+   :`<div class="gate"><div class="eb">All phase criteria met</div><h3 style="margin-top:6px">Maintenance: re-test every block to hold the gains.</h3></div>`}
+  </section>`;
+ } else {
+  const ds=domainScores(c).filter(d=>d.g!=='Tendon').sort((a,b)=>a.s-b.s);
+  if(ds.length){h+=`<section class="sec"><div class="eb">Performance profile</div><h2 class="h2">Strongest and weakest qualities</h2>
+   <p class="lead">Scores out of 100 against the ${esc(NORM_SETS[c.norm].label)} reference range for ${c.sex==='F'?'women':'men'}. 50 sits mid-range; the lowest two set the training focus.</p>
+   <div class="grid3">${ds.map((d,i)=>`<div class="card"><span class="chip ${i<2&&d.s<65?'c-amber':'c-sage'}" style="align-self:flex-start">${i<2&&d.s<65?'Focus':scoreWord(d.s)}</span><div class="big">${Math.round(d.s)}<small>/100</small></div><p class="cap">${d.g}</p></div>`).join('')}</div></section>`}
+ }
+ h+=jumpSection(c);
+ h+=quadSection(c);
+ // results
+ if(tested.length){
+  h+=`<section class="sec"><div class="eb">Results</div><h2 class="h2">Latest result for every test</h2>
+   <p class="lead">Green band = reference range. Black line = target. Change is since the first test. Select a test to see its trend.</p>
+   <div class="split"><div><div class="rhead"><span>Test</span><span>Latest</span><span>Position</span><span>Change</span></div>`;
+  GROUPS.forEach(g=>{const ms=tested.filter(m=>m.g===g);if(!ms.length)return;h+=`<div class="ghead">${g}</div>`;
+   ms.forEach(m=>{const t=last(c,m),v=rep(t,m);
+    h+=`<button type="button" class="row" data-m="${m.k}" aria-pressed="${m.k===MET}"><span class="lbl">${esc(m.l)}<small>${m.src}${m.p?' · L '+fmt(t.v[m.k+'_L'],m.d)+' / R '+fmt(t.v[m.k+'_R'],m.d):''}</small></span><span class="val">${fmt(v,m.d)}<small>${esc(m.u)}</small></span>${barFor(c,m,v)}<span class="chg">${chg(c,m)}</span></button>`})});
+  const mm=MK[MET];
+  h+=`</div><aside class="trend" aria-live="polite"><div class="eb">Trend · ${series(c,mm).length} test${series(c,mm).length===1?'':'s'}</div><h3>${esc(mm.l)}${mm.u?` <span style="color:var(--muted);font-size:14px">${esc(mm.u)}</span>`:''}</h3>${trendSvg(c,mm)}
+   ${refFor(c,mm.k)?`<p class="note">Reference: ${refFor(c,mm.k).set==='football'?esc(REF_SRC[mm.k]||NORM_SETS.football.label):'general active-adult range (edit under Data &amp; settings).'}</p>`:''}
+   ${mm.p&&lastLsi(c,mm)?`<p class="note">Latest symmetry ${fmt(lastLsi(c,mm).v,0)}% ${c.side?'(affected ÷ unaffected)':'(weaker ÷ stronger)'}. Return-to-sport criteria commonly use 90%.</p>`:''}</aside></div></section>`;
+ }
+ // symmetry
+ const pm=M.filter(m=>m.p&&lastLsi(c,m));
+ if(pm.length){
+  h+=`<section class="sec"><div class="eb">Left vs right</div><h2 class="h2">Symmetry across single-leg tests</h2>
+   <p class="lead">${c.side?`Amber is the affected ${c.side==='L'?'left':'right'} leg.`:'Both legs, latest test.'} Symmetry under 90% is flagged.</p>
+   <div class="sym"><div class="symH"><span>Test</span><span>Left</span><span>Right</span><span>Symmetry</span></div>`;
+  pm.forEach(m=>{const l=lastLsi(c,m),t=l.t,L=t.v[m.k+'_L'],R=t.v[m.k+'_R'],mx=Math.max(L,R);
+   const cls=s=>c.side?(c.side===s?'inv':'uninv'):'neu';
+   h+=`<div class="symR"><span>${esc(m.l)}<small style="display:block;font-size:12px;color:var(--muted)">${esc(m.u)} · ${fdate(t.date)}</small></span>
+    <div class="half l"><span class="f ${cls('L')}" style="width:${L/mx*100}%"></span><span class="t" style="${L/mx>.55?'color:var(--paper);left:auto;right:6px':''}">${fmt(L,m.d)}</span></div>
+    <div class="half r"><span class="f ${cls('R')}" style="width:${R/mx*100}%"></span><span class="t" style="${R/mx>.55?'color:var(--paper);right:auto;left:6px':''}">${fmt(R,m.d)}</span></div>
+    <span class="lsi" style="color:${l.v<90?'var(--flag)':'var(--green)'}">${fmt(l.v,0)}%</span></div>`});
+  h+=`</div></section>`;
+ }
+ // history
+ if(c.tests.length){
+  h+=`<section class="sec"><div class="eb">Test history</div><h2 class="h2">Every session on record</h2><div class="tw"><table><thead><tr><th>Date</th><th class="r">Body mass</th><th class="r">Tests run</th><th>Notes</th></tr></thead><tbody>
+   ${[...c.tests].reverse().map(t=>`<tr><td style="white-space:nowrap">${fdate(t.date)}</td><td class="r">${t.bw?fmt(t.bw,1)+' kg':'—'}</td><td class="r">${M.filter(m=>!m.der&&has(t,m)).length}</td><td>${esc(t.notes)}</td></tr>`).join('')}
+   </tbody></table></div></section>`;
+ }
+ // summary panel
+ const ds=domainScores(c).sort((a,b)=>a.s-b.s);const ph=c.tendon?phaseOf(c):null;
+ const auto=[];
+ if(ph&&ph.p<4){CRIT_DEF.filter(x=>x.gate===ph.p+1).map(x=>evalCrit(c,x)).filter(i=>i.ok!==true).slice(0,3).forEach(i=>auto.push(i.label+(i.ok===null?' (test it next session)':` (now ${i.vt})`)))}
+ else ds.filter(d=>d.g!=='Tendon').slice(0,2).forEach(d=>auto.push(`Build ${d.g.toLowerCase()} (score ${Math.round(d.s)}/100)`));
+ const lt=c.tests[c.tests.length-1];const next=lt?new Date(new Date(lt.date+'T00:00:00').getTime()+42*86400000):null;
+ h+=`<div class="panel"><div><div class="eb">Next block</div><h3>What we are working on</h3>
+   <ul>${auto.map(a=>`<li>${esc(a)}</li>`).join('')||'<li>Complete the first test session.</li>'}</ul>
+   <label class="eb screen" for="sumTxt" style="display:block;margin-top:14px">Your note for this report (saved on this device, prints below)</label>
+   <textarea id="sumTxt" placeholder="e.g. Great block. Keep the heavy slow resistance 3× a week and add two easy hopping sessions.">${esc(S.summary[c.id]||'')}</textarea>
+   <p class="printNote">${esc(S.summary[c.id]||'')}</p></div>
+  <div><div class="eb">Next re-test</div><div class="p">${next?next.toLocaleDateString('en-AU',{day:'numeric',month:'short'}):'—'}</div><p class="pn">Six weeks after the last test, at the end of the block.</p></div></div>`;
+ h+=`<footer>Henri Joensuu · Accredited Exercise Physiologist (ESSA) · VALO Performance · henri@valoperformance.com.au<br>Results are compared with reference ranges and with your own earlier tests. They guide training and are not a diagnosis.</footer>`;
+ main.innerHTML=h;
+ main.querySelectorAll('.row').forEach(b=>b.addEventListener('click',()=>{MET=b.dataset.m;const y=window.scrollY;renderClient();window.scrollTo(0,y)}));
+ const keepY=fn=>{const y=window.scrollY;fn();renderClient();window.scrollTo(0,y)};
+ const pcb=document.getElementById('printClin');if(pcb)pcb.addEventListener('change',()=>{S.printClin=pcb.checked;save();document.body.classList.toggle('printClin',S.printClin)});
+ document.body.classList.toggle('printClin',!!S.printClin);
+ main.querySelectorAll('a.ref').forEach(a=>a.addEventListener('click',()=>{const d=main.querySelector('details.refs');if(d)d.open=true}));
+ main.querySelectorAll('[data-voice]').forEach(b=>b.addEventListener('click',()=>keepY(()=>{S.voice=b.dataset.voice;save()})));
+ const ct=document.getElementById('cloudTg');if(ct)ct.addEventListener('change',()=>keepY(()=>{S.cloud=ct.checked;save()}));
+ ['cqX','cqY'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('change',()=>keepY(()=>{S.cq[id==='cqX'?'x':'y']=el.value;save()}))});
+ const ta=document.getElementById('sumTxt');if(ta)ta.addEventListener('input',()=>{S.summary[c.id]=ta.value;save();const pn=ta.parentElement.querySelector('.printNote');if(pn)pn.textContent=ta.value});
+}
+
+function renderRoster(){
+ const n=CLIENTS.length,now=Date.now();
+ const tests30=CLIENTS.reduce((s,c)=>s+c.tests.filter(t=>daysSince(t.date)<=30).length,0);
+ const due=CLIENTS.filter(c=>!c.tests.length||daysSince(c.tests[c.tests.length-1].date)>42).length;
+ const tend=CLIENTS.filter(c=>c.tendon).length;
+ hero.innerHTML=`<div class="heroGrid" style="grid-template-columns:1fr"><div><div class="eb" style="color:var(--soft)">VALO · Client dashboard</div><h1>Your clients at a glance.</h1>
+  <p class="sub">Testing, profiling and progress for every client, from the force plate at Luff Performance and your clinical tests.</p>
+  <div class="meta"><div><span>Clients</span><b>${n}</b></div><div><span>Rehab and tendon</span><b>${tend}</b></div><div><span>Athletes and general</span><b>${n-tend}</b></div></div></div></div>`;
+ let h=`<section class="sec first"><div class="eb">This month</div><h2 class="h2">Caseload</h2><div class="grid3">
+  <div class="card"><div class="big">${n}</div><p class="cap">Active clients</p></div>
+  <div class="card"><div class="big">${tests30}</div><p class="cap">Test sessions in the last 30 days</p></div>
+  <div class="card"><div class="big">${due}</div><p class="cap">Due for a re-test (over 6 weeks since the last one)</p></div></div></section>
+  <section class="sec"><div class="eb">Clients</div><h2 class="h2">Select a client to open their report</h2><div class="tw"><table><thead><tr><th>Client</th><th>Profile</th><th>Phase or score</th><th class="r">Last test</th><th>Flags</th></tr></thead><tbody>`;
+ CLIENTS.forEach(c=>{
+  const lt=c.tests[c.tests.length-1];let ps='—';
+  if(c.tendon){const p=phaseOf(c);ps=`Phase ${p.p} · ${PHASES[p.p-1].n}`}else{const ds=domainScores(c);if(ds.length)ps=Math.round(ds.reduce((a,b)=>a+b.s,0)/ds.length)+'/100'}
+  h+=`<tr class="click" tabindex="0" data-c="${esc(c.id)}"><td><b style="font-weight:500">${esc(c.name)}</b><div class="cap">${esc([c.condition,c.sport].filter(Boolean).join(' · '))}</div></td><td><span class="chip ${c.tendon?'c-ink':'c-stone'}">${esc(c.category)}</span></td><td>${ps}</td><td class="r">${lt?fdate(lt.date)+'<div class="cap">'+daysSince(lt.date)+' days ago</div>':'—'}</td><td><div class="flags">${flags(c).map(f=>`<span class="chip ${f[1]}">${esc(f[0])}</span>`).join('')||'<span class="cap">None</span>'}</div></td></tr>`});
+ h+=`</tbody></table></div></section><footer>${S.examples?'Showing example clients. Open “Data &amp; settings” to connect your Google Sheet.':'Data from your Google Sheet, stored on this device.'}</footer>`;
+ main.innerHTML=h;
+ main.querySelectorAll('tr.click').forEach(tr=>{const go=()=>{SEL=tr.dataset.c;VIEW='client';render()};tr.addEventListener('click',go);tr.addEventListener('keydown',e=>{if(e.key==='Enter')go()})});
+}
+function renderEmpty(){
+ hero.innerHTML=`<div class="heroGrid" style="grid-template-columns:1fr"><div><div class="eb" style="color:var(--soft)">VALO · Client dashboard</div><h1>No clients yet.</h1><p class="sub">Connect your Google Sheet or import the two CSV tabs under “Data &amp; settings”, or load the example clients to see how it works.</p></div></div>`;
+ main.innerHTML=`<p class="empty">Nothing to show yet.</p>`;
+}
+function render(){
+ build();
+ const sel=document.getElementById('clientSel');
+ sel.innerHTML=CLIENTS.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');
+ sel.hidden=!CLIENTS.length;
+ if(SEL)sel.value=SEL;
+ document.getElementById('btnRoster').classList.toggle('on',VIEW==='roster');
+ if(!CLIENTS.length)return renderEmpty();
+ if(VIEW==='roster'){renderRoster();document.getElementById('btnPrint').textContent='Print client list'}else{renderClient();sel.value=SEL;document.getElementById('btnPrint').textContent='Print report'}
+}
+
+/* ---------- settings ---------- */
+function buildSettings(){
+ document.getElementById('urlC').value=S.urlC||'';document.getElementById('urlR').value=S.urlR||'';
+ document.getElementById('colsC').textContent=CLIENT_COLS.join(',');
+ document.getElementById('colsR').textContent=RESULT_COLS.join(',');
+ const set=document.getElementById('refSet').value,rf=setRefs(set);
+ document.getElementById('refBody').innerHTML=REF_KEYS.map(k=>{const m=MK[k],e=rf[k]||{};return `<tr><td>${esc(m.l)}${m.lb?' <span class="cap">(lower is better)</span>':''}${set==='football'&&REF_SRC[k]?`<div class="cap">${esc(REF_SRC[k])}</div>`:''}</td><td>${esc(m.u)}</td>${['F','M'].map(sx=>[0,1].map(i=>`<td><input type="number" step="any" aria-label="${esc(m.l)} ${sx} ${i?'high':'low'}" data-k="${k}" data-s="${sx}" data-i="${i}" value="${e[sx]?e[sx][i]:''}"></td>`).join('')).join('')}</tr>`}).join('');
+ document.querySelectorAll('#refBody input').forEach(inp=>inp.addEventListener('change',()=>{
+  const r=JSON.parse(JSON.stringify(setRefs(set))),k=inp.dataset.k,sx=inp.dataset.s,i=+inp.dataset.i,v=num(inp.value);
+  if(!r[k])r[k]={};if(v==null){delete r[k][sx]}else{if(!r[k][sx])r[k][sx]=[v,v];r[k][sx][i]=v}
+  S.refs2[set]=r;save();render()}));
+ document.getElementById('quadMode').value=S.quad;
+ document.getElementById('critBody').innerHTML=CRIT_DEF.map(cd=>{const knee={P:'decline squat',I:'Isometric knee extension',V:'VISA-P',S:'Single-leg sit-to-stand'};return `<tr><td>Phase ${cd.gate}</td><td>${esc(cd.txt.replace('{t}','…').replace(/\{([PIVS])\}/,(a,b)=>knee[b]))}</td><td><input type="number" step="any" data-id="${cd.id}" aria-label="Threshold" value="${CT(cd.id)}"></td></tr>`}).join('');
+ document.querySelectorAll('#critBody input').forEach(inp=>inp.addEventListener('change',()=>{const v=num(inp.value);if(v==null)return;S.crit[inp.dataset.id]=v;save();render()}));
+}
+const drawer=document.getElementById('drawer'),btnS=document.getElementById('btnSettings');
+btnS.addEventListener('click',()=>{drawer.hidden=!drawer.hidden;btnS.setAttribute('aria-expanded',String(!drawer.hidden));btnS.classList.toggle('on',!drawer.hidden);if(!drawer.hidden)buildSettings()});
+document.getElementById('refSet').addEventListener('change',buildSettings);
+document.getElementById('quadMode').addEventListener('change',e=>{S.quad=e.target.value;save();render()});
+document.getElementById('btnRoster').addEventListener('click',()=>{VIEW='roster';render();window.scrollTo(0,0)});
+document.getElementById('clientSel').addEventListener('change',e=>{SEL=e.target.value;VIEW='client';MET=null;render();window.scrollTo(0,0)});
+['urlC','urlR'].forEach(id=>document.getElementById(id).addEventListener('change',e=>{S[id]=e.target.value.trim();save()}));
+document.getElementById('btnSync').addEventListener('click',async()=>{
+ const msg=document.getElementById('syncMsg');S.urlC=document.getElementById('urlC').value.trim();S.urlR=document.getElementById('urlR').value.trim();save();
+ if(!S.urlC||!S.urlR){msg.className='msg err';msg.textContent='Paste both published CSV links first.';return}
+ msg.className='msg';msg.textContent='Syncing…';
+ try{const [a,b]=await Promise.all([S.urlC,S.urlR].map(u=>fetch(u,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()})));
+  if(!parseCSV(a).length)throw new Error('The Clients tab came back empty. Check the link points at the Clients tab and is published as CSV.');
+  S.clientsCsv=a;S.resultsCsv=b;S.examples=false;save();SEL=null;render();
+  msg.className='msg ok';msg.textContent=`Synced ${CLIENTS.length} clients at ${new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'})}.`;
+ }catch(e){msg.className='msg err';msg.textContent=(e.message&&e.message.startsWith('The Clients')?e.message:'Could not reach the sheet. Inside Claude, pages cannot load outside links, so sync works from your hosted copy (for example on Netlify). Here, import the two tabs as CSV files instead.')}
+});
+function fileTo(id,field){document.getElementById(id).addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{if(S.examples){S.clientsCsv='';S.resultsCsv='';S.examples=false}S[field]=r.result;save();SEL=null;render();const m=document.getElementById('syncMsg');m.className='msg ok';m.textContent=`Imported ${f.name}.`};r.readAsText(f)})}
+fileTo('fileC','clientsCsv');fileTo('fileR','resultsCsv');
+document.getElementById('btnExamples').addEventListener('click',()=>{S.clientsCsv=EX_CLIENTS;S.resultsCsv=EX_RESULTS;S.examples=true;save();SEL=null;VIEW='roster';render()});
+let clearArm=false;document.getElementById('btnClear').addEventListener('click',e=>{const m=document.getElementById('clearMsg');
+ if(!clearArm){clearArm=true;e.target.textContent='Press again to clear';m.textContent='This removes all clients and notes from this device.';setTimeout(()=>{clearArm=false;e.target.textContent='Clear all data on this device';m.textContent=''},4000);return}
+ S.clientsCsv='';S.resultsCsv='';S.summary={};S.examples=false;save();clearArm=false;e.target.textContent='Clear all data on this device';m.textContent='Cleared.';render()});
+document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{const el=document.getElementById(b.dataset.copy),m=document.getElementById('copyMsg');
+ navigator.clipboard.writeText(el.textContent.split(',').join('\t')).then(()=>{m.textContent='Copied. Click cell A1 in the sheet and paste; each heading lands in its own column.'}).catch(()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent='Selected. Press Ctrl/Cmd + C to copy.'})}));
+
+/* print only where the browser allows it (your hosted copy) */
+let framed=true;try{framed=window.self!==window.top}catch(e){framed=true}
+window.addEventListener('beforeprint',()=>document.querySelectorAll('details.refs').forEach(d=>d.open=true));
+const bp=document.getElementById('btnPrint');if(!framed){bp.hidden=false;bp.addEventListener('click',()=>window.print())}
+
+/* start */
+if(S.examples){S.clientsCsv=EX_CLIENTS;S.resultsCsv=EX_RESULTS}
+build();VIEW=CLIENTS.length?'client':'roster';SEL=CLIENTS[0]?CLIENTS[0].id:null;render();
+</script>

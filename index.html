@@ -284,7 +284,7 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding-top:14px;font-si
       <p class="msg" style="margin-top:8px">Clients tab</p>
       <pre class="cols" id="colsC"></pre>
       <div class="btns"><button class="btn ghost" type="button" data-copy="colsC">Copy Clients header</button></div>
-      <p class="msg" style="margin-top:12px">Results tab. One row per client per test day. Leave any test blank if you didn't run it. <b>side_affected</b> is L, R or None; <b>category</b> is Tendon, Rehab, Athlete or General; <b>phase</b> (1–4) is optional, otherwise it is worked out from the criteria.</p>
+      <p class="msg" style="margin-top:12px">Results tab. Columns are grouped test by test, and the copy button adds a row above them naming each test. One row per client per test day. Leave any test blank if you didn't run it. Column order doesn't matter to the dashboard; the header spelling does. <b>side_affected</b> is L, R or None; <b>category</b> is Tendon, Rehab, Athlete or General; <b>phase</b> (1–4) is optional, otherwise it is worked out from the criteria.</p>
       <pre class="cols" id="colsR"></pre>
       <div class="btns"><button class="btn ghost" type="button" data-copy="colsR">Copy Results header</button><span class="msg" id="copyMsg"></span></div>
     </details>
@@ -339,6 +339,7 @@ const M=[
  {k:'imtp_rel',l:'IMTP relative force',u:'N/kg',g:'Strength',d:1,der:1,src:'IMTP ÷ body mass'},
  {k:'iso_ke',l:'Isometric knee extension',u:'N',g:'Strength',d:0,p:1,src:'Force plate'},
  {k:'iso_calf',l:'Isometric calf (soleus) push',u:'N',g:'Strength',d:0,p:1,src:'Force plate'},
+ {k:'iso_ankle_run',l:'Isometric ankle push (run-specific)',u:'N',g:'Strength',d:0,p:1,src:'Force plate'},
  {k:'nordic',l:'Nordic hamstring peak force',u:'N',g:'Strength',d:0,p:1,src:'NordBord'},
  {k:'hip_add',l:'Hip adduction peak force (ankle)',u:'N',g:'Strength',d:0,p:1,src:'ForceFrame'},
  {k:'hip_abd',l:'Hip abduction peak force (ankle)',u:'N',g:'Strength',d:0,p:1,src:'ForceFrame'},
@@ -354,9 +355,35 @@ const M=[
  {k:'pain_calf',l:'Pain on single-leg calf raise',u:'/10',g:'Tendon',d:0,lb:1,src:'Pain 0–10'},
  {k:'pain_hop',l:'Pain on hopping',u:'/10',g:'Tendon',d:0,lb:1,src:'Pain 0–10'},
 ];
+// Every metric belongs to one test. Columns and the results list follow this order, one block per test.
+const TESTS=[
+ ['Countermovement jump (CMJ)',['cmj_jh','cmj_rsimod','cmj_ppbm','cmj_ct','cmj_ecc_dur','cmj_con_dur','cmj_depth','cmj_ftct','cmj_ecc_rfd','cmj_fzv','cmj_ci100','cmj_epf','cmj_cpf','cmj_ei','cmj_ci','cmj_li','dsi']],
+ ['Squat jump',['sj_jh','eur']],
+ ['Drop jump',['dj_rsi','dj_ct']],
+ ['Single-leg CMJ',['slcmj']],
+ ['Single-leg hop (10/5)',['hop_rsi']],
+ ['IMTP',['imtp','imtp_rel']],
+ ['Isometric knee extension',['iso_ke']],
+ ['Isometric calf push',['iso_calf']],
+ ['Isometric ankle push (run-specific)',['iso_ankle_run']],
+ ['NordBord',['nordic']],
+ ['ForceFrame hip',['hip_add','hip_abd']],
+ ['Single-leg calf raise',['calf_reps']],
+ ['Single-leg sit-to-stand',['sts_reps']],
+ ['Knee-to-wall',['ktw']],
+ ['Sprint',['sprint10','sprint20','maxvel']],
+ ['VISA-P',['visa_p']],
+ ['VISA-A',['visa_a']],
+ ['Tendon pain (0–10)',['pain_dsq','pain_calf','pain_hop']],
+];
+(()=>{const pos={};TESTS.forEach(([n,ks],i)=>ks.forEach((k,j)=>pos[k]={n,i,j}));
+ M.sort((a,b)=>(pos[a.k].i-pos[b.k].i)||(pos[a.k].j-pos[b.k].j));M.forEach(m=>m.t=pos[m.k].n)})();
 const MK={}; M.forEach(m=>MK[m.k]=m);
 const CLIENT_COLS=['client_id','name','dob','sex','category','sport','position','condition','side_affected','goal','start_date','phase','norm_set'];
 const RESULT_COLS=(()=>{const c=['name','test_date','bodyweight_kg'];M.forEach(m=>{if(m.der)return;if(m.p){c.push(m.k+'_L',m.k+'_R')}else c.push(m.k)});c.push('notes');return c})();
+// Optional label row above the headers: the test name over the first column of each block.
+const RESULT_TESTROW=(()=>{const r=['Session','',''];let prev=null;M.forEach(m=>{if(m.der)return;const n=m.p?2:1;for(let i=0;i<n;i++){r.push(m.t!==prev&&i===0?m.t:'');prev=m.t}});r.push('Notes');return r})();
+const RESULT_TSV=RESULT_TESTROW.join('\t')+'\n'+RESULT_COLS.join('\t');
 
 const REF_DEFAULT={ // [low, high]; for lower-is-better tests low is the slower/worse number
  cmj_jh:{F:[22,32],M:[32,44]}, cmj_rsimod:{F:[.30,.45],M:[.40,.60]}, cmj_ppbm:{F:[38,48],M:[48,60]},
@@ -432,9 +459,9 @@ const EX_RESULTS=(()=>{
  [['2026-08-11',58,{cmj_ct:760,cmj_ecc_dur:480,cmj_con_dur:280,cmj_depth:30,cmj_ftct:.62,cmj_ecc_rfd:60,cmj_fzv:22.6,cmj_ci100:66,cmj_ei_L:40,cmj_ei_R:44,cmj_li_L:82,cmj_li_R:88,dj_ct:225,sj_jh:25.9,nordic_L:268,nordic_R:301,hip_add_L:139,hip_add_R:151,hip_abd_L:149,hip_abd_R:155,maxvel:7.3,cmj_jh:27.4,cmj_rsimod:.38,cmj_ppbm:43.1,dj_rsi:1.41,imtp:1520,slcmj_L:12.1,slcmj_R:13.6,hop_rsi_L:1.22,hop_rsi_R:1.38,cmj_ci_L:74,cmj_ci_R:80,iso_ke_L:388,iso_ke_R:402,sprint10:1.99,sprint20:3.48,calf_reps_L:26,calf_reps_R:28,notes:'Pre-season testing.'}],
   ['2026-10-06',58,{cmj_ct:700,cmj_ecc_dur:440,cmj_con_dur:260,cmj_depth:31,cmj_ftct:.70,cmj_ecc_rfd:68,cmj_fzv:23.9,cmj_ci100:73,cmj_ei_L:42,cmj_ei_R:44,cmj_li_L:85,cmj_li_R:88,dj_ct:205,sj_jh:27.2,nordic_L:292,nordic_R:309,hip_add_L:149,hip_add_R:156,hip_abd_L:154,hip_abd_R:158,maxvel:7.6,cmj_jh:29.6,cmj_rsimod:.43,cmj_ppbm:46.0,dj_rsi:1.58,imtp:1690,slcmj_L:13.4,slcmj_R:14.1,hop_rsi_L:1.35,hop_rsi_R:1.42,cmj_ci_L:78,cmj_ci_R:81,iso_ke_L:410,iso_ke_R:416,sprint10:1.93,sprint20:3.39,calf_reps_L:29,calf_reps_R:30,notes:'Block 2 re-test. Left leg catching up.'}]
  ].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Ella K',test_date:d,bodyweight_kg:bw},v)));
- [['2026-08-04',63,{cmj_ct:900,cmj_ecc_dur:620,cmj_con_dur:280,cmj_depth:27,cmj_ftct:.46,cmj_ei_L:41,cmj_ei_R:50,cmj_li_L:88,cmj_li_R:112,cmj_jh:21.0,cmj_rsimod:.27,imtp:1450,iso_calf_L:910,iso_calf_R:1240,calf_reps_L:11,calf_reps_R:26,visa_a:41,pain_calf:5,ktw_L:8,ktw_R:11,notes:'Initial. Pain 5/10 on single-leg calf raise.'}],
-  ['2026-09-08',63,{cmj_jh:21.8,cmj_rsimod:.29,imtp:1500,iso_calf_L:1060,iso_calf_R:1250,calf_reps_L:17,calf_reps_R:27,visa_a:55,pain_calf:3,ktw_L:9,ktw_R:11,notes:'Re-test 1. Walking pain-free.'}],
-  ['2026-10-20',62,{cmj_ct:840,cmj_ecc_dur:575,cmj_con_dur:265,cmj_depth:28,cmj_ftct:.51,cmj_ei_L:46,cmj_ei_R:50,cmj_li_L:98,cmj_li_R:111,cmj_jh:22.9,cmj_rsimod:.31,imtp:1580,iso_calf_L:1150,iso_calf_R:1270,calf_reps_L:22,calf_reps_R:28,visa_a:64,pain_calf:2,ktw_L:10,ktw_R:11,notes:'Re-test 2. Easy 3 km run-walk with no flare.'}]
+ [['2026-08-04',63,{cmj_ct:900,cmj_ecc_dur:620,cmj_con_dur:280,cmj_depth:27,cmj_ftct:.46,cmj_ei_L:41,cmj_ei_R:50,cmj_li_L:88,cmj_li_R:112,cmj_jh:21.0,cmj_rsimod:.27,imtp:1450,iso_calf_L:910,iso_calf_R:1240,iso_ankle_run_L:1320,iso_ankle_run_R:1780,calf_reps_L:11,calf_reps_R:26,visa_a:41,pain_calf:5,ktw_L:8,ktw_R:11,notes:'Initial. Pain 5/10 on single-leg calf raise.'}],
+  ['2026-09-08',63,{cmj_jh:21.8,cmj_rsimod:.29,imtp:1500,iso_calf_L:1060,iso_calf_R:1250,iso_ankle_run_L:1510,iso_ankle_run_R:1800,calf_reps_L:17,calf_reps_R:27,visa_a:55,pain_calf:3,ktw_L:9,ktw_R:11,notes:'Re-test 1. Walking pain-free.'}],
+  ['2026-10-20',62,{cmj_ct:840,cmj_ecc_dur:575,cmj_con_dur:265,cmj_depth:28,cmj_ftct:.51,cmj_ei_L:46,cmj_ei_R:50,cmj_li_L:98,cmj_li_R:111,cmj_jh:22.9,cmj_rsimod:.31,imtp:1580,iso_calf_L:1150,iso_calf_R:1270,iso_ankle_run_L:1640,iso_ankle_run_R:1820,calf_reps_L:22,calf_reps_R:28,visa_a:64,pain_calf:2,ktw_L:10,ktw_R:11,notes:'Re-test 2. Easy 3 km run-walk with no flare.'}]
  ].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Lisa M',test_date:d,bodyweight_kg:bw},v)));
  return rows.join('\n');
 })();
@@ -1116,7 +1143,7 @@ function renderClient(){
   h+=`<section class="sec"><div class="eb">Results</div><h2 class="h2">Latest result for every test</h2>
    <p class="lead">Green band = reference range. Black line = target. Change is since the first test. Select a test to see its trend.</p>
    <div class="split"><div><div class="rhead"><span>Test</span><span>Latest</span><span>Position</span><span>Change</span></div>`;
-  GROUPS.forEach(g=>{const ms=tested.filter(m=>m.g===g);if(!ms.length)return;h+=`<div class="ghead">${g}</div>`;
+  TESTS.forEach(([g])=>{const ms=tested.filter(m=>m.t===g);if(!ms.length)return;h+=`<div class="ghead">${esc(g)}</div>`;
    ms.forEach(m=>{const t=last(c,m),v=rep(t,m);
     h+=`<button type="button" class="row" data-m="${m.k}" aria-pressed="${m.k===MET}"><span class="lbl">${esc(m.l)}<small>${m.src}${m.p?' · L '+fmt(t.v[m.k+'_L'],m.d)+' / R '+fmt(t.v[m.k+'_R'],m.d):''}</small></span><span class="val">${fmt(v,m.d)}<small>${esc(m.u)}</small></span>${barFor(c,m,v)}<span class="chg">${chg(c,m)}</span></button>`})});
   const mm=MK[MET];
@@ -1244,7 +1271,7 @@ let clearArm=false;document.getElementById('btnClear').addEventListener('click',
  if(!clearArm){clearArm=true;e.target.textContent='Press again to clear';m.textContent='This removes all clients and notes from this device.';setTimeout(()=>{clearArm=false;e.target.textContent='Clear all data on this device';m.textContent=''},4000);return}
  S.clientsCsv='';S.resultsCsv='';S.summary={};S.examples=false;save();clearArm=false;e.target.textContent='Clear all data on this device';m.textContent='Cleared.';render()});
 document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{const el=document.getElementById(b.dataset.copy),m=document.getElementById('copyMsg');
- navigator.clipboard.writeText(el.textContent.split(',').join('\t')).then(()=>{m.textContent='Copied. Click cell A1 in the sheet and paste; each heading lands in its own column.'}).catch(()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent='Selected. Press Ctrl/Cmd + C to copy.'})}));
+ navigator.clipboard.writeText(b.dataset.copy==='colsR'?RESULT_TSV:el.textContent.split(',').join('\t')).then(()=>{m.textContent=b.dataset.copy==='colsR'?'Copied. Click cell A1 and paste: row 1 names each test, row 2 holds the columns, results start on row 3.':'Copied. Click cell A1 in the sheet and paste; each heading lands in its own column.'}).catch(()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent='Selected. Press Ctrl/Cmd + C to copy.'})}));
 
 /* print only where the browser allows it (your hosted copy) */
 let framed=true;try{framed=window.self!==window.top}catch(e){framed=true}

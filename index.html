@@ -227,6 +227,31 @@ details.more>summary:focus-visible{outline:2px solid var(--ink);outline-offset:4
 .rbox .spark path{stroke:var(--paper)} .rbox .spark circle{fill:var(--paper)} .rbox .spark line{stroke:var(--grey)}
 .rsub{font-size:12.5px;color:var(--onDark)}
 
+/* scorecard */
+.sc{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.schd,.scr{display:grid;grid-template-columns:minmax(0,1fr) 86px repeat(4,64px);align-items:center}
+.schd{padding-left:150px;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.schd span{text-align:center;display:flex;flex-direction:column;gap:1px}
+.schd b{font-size:13px;color:var(--ink);letter-spacing:0}
+.scg{display:grid;grid-template-columns:140px minmax(0,1fr);gap:10px}
+.sct{background:var(--charcoal);color:var(--paper);border-radius:10px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;gap:6px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.sct b{font-size:24px;font-weight:300;letter-spacing:0;font-variant-numeric:tabular-nums}
+.sct b small{font-size:12px;color:var(--soft)}
+.scrs{display:flex;flex-direction:column}
+.scr{min-height:34px;border-bottom:1px dashed #CFCAC0;font-size:13.5px}
+.scr:last-child{border-bottom:0}
+.scl{min-width:0;padding-right:8px}
+.scv{font-size:12.5px;color:var(--muted);text-align:right;padding-right:10px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.scc{height:100%;min-height:34px;display:flex;align-items:center;justify-content:center;border-left:1px dashed #CFCAC0}
+.scc i{display:block;border-radius:50%}
+.dn{width:13px;height:13px;background:var(--ink)}
+.dn.s0{background:var(--flag)} .dn.s1{background:var(--amber)} .dn.s2{background:var(--sage)} .dn.s3{background:var(--green)}
+.d0{width:11px;height:11px;border:1.5px solid var(--soft)}
+@media screen and (max-width:620px){
+ .scg{grid-template-columns:1fr;gap:4px}.sct{flex-direction:row;align-items:center}.sct b{font-size:18px}
+ .schd{padding-left:0}.schd,.scr{grid-template-columns:minmax(0,1fr) 64px repeat(4,30px)}.schd span{font-size:0}.schd b{font-size:12px}}
+@media print{.scg{break-inside:avoid}}
+
 /* DRI tier scale */
 .dris{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;height:10px;margin-top:4px}
 .dt{position:relative;background:var(--line);border-radius:3px}
@@ -472,7 +497,7 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding-top:14px;font-si
 <main class="wrap" id="main"></main>
 
 <script>
-const BUILD='Version 12 · 6 Nov 2026';
+const BUILD='Version 13 · 6 Nov 2026';
 /* ---------- test battery ---------- */
 const GROUPS=['Jump','Strategy','Strength','Speed','Capacity','Symmetry','Tendon'];
 const RING_GROUPS=GROUPS.filter(g=>g!=='Strategy');
@@ -800,28 +825,38 @@ function ring(ds,center,phase,base){
  return `<svg width="290" height="290" viewBox="0 0 300 300" role="img" aria-label="${esc(aria)}"><defs>${defs}</defs>${g}</svg>`;
 }
 
+function pctLines(c,m){
+ if(m.k==='visa_p'||m.k==='visa_a')return [{v:80,lab:'Target 80',col:'#3F7D55'}];
+ if(m.g==='Tendon')return [{v:3,lab:'OK ≤ 3',col:'#3F7D55'}];
+ const rf=refFor(c,m.k);if(!rf)return [];
+ const pct=rf.set==='football'&&!['dsi','eur','sprint10','sprint20','maxvel'].includes(m.k),a=rf.r[0],b=rf.r[1];
+ return [{v:a,lab:pct?'25th':'Low end',col:'#D9A95B'},{v:(a+b)/2,lab:'Mid',col:'#9A9893'},{v:b,lab:pct?'75th':'High end',col:'#7FA3B5'}];
+}
 function trendSvg(c,m){
- const W=560,H=230,L=46,Rr=14,T=16,B=36;
+ const W=560,H=240,L=46,Rr=70,T=16,B=36;
  const s=series(c,m);if(!s.length)return '<p class="note">No results for this test yet.</p>';
  const lines=m.p?[{key:m.k+'_L',name:'Left',side:'L'},{key:m.k+'_R',name:'Right',side:'R'}]:[{key:m.k,name:m.l}];
  const vals=[];s.forEach(t=>lines.forEach(ln=>{if(t.v[ln.key]!=null)vals.push(t.v[ln.key])}));
- const ref=refFor(c,m.k)?refFor(c,m.k).r:null;
+ const PL=pctLines(c,m);
  let lo=Math.min(...vals),hi=Math.max(...vals);
- if(ref){lo=Math.min(lo,ref[0],ref[1]);hi=Math.max(hi,ref[0],ref[1])}
+ PL.forEach(l=>{lo=Math.min(lo,l.v);hi=Math.max(hi,l.v)});
  if(m.g==='Tendon'){lo=0;hi=m.u==='/100'?100:10}
- if(hi===lo){hi+=1;lo-=1}const pad=(hi-lo)*.12;if(m.g!=='Tendon'){lo-=pad;hi+=pad}
+ if(hi===lo){hi+=1;lo-=1}const pad=(hi-lo)*.14;if(m.g!=='Tendon'){lo-=pad;hi+=pad}
  const n=s.length,X=i=>n===1?L+(W-L-Rr)/2:L+(W-L-Rr)*i/(n-1),Y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo));
  let g='';
- for(let i=0;i<=4;i++){const v=lo+(hi-lo)*i/4,y=Y(v);g+=`<line x1="${L}" x2="${W-Rr}" y1="${y}" y2="${y}" stroke="#E8E6E0"/><text x="${L-8}" y="${y+4}" font-size="11" text-anchor="end" fill="#5C5B57">${fmt(v,m.d>1?2:m.d===1?1:0)}</text>`}
- if(ref&&m.g!=='Tendon'){const y1=Y(Math.max(ref[0],ref[1])),y2=Y(Math.min(ref[0],ref[1]));g+=`<rect x="${L}" y="${y1}" width="${W-L-Rr}" height="${y2-y1}" fill="#9FC5A8" opacity=".28"/>`}
- s.forEach((t,i)=>{g+=`<text x="${X(i)}" y="${H-12}" font-size="11" text-anchor="middle" fill="#5C5B57">${new Date(t.date+'T00:00:00').toLocaleDateString('en-AU',{day:'numeric',month:'short'})}</text>`});
+ for(let i=0;i<=5;i++){const v=lo+(hi-lo)*i/5,y=Y(v);g+=`<line x1="${L}" x2="${W-Rr}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#CFCAC0" stroke-dasharray="1.5 3"/><text x="${L-8}" y="${(y+4).toFixed(1)}" font-size="11" text-anchor="end" fill="#5C5B57">${fmt(v,m.d>1?2:m.d===1?1:0)}</text>`}
+ s.forEach((t,i)=>{g+=`<line x1="${X(i).toFixed(1)}" x2="${X(i).toFixed(1)}" y1="${T}" y2="${H-B}" stroke="#CFCAC0" stroke-dasharray="1.5 3"/><text x="${X(i)}" y="${H-12}" font-size="11" text-anchor="middle" fill="#5C5B57">${new Date(t.date+'T00:00:00').toLocaleDateString('en-AU',{day:'numeric',month:'short'})}</text>`});
+ const ly=PL.map(l=>({l,y:Y(l.v)})).sort((p,q)=>p.y-q.y);for(let i=1;i<ly.length;i++)if(ly[i].y-ly[i-1].y<12)ly[i].y=ly[i-1].y+12;
+ PL.forEach(l=>{g+=`<line x1="${L}" x2="${W-Rr}" y1="${Y(l.v).toFixed(1)}" y2="${Y(l.v).toFixed(1)}" stroke="${l.col}" stroke-width="1.8"/>`});
+ ly.forEach(({l,y})=>{g+=`<text x="${W-Rr+8}" y="${(y+4).toFixed(1)}" font-size="11" font-weight="600" fill="${l.col}">${esc(l.lab)}</text>`});
  lines.forEach(ln=>{
-  const inv=c.side&&ln.side===c.side;const col=m.p?(inv?'#D9A95B':(c.side?'#161616':(ln.side==='L'?'#161616':'#D9A95B'))):'#161616';
+  const inv=c.side&&ln.side===c.side;const col=m.p?(inv?'#B5523B':(c.side?'#161616':(ln.side==='L'?'#161616':'#B5523B'))):'#161616';
   let d='',pen=false;s.forEach((t,i)=>{const v=t.v[ln.key];if(v==null){pen=false;return}d+=(pen?'L':'M')+X(i).toFixed(1)+','+Y(v).toFixed(1)+' ';pen=true});
   g+=`<path d="${d}" fill="none" stroke="${col}" stroke-width="2.4"/>`;
-  s.forEach((t,i)=>{const v=t.v[ln.key];if(v==null)return;const lastPt=i===n-1;g+=`<circle cx="${X(i)}" cy="${Y(v)}" r="${lastPt?5:3.5}" fill="${lastPt?col:'#FFFFFF'}" stroke="${col}" stroke-width="2"/>`});
+  s.forEach((t,i)=>{const v=t.v[ln.key];if(v==null)return;const lastPt=i===n-1;g+=`<circle cx="${X(i)}" cy="${Y(v)}" r="${lastPt?5.5:3.5}" fill="${lastPt?col:'#FFFFFF'}" stroke="${col}" stroke-width="2"/>`});
  });
- const leg=m.p?`<div class="tleg"><span><i style="background:#161616"></i>${c.side?(c.side==='L'?'Right (unaffected)':'Left (unaffected)'):'Left'}</span><span><i style="background:#D9A95B"></i>${c.side?(c.side==='L'?'Left (affected)':'Right (affected)'):'Right'}</span>${ref?'<span><i style="background:#9FC5A8"></i>Reference range</span>':''}</div>`:(ref?`<div class="tleg"><span><i style="background:#9FC5A8"></i>Reference range</span></div>`:'');
+ const rf=refFor(c,m.k),src=rf?(rf.set==='football'?(m.k==='dsi'||m.k==='eur'?'VALO target band':'football reference (25th–75th)'):'general reference range'):'';
+ const leg=`<div class="tleg">${m.p?`<span><i style="background:#161616"></i>${c.side?(c.side==='L'?'Right (unaffected)':'Left (unaffected)'):'Left'}</span><span><i style="background:#B5523B"></i>${c.side?(c.side==='L'?'Left (affected)':'Right (affected)'):'Right'}</span>`:''}${PL.length>1?`<span>Coloured lines: ${src}</span>`:''}</div>`;
  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(m.l)} over time">${g}</svg>${leg}`;
 }
 
@@ -1244,6 +1279,44 @@ function renderHeroClient(c){
   </aside></div>`;
 }
 
+/* ---------- readiness scorecard (0–3 per test) ---------- */
+const SC=[
+ {n:'Strength',rows:[['imtp_rel','ref','Maximal strength'],['dsi','band','Strength used in the jump'],['nordic','ref','Hamstring strength'],['hip_add','ref','Groin strength'],['hip_abd','ref','Hip abductor strength'],['iso_ke','ref','Quad strength']]},
+ {n:'Power',rows:[['cmj_jh','ref','Jump height'],['cmj_ppbm','ref','Jump power'],['sj_jh','ref','Squat jump height'],['slcmj','ref','Single-leg jump']]},
+ {n:'Elastic',rows:[['eur','band','Spring from the dip'],['dri','dri','Bounce (DRI)'],['dj_rsi','ref','Bounce off a drop (RSI)'],['cmj_rsimod','ref','Jump explosiveness'],['hop_rsi','ref','Single-leg hopping']]},
+ {n:'Speed',rows:[['sprint10','ref','Acceleration (10 m)'],['sprint20','ref','20 m sprint'],['maxvel','ref','Top speed']]},
+ {n:'Capacity',rows:[['calf_reps','ref','Calf endurance'],['sts_reps','ref','Single-leg squat endurance'],['ktw','ref','Ankle mobility']]},
+ {n:'Balance',rows:['slcmj','hop_rsi','iso_ke','iso_calf','iso_ankle_run','nordic','hip_add','calf_reps','sts_reps','cmj_ei','cmj_li'].map(k=>[k,'lsi',null])},
+ {n:'Tendon',rows:[['visa_p','visa','Knee tendon score'],['visa_a','visa','Achilles tendon score'],['pain_dsq','pain','Pain: decline squat'],['pain_calf','pain','Pain: calf raise'],['pain_hop','pain','Pain: hopping']]},
+];
+const SC_WORDS=['Focus','Building','Good','Strong'];
+function scScore(c,k,kind,t){
+ const m=MK[k];
+ if(kind==='lsi'){const v=lsiOf(c,t,m);if(v==null)return null;return {v,txt:fmt(v,0)+'%',s:v>=95?3:v>=90?2:v>=80?1:0}}
+ const v=rep(t,m);if(v==null)return null;const txt=fmt(v,m.d)+(m.u?' '+m.u.replace(/^\//,'/'):'');
+ if(kind==='visa')return {v,txt,s:v>=80?3:v>=70?2:v>=50?1:0};
+ if(kind==='pain')return {v,txt,s:v<=1?3:v<=3?2:v<=5?1:0};
+ if(kind==='dri'){const i=driTier(v);return {v,txt,s:Math.min(i,3)}}
+ const rf=refFor(c,k);if(!rf)return null;const a=rf.r[0],b=rf.r[1];
+ if(kind==='band'){const lo=Math.min(a,b),hi=Math.max(a,b),w=hi-lo,d=v<lo?lo-v:v>hi?v-hi:0;return {v,txt,s:d===0?3:d<=w*.25?2:d<=w*.5?1:0}}
+ const f=(v-a)/(b-a);return {v,txt,s:f<0?0:f<0.5?1:f<=1?2:3};
+}
+function scorecardSection(c){
+ const clin=S.mode==='clin',lt=c.tests[c.tests.length-1];if(!lt)return '';
+ const firstWith=(k,kind)=>c.tests.find(t=>kind==='lsi'?lsiOf(c,t,MK[k])!=null:has(t,MK[k]));
+ const lastWith=(k,kind)=>[...c.tests].reverse().find(t=>kind==='lsi'?lsiOf(c,t,MK[k])!=null:has(t,MK[k]));
+ const cats=SC.map(cat=>{const rows=cat.rows.map(([k,kind,pl])=>{const tl=lastWith(k,kind);if(!tl)return null;const now=scScore(c,k,kind,tl);if(!now)return null;
+   const tf=firstWith(k,kind),was=tf&&tf!==tl?scScore(c,k,kind,tf):null;return {k,kind,label:clin?(kind==='lsi'?MK[k].l+' symmetry':MK[k].l):(pl||(PLAIN_LSI[k]||MK[k].l.replace(/^CMJ /,'Jump '))+' L/R'),now,was}}).filter(Boolean);
+  return rows.length?{n:cat.n,rows,sum:rows.reduce((a,r)=>a+r.now.s,0),max:rows.length*3}:null}).filter(Boolean);
+ if(!cats.length)return '';
+ const cell=(r,i)=>`<span class="scc${r.now.s===i?' on':''}">${r.now.s===i?`<i class="dn s${i}"></i>`:r.was&&r.was.s===i?'<i class="d0"></i>':''}</span>`;
+ return `<section class="sec"><div class="eb">Scorecard</div><h2 class="h2">Readiness scorecard</h2>
+  <p class="lead">${clin?'Each test scored 0–3 against its reference band or threshold. Filled dot = latest test, ring = first test.':'Every test scored from 0 to 3. The filled dot is where you are now; the ring is where you started.'}</p>
+  <div class="sc"><div class="schd"><span></span><span></span>${SC_WORDS.map((w,i)=>`<span><b>${i}</b>${w}</span>`).join('')}</div>
+  ${cats.map(cat=>`<div class="scg"><div class="sct"><span>${cat.n}</span><b>${cat.sum}<small>/${cat.max}</small></b></div><div class="scrs">${cat.rows.map(r=>`<div class="scr"><span class="scl">${esc(r.label)}</span><span class="scv">${r.now.txt}</span>${[0,1,2,3].map(i=>cell(r,i)).join('')}</div>`).join('')}</div></div>`).join('')}</div>
+  <p class="cap" style="margin-top:10px">${clin?'Reference tests: 0 below band · 1 lower half · 2 upper half · 3 above. Target bands (DSI, EUR): 3 in band, 2 or 1 just outside, 0 well outside. Symmetry: 3 ≥ 95% · 2 90–94% · 1 80–89% · 0 < 80%. VISA: 3 ≥ 80 · 2 70–79 · 1 50–69. Pain: 3 ≤ 1 · 2 ≤ 3 · 1 ≤ 5. DRI: tiers, Bouncy and Elite score 3.':'Scored against football or general reference ranges, symmetry targets and pain thresholds.'}</p></section>`;
+}
+
 /* ---------- power profile: force, muscle vs elastic, reactive ---------- */
 function hbars(rows){
  const mx=Math.max(...rows.map(r=>r[1]))*1.06;
@@ -1350,7 +1423,7 @@ const firstName=c=>c.name.replace(/^Example · /,'').split(' ')[0];
 const isAthlete=c=>/athlete/i.test(c.category)||(!c.tendon&&!!c.sport);
 
 /* ---------- highlight tiles: the few numbers that matter for why the client is here ---------- */
-const PLAIN_LSI={iso_ke:'Quad strength',iso_calf:'Calf strength',iso_ankle_run:'Running ankle strength',calf_reps:'Calf endurance',sts_reps:'Single-leg squat endurance',hop_rsi:'Hopping',slcmj:'Single-leg jump',nordic:'Hamstring strength',hip_add:'Groin strength'};
+const PLAIN_LSI={cmj_ei:'Jump braking',cmj_li:'Jump landing',cmj_ci:'Jump push-off',hip_abd:'Hip abductor strength',iso_ke:'Quad strength',iso_calf:'Calf strength',iso_ankle_run:'Running ankle strength',calf_reps:'Calf endurance',sts_reps:'Single-leg squat endurance',hop_rsi:'Hopping',slcmj:'Single-leg jump',nordic:'Hamstring strength',hip_add:'Groin strength'};
 const PLAIN_REF={cmj_jh:['Jump height','How high you jump'],cmj_rsimod:['Jump explosiveness (RSI-mod)','How much height you get for the time it takes to jump'],imtp_rel:['Maximal strength','How hard you push into an immovable bar, for your body weight'],maxvel:['Top speed','Your fastest running speed'],sprint10:['Acceleration (10 m)','How quickly you cover the first 10 m'],dj_rsi:['Bounce off a drop (RSI)','The height you get back for each bit of time on the ground']};
 function hlTile(c,key){
  const clin=S.mode==='clin',lt=k=>{const t=last(c,MK[k]);return t?rep(t,MK[k]):null};
@@ -1514,6 +1587,7 @@ function renderClient(){
  let h='';
  if(clin)h+=clinBrief(c);
  h+=highlightSection(c);
+ h+=scorecardSection(c);
  if(c.tendon)h+=roadmapSection(c);
  h+=powerSection(c);
  h+=jumpSection(c);

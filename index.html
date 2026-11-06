@@ -429,7 +429,7 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding-top:14px;font-si
 
 <section class="drawer" id="drawer" hidden>
   <div class="wrap">
-    <div class="eb">Data &amp; settings</div>
+    <div class="eb">Data &amp; settings · <span id="buildTag"></span></div>
     <h2 class="h2">Bring in results from your Google Sheet</h2>
     <p class="lead">Use two tabs, <b>Clients</b> and <b>Results</b>. In Google Sheets choose File → Share → Publish to web, pick each tab, choose CSV, and paste the links below. Each sync replaces the data on this device with what is in the sheet.</p>
     <div class="dgrid">
@@ -472,6 +472,7 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding-top:14px;font-si
 <main class="wrap" id="main"></main>
 
 <script>
+const BUILD='Version 12 · 6 Nov 2026';
 /* ---------- test battery ---------- */
 const GROUPS=['Jump','Strategy','Strength','Speed','Capacity','Symmetry','Tendon'];
 const RING_GROUPS=GROUPS.filter(g=>g!=='Strategy');
@@ -1546,7 +1547,7 @@ function renderClient(){
    <textarea id="sumTxt" placeholder="e.g. Great block. Keep the heavy slow resistance 3× a week and add two easy hopping sessions.">${esc(S.summary[c.id]||'')}</textarea>
    <p class="printNote">${esc(S.summary[c.id]||'')}</p></div>
   <div><div class="eb">Next re-test</div><div class="p">${next?next.toLocaleDateString('en-AU',{day:'numeric',month:'short'}):'—'}</div><p class="pn">Six weeks after the last test, at the end of the block.</p></div></div>`;
- h+=`<footer>Henri Joensuu · Accredited Exercise Physiologist (ESSA) · VALO Performance · henri@valoperformance.com.au<br>Results are compared with reference ranges and with your own earlier tests. They guide training and are not a diagnosis.</footer>`;
+ h+=`<footer>Henri Joensuu · Accredited Exercise Physiologist (ESSA) · VALO Performance · henri@valoperformance.com.au<br>Results are compared with reference ranges and with your own earlier tests. They guide training and are not a diagnosis.<br><span style="opacity:.7">Dashboard ${BUILD}</span></footer>`;
  main.innerHTML=h;
  const keepY=fn=>{const y=window.scrollY;fn();renderClient();window.scrollTo(0,y)};
  main.querySelectorAll('.row').forEach(b=>b.addEventListener('click',()=>{MET=b.dataset.m;renderClient();const ex=document.getElementById('explore');if(ex)ex.scrollIntoView({block:'start'})}));
@@ -1644,6 +1645,7 @@ let framed=true;try{framed=window.self!==window.top}catch(e){framed=true}
 window.addEventListener('beforeprint',()=>document.querySelectorAll('details.refs').forEach(d=>d.open=true));
 const bp=document.getElementById('btnPrint');if(!framed){bp.hidden=false;bp.addEventListener('click',()=>window.print())}
 
+document.getElementById('buildTag').textContent=BUILD;
 /* start */
 if(S.examples){S.clientsCsv=EX_CLIENTS;S.resultsCsv=EX_RESULTS}
 build();VIEW=CLIENTS.length?'client':'roster';SEL=CLIENTS[0]?CLIENTS[0].id:null;render();

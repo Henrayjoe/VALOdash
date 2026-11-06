@@ -30,7 +30,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hbtn:hover,.hsel:hover{border-color:var(--soft)}
 .hbtn.on{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .hbtn:focus-visible,.hsel:focus-visible,button:focus-visible,.row:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
-.heroGrid{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:28px;align-items:center;margin-top:26px}
+.heroGrid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:28px;align-items:center;margin-top:26px}
 .hero h1{font-size:clamp(30px,5.6vw,46px);line-height:1.07;font-weight:400;letter-spacing:-.015em;text-wrap:balance;margin-top:12px}
 .hero .sub{font-size:16px;color:var(--onDark);margin-top:12px;max-width:520px}
 .meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:20px}
@@ -106,6 +106,169 @@ main{padding-bottom:56px}
 .tleg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:6px}
 .tleg i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
 .trend .note{font-size:12.5px;color:var(--muted);margin-top:10px}
+
+/* view switch (header) */
+.seg2.dark{background:rgba(255,255,255,.08)}
+.seg2.dark button{color:var(--soft)}
+.seg2.dark button[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+.seg2 button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+/* highlights */
+.hlgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}
+.hl{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.hl .chip{align-self:flex-start}
+.hlh{min-height:34px}
+.hlh .eb{display:block;line-height:1.45}
+.hlv{font-size:40px;font-weight:300;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.hlv small{font-size:14px;color:var(--muted);margin-left:4px;font-weight:400;letter-spacing:0}
+.hlv.sm{font-size:32px}
+.hlm{font-size:13.5px;line-height:1.45;color:var(--ink)}
+.hld{font-size:12px;color:var(--muted);margin-top:auto}
+.gauge{position:relative;height:10px;background:var(--line);border-radius:5px;margin-top:4px}
+.gband{position:absolute;top:0;bottom:0;background:var(--sage);border-radius:5px}
+.gmk{position:absolute;top:-5px;width:6px;height:20px;margin-left:-3px;border-radius:3px;background:var(--ink);box-shadow:0 0 0 2px var(--paper)}
+.gscale{display:flex;justify-content:space-between;gap:6px;font-size:10.5px;color:var(--muted);margin-top:-2px}
+.gscale span{white-space:nowrap}
+.gscale .gmid{color:var(--green);font-weight:600;text-align:center}
+.spark{width:100%;height:auto;display:block}
+
+/* spring */
+.verdict{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:17px}
+.verdict b{font-weight:500}
+.springs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.spring{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.spring.muted{background:var(--stone);border-color:var(--stone)}
+.sbars{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.sb{display:grid;grid-template-columns:118px minmax(0,1fr) 64px;gap:10px;align-items:center;font-size:13px}
+.sb b{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.sbt{height:16px;background:var(--line);border-radius:4px;overflow:hidden}
+.sbf{display:block;height:100%;border-radius:4px}
+.s-still{background:var(--soft)} .s-cmj{background:var(--charcoal)}
+.sv{font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* jump read: outcome → strategy → drivers */
+.read{margin-top:14px;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;background:var(--stone)}
+.read.r-good{background:color-mix(in srgb,var(--sage) 28%,var(--paper))}
+.read.r-watch{background:color-mix(in srgb,var(--amber) 26%,var(--paper))}
+.tiers{display:grid;grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr) 18px minmax(0,1fr);gap:8px;align-items:stretch;margin-top:14px}
+.tarrow{align-self:center;text-align:center;color:var(--soft);font-size:18px}
+.tier{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.tier h4{margin:4px 0 8px;font-size:15px;font-weight:500}
+.trow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:8px 0;border-top:1px solid var(--line);font-size:13.5px}
+.trow b{font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.trow b small{font-weight:400;color:var(--muted);font-size:11px;margin-left:2px}
+.trow em{grid-column:1/-1;font-style:normal;font-size:12px}
+
+/* collapsible detail sections */
+details.more{margin-top:34px;border-top:1px solid var(--line);padding-top:22px}
+details.more>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary>span:first-child{display:flex;flex-direction:column}
+details.more>summary .h2{margin-top:8px}
+details.more>summary:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:6px}
+.tog{flex-shrink:0;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12.5px;color:var(--muted);background:var(--paper)}
+.tog::after{content:"Show"} details[open]>summary .tog::after{content:"Hide"}
+.sec.inmore{border-top:0;margin-top:6px;padding-top:0}
+.sec.inmore>.eb,.sec.inmore>.h2{display:none}
+@media screen and (max-width:900px){.hlgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.tiers{grid-template-columns:1fr}.tarrow{display:none}}
+@media screen and (max-width:620px){.springs{grid-template-columns:1fr}}
+@media screen and (max-width:520px){.hlgrid{grid-template-columns:1fr}.sb{grid-template-columns:96px minmax(0,1fr) 56px}}
+@media print{.hl,.spring,.tier,.read{break-inside:avoid} details.more:not([open]){display:none} .tog{display:none} .seg2{display:none}}
+
+/* hero tracking panel */
+.tracking{border:1px solid var(--grey);border-radius:14px;padding:18px 18px 14px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:relative;margin-top:4px}
+.steps::before{content:"";position:absolute;left:12.5%;right:12.5%;top:8px;height:2px;background:var(--grey)}
+.st{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;font-size:11px;color:var(--soft);font-variant-numeric:tabular-nums}
+.st i{width:16px;height:16px;border-radius:50%;background:var(--charcoal);border:2px solid var(--grey)}
+.st.done i{background:var(--paper);border-color:var(--paper)}
+.st.now i{background:var(--amber);border-color:var(--amber);box-shadow:0 0 0 4px rgba(217,169,91,.25)}
+.st.now span{color:var(--paper);font-weight:600}
+.stl{display:flex;flex-direction:column;gap:2px;font-size:13px;color:var(--soft)}
+.stl b{color:var(--paper);font-weight:500;font-size:15px}
+.trks{display:flex;flex-direction:column;gap:9px;border-top:1px solid var(--grey);padding-top:12px}
+.trk{display:grid;grid-template-columns:104px minmax(0,1fr) 66px;gap:10px;align-items:center;font-size:12.5px}
+.tn{color:var(--onDark)}
+.tt{position:relative;height:12px}
+.tt::before{content:"";position:absolute;left:0;right:0;top:5px;height:2px;background:var(--grey);border-radius:1px}
+.tz{position:absolute;left:65%;right:0;top:5px;height:2px;background:var(--sage);opacity:.55}
+.t1,.t0{position:absolute;top:1px;width:10px;height:10px;margin-left:-5px;border-radius:50%}
+.t0{border:1.5px solid var(--soft);background:var(--charcoal)}
+.t1.tk-on{background:var(--sage)} .t1.tk-bd{background:var(--onDark)} .t1.tk-fc{background:var(--amber)}
+.tw{font-size:11px;font-weight:600;letter-spacing:.06em;text-align:right;white-space:nowrap}
+.tw.tk-on{color:var(--sage)} .tw.tk-bd{color:var(--onDark)} .tw.tk-fc{color:var(--amber)}
+.tcap{font-size:11px;color:var(--soft);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tcap i{display:inline-block;width:9px;height:9px;border-radius:50%}
+.tcap .k1{background:var(--sage)} .tcap .k0{border:1.5px solid var(--soft)}
+
+/* power profile */
+.ptags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.ptag{border:1px solid var(--ink);border-radius:999px;padding:5px 12px;font-size:13px}
+.pps{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.pp{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px}
+.pp h3{font-size:20px;font-weight:500}
+.def{font-size:14px;color:var(--muted);max-width:70ch}
+.ppg{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:20px;align-items:stretch;margin-top:6px}
+.ppv{min-width:0;display:flex;flex-direction:column;justify-content:center}
+.hbs{display:flex;flex-direction:column;gap:12px}
+.hbl{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;margin-bottom:5px}
+.hbl b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hbl b small{font-weight:400;color:var(--muted)}
+.hbt{height:18px;background:var(--stone);border-radius:4px;overflow:hidden}
+.hbf{display:block;height:100%;border-radius:4px}
+.f-dark{background:var(--charcoal)} .f-amber{background:var(--amber)} .f-soft{background:var(--soft)}
+.rbox{background:var(--charcoal);color:var(--paper);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.rbox .eb{color:var(--soft)}
+.rv{font-size:44px;font-weight:300;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.rbox .chip{align-self:flex-start}
+.rbox .gauge{background:var(--grey)}
+.rbox .gmk{background:var(--paper);box-shadow:0 0 0 2px var(--charcoal)}
+.rbox .gscale{color:var(--soft)} .rbox .gscale .gmid{color:var(--sage)}
+.rbox .spark path{stroke:var(--paper)} .rbox .spark circle{fill:var(--paper)} .rbox .spark line{stroke:var(--grey)}
+.rsub{font-size:12.5px;color:var(--onDark)}
+
+/* DRI tier scale */
+.dris{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;height:10px;margin-top:4px}
+.dt{position:relative;background:var(--line);border-radius:3px}
+.dt.past{background:color-mix(in srgb,var(--sage) 45%,var(--line))}
+.dt.on{background:var(--sage)}
+.dt i{position:absolute;top:-5px;width:6px;height:20px;margin-left:-3px;border-radius:3px;background:var(--ink);box-shadow:0 0 0 2px var(--paper)}
+.drl{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:-2px}
+.drl .on{color:var(--green);font-weight:600}
+.rbox .dt{background:var(--grey)} .rbox .dt.past{background:color-mix(in srgb,var(--sage) 40%,var(--grey))} .rbox .dt.on{background:var(--sage)}
+.rbox .dt i{background:var(--paper);box-shadow:0 0 0 2px var(--charcoal)} .rbox .drl{color:var(--soft)} .rbox .drl .on{color:var(--sage)}
+
+/* jump in three parts */
+.phcs{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:12px}
+.phc{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.phn{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}
+.phn i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.phn span{font-size:11px;color:var(--muted);font-weight:600}
+.phv{font-size:30px;font-weight:300;font-variant-numeric:tabular-nums;line-height:1.1}
+.phv small{font-size:13px;color:var(--muted);margin-left:3px}
+.phd{font-size:13px;color:var(--ink)} .phw{font-size:12.5px;color:var(--muted)} .phch{font-size:12.5px;color:var(--muted);margin-top:auto}
+.pbars{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.pbr{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;align-items:center}
+.pbr .cap{line-height:1.3}
+.pax{position:relative;height:16px;border-top:1px solid var(--line)}
+.pax span{position:absolute;top:3px;transform:translateX(-50%);font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.pax span:first-child{transform:none}
+.pax em{position:absolute;right:0;top:3px;font-style:normal;font-size:10.5px;color:var(--muted);background:var(--cream);padding-left:4px}
+p.read{display:block}
+
+/* explore */
+.exbar{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+.exbar label{font-size:12px;font-weight:600;color:var(--muted)}
+.exbar select{flex:1;min-width:0;max-width:420px;background:var(--paper);border:1px solid var(--ink);border-radius:999px;padding:9px 14px;font-size:14px;cursor:pointer}
+.trend.wide{position:static;margin-top:12px}
+.trend.wide svg{max-height:300px}
+.exhd{display:flex;justify-content:space-between;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.exv{display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:12.5px}
+.exv b{font-size:30px;font-weight:300;font-variant-numeric:tabular-nums}
+.exv b small{font-size:13px;color:var(--muted);margin-left:3px}
+@media screen and (max-width:820px){.ppg{grid-template-columns:1fr}}
+@media screen and (max-width:520px){.trk{grid-template-columns:86px minmax(0,1fr) 60px}.pbr{grid-template-columns:70px minmax(0,1fr)}}
+@media print{.pp,.phc,.tracking{break-inside:avoid}.exbar{display:none}}
 
 /* clinician brief */
 .brief{margin-top:26px;background:var(--paper);border:1.5px solid var(--ink);border-radius:12px;padding:20px 20px 18px}
@@ -253,6 +416,7 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding-top:14px;font-si
         VALO
       </div>
       <div class="ctrls">
+        <div class="seg2 dark" role="group" aria-label="View"><button type="button" data-mode="client" aria-pressed="true">Client view</button><button type="button" data-mode="clin" aria-pressed="false">Clinician view</button></div>
         <button class="hbtn" id="btnRoster" type="button">All clients</button>
         <select class="hsel" id="clientSel" aria-label="Choose a client"></select>
         <button class="hbtn" id="btnPrint" type="button" hidden>Print report</button>
@@ -331,7 +495,10 @@ const M=[
  {k:'cmj_ppbm',l:'CMJ peak power / body mass',u:'W/kg',g:'Jump',d:1,src:'Force plate'},
  {k:'sj_jh',l:'Squat jump height',u:'cm',g:'Jump',d:1,src:'Force plate'},
  {k:'eur',l:'Eccentric utilisation ratio',u:'',g:'Jump',d:2,der:1,src:'CMJ ÷ squat jump height'},
- {k:'dj_rsi',l:'Drop jump RSI',u:'',g:'Jump',d:2,src:'Force plate'},
+ {k:'dj_height',l:'Drop height',u:'cm',g:'Jump',d:0,neu:1,param:1,src:'Box height'},
+ {k:'dj_jh',l:'Drop jump height',u:'cm',g:'Jump',d:1,src:'Force plate'},
+ {k:'dj_rsi',l:'Drop jump RSI',u:'',g:'Jump',d:2,src:'Force plate (or jump height ÷ contact time)'},
+ {k:'dri',l:'Dynamic Rebound Index (DRI)',u:'',g:'Jump',d:2,der:1,src:'(drop height + jump height) ÷ (g × contact time²)'},
  {k:'slcmj',l:'Single-leg CMJ height',u:'cm',g:'Jump',d:1,p:1,src:'Force plate'},
  {k:'hop_rsi',l:'Single-leg hop RSI (10/5)',u:'',g:'Jump',d:2,p:1,src:'Force plate'},
  {k:'cmj_ci',l:'CMJ concentric impulse',u:'N·s',g:'Symmetry',d:0,p:1,src:'Force plate'},
@@ -359,7 +526,7 @@ const M=[
 const TESTS=[
  ['Countermovement jump (CMJ)',['cmj_jh','cmj_rsimod','cmj_ppbm','cmj_ct','cmj_ecc_dur','cmj_con_dur','cmj_depth','cmj_ftct','cmj_ecc_rfd','cmj_fzv','cmj_ci100','cmj_epf','cmj_cpf','cmj_ei','cmj_ci','cmj_li','dsi']],
  ['Squat jump',['sj_jh','eur']],
- ['Drop jump',['dj_rsi','dj_ct']],
+ ['Drop jump',['dj_height','dj_jh','dj_ct','dj_rsi','dri']],
  ['Single-leg CMJ',['slcmj']],
  ['Single-leg hop (10/5)',['hop_rsi']],
  ['IMTP',['imtp','imtp_rel']],
@@ -389,14 +556,14 @@ const REF_DEFAULT={ // [low, high]; for lower-is-better tests low is the slower/
  cmj_jh:{F:[22,32],M:[32,44]}, cmj_rsimod:{F:[.30,.45],M:[.40,.60]}, cmj_ppbm:{F:[38,48],M:[48,60]},
  dj_rsi:{F:[1.2,1.8],M:[1.5,2.3]}, slcmj:{F:[10,15],M:[14,21]}, hop_rsi:{F:[1.0,1.5],M:[1.2,1.8]},
  imtp_rel:{F:[25,35],M:[30,42]}, calf_reps:{F:[15,30],M:[15,30]}, sts_reps:{F:[8,20],M:[8,20]},
- ktw:{F:[6,13],M:[6,13]}, sprint10:{F:[2.05,1.85],M:[1.88,1.70]}, sprint20:{F:[3.60,3.25],M:[3.25,2.95]},
+ ktw:{F:[6,13],M:[6,13]}, dsi:{F:[0.6,0.8],M:[0.6,0.8]}, eur:{F:[0.9,1.15],M:[0.9,1.15]}, sprint10:{F:[2.05,1.85],M:[1.88,1.70]}, sprint20:{F:[3.60,3.25],M:[3.25,2.95]},
 };
 // Football: senior 25th–75th percentile. Women = WSL, men = Premier League (VALD 2025/26 normative reports) unless noted.
 const REF_FOOTBALL={
  cmj_jh:{F:[26.4,31.7],M:[35.3,42.4]}, cmj_ppbm:{F:[41.6,48.0],M:[51.7,60.4]},
- sj_jh:{F:[25.6,31.1],M:[32.5,39.2]}, eur:{F:[0.90,1.15],M:[0.99,1.13]},
+ sj_jh:{F:[25.6,31.1],M:[32.5,39.2]}, eur:{F:[0.90,1.15],M:[0.90,1.15]},
  slcmj:{F:[13.0,16.9],M:[18.4,23.2]}, hop_rsi:{F:[1.22,1.52],M:[1.41,1.76]},
- cmj_ftct:{F:[0.63,0.78]}, cmj_ci100:{F:[63,86]}, cmj_fzv:{F:[21.8,25.5],M:[22.5,27.0]}, dsi:{F:[0.60,0.80],M:[0.69,0.90]},
+ cmj_ftct:{F:[0.63,0.78]}, cmj_ci100:{F:[63,86]}, cmj_fzv:{F:[21.8,25.5],M:[22.5,27.0]}, dsi:{F:[0.60,0.80],M:[0.60,0.80]},
  imtp:{F:[1739,2272],M:[2756,3305]}, imtp_rel:{F:[20.2,23.0],M:[34.72,40.06]},
  iso_ke:{F:[373,567]}, nordic:{F:[292,361],M:[417,517]},
  hip_add:{F:[138,185],M:[176,257]}, hip_abd:{F:[146,180],M:[189,252]},
@@ -404,18 +571,18 @@ const REF_FOOTBALL={
 };
 const REF_SRC={
  cmj_jh:'VALD WSL / Premier League 2025/26, senior 25th–75th.', cmj_ppbm:'VALD WSL / Premier League 2025/26, senior 25th–75th.',
- sj_jh:'VALD WSL / Premier League 2025/26, senior 25th–75th.', eur:'Men: VALD Premier League 2025/26. Women: team-sport literature band (McGuigan et al. 2006), not women-specific.',
+ sj_jh:'VALD WSL / Premier League 2025/26, senior 25th–75th.', eur:'VALO target band 0.9–1.15 (CMJ ÷ squat jump height; McGuigan et al. 2006). Below: the dip adds little; above: concentric-only power lags.',
  slcmj:'VALD single-leg jump, senior 25th–75th (closest proxy for single-leg CMJ).', hop_rsi:'VALD single-leg drop jump, senior 25th–75th (proxy for the 10/5 hop).',
  imtp:'Men: Badby et al. 2025 (EFL first team). Women: VALD WSL 2025/26.', imtp_rel:'Men: Badby et al. 2025 (EFL). Women: single study, pro female club soccer (n=28), moderate confidence.',
  iso_ke:'VALD DynaMo seated knee extension, WSL 2025/26. Test angle not confirmed. No men’s band.', nordic:'VALD NordBord, WSL and Premier League 2025/26, in-season.',
  hip_add:'VALD ForceFrame supine (ankle), senior 25th–75th.', hip_abd:'VALD ForceFrame supine (ankle), senior 25th–75th.',
  sprint10:'Men: Haugen et al. 2019. Women: derived from Vescovi 2012, moderate confidence.', sprint20:'Men: Haugen et al. 2019. Women: derived from Vescovi 2012, moderate confidence.',
  cmj_ftct:'VALD Normative Data Report, 25th–75th. No men’s band in your Roar set.', cmj_ci100:'VALD Normative Data Report, 25th–75th. No men’s band in your Roar set.',
- cmj_fzv:'VALD WSL / Premier League 2025/26, senior 25th–75th.', dsi:'Men: VALD Premier League 2025/26. Women: Sheppard et al. 2011 training band cited in the VALD WSL report, not a population percentile.',
+ cmj_fzv:'VALD WSL / Premier League 2025/26, senior 25th–75th.', dsi:'Training band 0.6–0.8 (Sheppard et al. 2011). Below: bias ballistic work; above: bias maximal strength. A training guide, not a population percentile.',
  maxvel:'Men: LaLiga match-speed data. Women: derived from Vescovi 2012 flying sprint, moderate confidence.',
 };
 const NORM_SETS={general:{label:'General active adults',short:'General',def:REF_DEFAULT},football:{label:'Football: WSL (women) / Premier League (men)',short:'Football',def:REF_FOOTBALL}};
-const REF_KEYS=M.filter(m=>m.g!=='Tendon'&&m.k!=='cmj_ci').map(m=>m.k);
+const REF_KEYS=M.filter(m=>m.g!=='Tendon'&&m.k!=='cmj_ci'&&!m.param&&m.k!=='dri').map(m=>m.k);
 const PHASES=[
  {n:'Clarity & Control',d:'Settle the tendon, find the right load, learn the plan.'},
  {n:'Capacity Rebuild',d:'Heavy, slow strength until both sides match.'},
@@ -454,10 +621,10 @@ const EX_RESULTS=(()=>{
   ['2026-10-27',94,{cmj_ct:820,cmj_ecc_dur:560,cmj_con_dur:260,cmj_depth:26,cmj_ftct:.61,cmj_ecc_rfd:52,cmj_fzv:22.1,cmj_ci100:82,cmj_ei_L:60,cmj_ei_R:51,cmj_li_L:135,cmj_li_R:124,cmj_jh:31.0,cmj_rsimod:.41,cmj_ppbm:47.9,imtp:2640,iso_ke_L:641,iso_ke_R:603,sts_reps_L:18,sts_reps_R:17,calf_reps_L:28,calf_reps_R:27,visa_p:78,pain_dsq:1,pain_hop:2,slcmj_L:13.9,slcmj_R:12.1,hop_rsi_L:1.36,hop_rsi_R:1.18,cmj_ci_L:122,cmj_ci_R:115,notes:'Re-test 3. Phase 3. Hitting tennis balls twice a week.'}]
  ].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Mark T',test_date:d,bodyweight_kg:bw},v)));
  [['2026-10-13',64,{cmj_ct:800,cmj_ftct:.61,cmj_depth:29,cmj_jh:28.8,cmj_ppbm:45.2,sj_jh:27.9,imtp:1690,nordic_L:318,nordic_R:330,hip_add_L:172,hip_add_R:168,hip_abd_L:165,hip_abd_R:170,slcmj_L:14.2,slcmj_R:14.8,maxvel:7.4,sprint10:1.98,notes:'Pre-season testing.'}]].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Grace P',test_date:d,bodyweight_kg:bw},v)));
- [['2026-10-13',57,{cmj_ct:690,cmj_ftct:.74,cmj_depth:27,cmj_jh:32.5,cmj_ppbm:49.8,sj_jh:29.1,imtp:1330,nordic_L:262,nordic_R:255,hip_add_L:131,hip_add_R:140,hip_abd_L:142,hip_abd_R:139,slcmj_L:16.1,slcmj_R:15.6,maxvel:8.1,sprint10:1.88,notes:'Pre-season testing. Fastest in the group, lowest Nordic.'}]].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Mia S',test_date:d,bodyweight_kg:bw},v)));
+ [['2026-10-13',57,{cmj_ct:690,cmj_ftct:.74,cmj_depth:27,dj_height:30,dj_jh:30.5,dj_ct:190,cmj_jh:32.5,cmj_ppbm:49.8,sj_jh:29.1,imtp:1330,nordic_L:262,nordic_R:255,hip_add_L:131,hip_add_R:140,hip_abd_L:142,hip_abd_R:139,slcmj_L:16.1,slcmj_R:15.6,maxvel:8.1,sprint10:1.88,notes:'Pre-season testing. Fastest in the group, lowest Nordic.'}]].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Mia S',test_date:d,bodyweight_kg:bw},v)));
  [['2026-10-20',60,{cmj_ct:760,cmj_ftct:.65,cmj_depth:30,cmj_jh:29.9,cmj_ppbm:46.4,sj_jh:28.0,imtp:1460,nordic_L:300,nordic_R:288,hip_add_L:150,hip_add_R:146,hip_abd_L:160,hip_abd_R:158,slcmj_L:15.0,slcmj_R:14.5,maxvel:7.7,sprint10:1.94,notes:'Pre-season testing.'}]].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Tara N',test_date:d,bodyweight_kg:bw},v)));
- [['2026-08-11',58,{cmj_ct:760,cmj_ecc_dur:480,cmj_con_dur:280,cmj_depth:30,cmj_ftct:.62,cmj_ecc_rfd:60,cmj_fzv:22.6,cmj_ci100:66,cmj_ei_L:40,cmj_ei_R:44,cmj_li_L:82,cmj_li_R:88,dj_ct:225,sj_jh:25.9,nordic_L:268,nordic_R:301,hip_add_L:139,hip_add_R:151,hip_abd_L:149,hip_abd_R:155,maxvel:7.3,cmj_jh:27.4,cmj_rsimod:.38,cmj_ppbm:43.1,dj_rsi:1.41,imtp:1520,slcmj_L:12.1,slcmj_R:13.6,hop_rsi_L:1.22,hop_rsi_R:1.38,cmj_ci_L:74,cmj_ci_R:80,iso_ke_L:388,iso_ke_R:402,sprint10:1.99,sprint20:3.48,calf_reps_L:26,calf_reps_R:28,notes:'Pre-season testing.'}],
-  ['2026-10-06',58,{cmj_ct:700,cmj_ecc_dur:440,cmj_con_dur:260,cmj_depth:31,cmj_ftct:.70,cmj_ecc_rfd:68,cmj_fzv:23.9,cmj_ci100:73,cmj_ei_L:42,cmj_ei_R:44,cmj_li_L:85,cmj_li_R:88,dj_ct:205,sj_jh:27.2,nordic_L:292,nordic_R:309,hip_add_L:149,hip_add_R:156,hip_abd_L:154,hip_abd_R:158,maxvel:7.6,cmj_jh:29.6,cmj_rsimod:.43,cmj_ppbm:46.0,dj_rsi:1.58,imtp:1690,slcmj_L:13.4,slcmj_R:14.1,hop_rsi_L:1.35,hop_rsi_R:1.42,cmj_ci_L:78,cmj_ci_R:81,iso_ke_L:410,iso_ke_R:416,sprint10:1.93,sprint20:3.39,calf_reps_L:29,calf_reps_R:30,notes:'Block 2 re-test. Left leg catching up.'}]
+ [['2026-08-11',58,{cmj_ct:760,cmj_ecc_dur:480,cmj_con_dur:280,cmj_depth:30,cmj_ftct:.62,cmj_ecc_rfd:60,cmj_fzv:22.6,cmj_ci100:66,cmj_ei_L:40,cmj_ei_R:44,cmj_li_L:82,cmj_li_R:88,dj_ct:225,sj_jh:25.9,nordic_L:268,nordic_R:301,hip_add_L:139,hip_add_R:151,hip_abd_L:149,hip_abd_R:155,maxvel:7.3,cmj_jh:27.4,cmj_rsimod:.38,cmj_ppbm:43.1,dj_height:30,dj_jh:26.5,imtp:1520,slcmj_L:12.1,slcmj_R:13.6,hop_rsi_L:1.22,hop_rsi_R:1.38,cmj_ci_L:74,cmj_ci_R:80,iso_ke_L:388,iso_ke_R:402,sprint10:1.99,sprint20:3.48,calf_reps_L:26,calf_reps_R:28,notes:'Pre-season testing.'}],
+  ['2026-10-06',58,{cmj_ct:700,cmj_ecc_dur:440,cmj_con_dur:260,cmj_depth:31,cmj_ftct:.70,cmj_ecc_rfd:68,cmj_fzv:23.9,cmj_ci100:73,cmj_ei_L:42,cmj_ei_R:44,cmj_li_L:85,cmj_li_R:88,dj_ct:205,sj_jh:27.2,nordic_L:292,nordic_R:309,hip_add_L:149,hip_add_R:156,hip_abd_L:154,hip_abd_R:158,maxvel:7.6,cmj_jh:29.6,cmj_rsimod:.43,cmj_ppbm:46.0,dj_height:30,dj_jh:28.0,imtp:1690,slcmj_L:13.4,slcmj_R:14.1,hop_rsi_L:1.35,hop_rsi_R:1.42,cmj_ci_L:78,cmj_ci_R:81,iso_ke_L:410,iso_ke_R:416,sprint10:1.93,sprint20:3.39,calf_reps_L:29,calf_reps_R:30,notes:'Block 2 re-test. Left leg catching up.'}]
  ].forEach(([d,bw,v])=>put(Object.assign({name:'Example · Ella K',test_date:d,bodyweight_kg:bw},v)));
  [['2026-08-04',63,{cmj_ct:900,cmj_ecc_dur:620,cmj_con_dur:280,cmj_depth:27,cmj_ftct:.46,cmj_ei_L:41,cmj_ei_R:50,cmj_li_L:88,cmj_li_R:112,cmj_jh:21.0,cmj_rsimod:.27,imtp:1450,iso_calf_L:910,iso_calf_R:1240,iso_ankle_run_L:1320,iso_ankle_run_R:1780,calf_reps_L:11,calf_reps_R:26,visa_a:41,pain_calf:5,ktw_L:8,ktw_R:11,notes:'Initial. Pain 5/10 on single-leg calf raise.'}],
   ['2026-09-08',63,{cmj_jh:21.8,cmj_rsimod:.29,imtp:1500,iso_calf_L:1060,iso_calf_R:1250,iso_ankle_run_L:1510,iso_ankle_run_R:1800,calf_reps_L:17,calf_reps_R:27,visa_a:55,pain_calf:3,ktw_L:9,ktw_R:11,notes:'Re-test 1. Walking pain-free.'}],
@@ -516,7 +683,10 @@ function build(){
   M.forEach(m=>{if(m.der)return;if(m.p){t.v[m.k+'_L']=num(r[m.k+'_l']);t.v[m.k+'_R']=num(r[m.k+'_r'])}else t.v[m.k]=num(r[m.k])});
   t.v.imtp_rel=(t.v.imtp!=null&&t.bw)?t.v.imtp/t.bw:null;
   t.v.eur=(t.v.cmj_jh!=null&&t.v.sj_jh)?t.v.cmj_jh/t.v.sj_jh:null;
-  t.v.dsi=(t.v.cmj_fzv!=null&&t.v.imtp_rel)?t.v.cmj_fzv/t.v.imtp_rel:null;
+  t.v.dsi=(t.v.cmj_cpf!=null&&t.v.imtp)?t.v.cmj_cpf/t.v.imtp:(t.v.cmj_fzv!=null&&t.v.imtp_rel)?t.v.cmj_fzv/t.v.imtp_rel:null;
+  t.dsiFrom=(t.v.cmj_cpf!=null&&t.v.imtp)?'cpf':'fzv';
+  if(t.v.dj_rsi==null&&t.v.dj_jh!=null&&t.v.dj_ct)t.v.dj_rsi=(t.v.dj_jh/100)/(t.v.dj_ct/1000);
+  t.v.dri=(t.v.dj_height!=null&&t.v.dj_jh!=null&&t.v.dj_ct)?((t.v.dj_height+t.v.dj_jh)/100)/(9.81*Math.pow(t.v.dj_ct/1000,2)):null;
   c.tests.push(t)});
  CLIENTS.forEach(c=>{c.tests.sort((a,b)=>a.date.localeCompare(b.date));c.tendon=/tendon|rehab/i.test(c.category)||!!c.region||c.phaseSet!=null;if(c.tendon&&!c.region)c.region='knee'});
 }
@@ -825,22 +995,6 @@ function jumpFindings(c){
  else if(ep==='high')F.push({tone:'good',title:'Springy and efficient',
   plain:`You get a lot of height back for a short time on the ground. The jump is quick and springy.`,
   clin:`${MK[ek].l} ${fmt(lt(ek),2)}, above the reference range: elastic, reactive strategy.`});
- // 7. stretch use (EUR)
- const eur=lt('eur');
- if(eur!=null&&eur<1.0)F.push({tone:'watch',title:'Not using the dip yet',
-  plain:`You jump about as high from a still squat as you do with a dip first. Normally the quick dip loads the muscles and tendons like a spring and adds height, so that spring isn't working for you yet.`,
-  clin:`Eccentric utilisation ratio ${fmt(eur,2)} (CMJ ÷ SJ). Little contribution from the countermovement: prioritise reactive and plyometric work over more maximal strength${c.tendon?', once tendon loading tolerance allows':''}.`});
- else if(eur!=null&&eur>=1.1)F.push({tone:'good',title:'Good use of the dip',
-  plain:`The quick dip adds clear height compared with jumping from a still squat. Your muscles and tendons are working like a spring.`,
-  clin:`Eccentric utilisation ratio ${fmt(eur,2)}: good stretch-shortening use.`});
- // 8. dynamic strength index
- const dsi=lt('dsi');
- if(dsi!=null&&dsi<0.6)F.push({tone:'info',title:'Stronger than the jump shows',
-  plain:`Your strength test is good, but your jump only uses part of that strength. The strength is there; the next step is learning to use it quickly.`,
-  clin:`DSI ${fmt(dsi,2)} (CMJ force at zero velocity ÷ IMTP relative). Bias ballistic and contrast work over more maximal strength.`});
- else if(dsi!=null&&dsi>0.8)F.push({tone:'info',title:'Strength is the ceiling',
-  plain:`You already use most of your strength when you jump. To jump higher, you mainly need to get stronger.`,
-  clin:`DSI ${fmt(dsi,2)}: dynamic output near the isometric ceiling. Bias maximal strength.`});
  // 9. early push-off
  if(refPos('cmj_ci100')==='low')F.push({tone:'watch',title:'Slow to switch on',
   plain:`In the first tenth of a second of pushing off, you build force slowly. It shows up in quick moves like a first step or a fast change of direction, even when the full jump looks fine.`,
@@ -851,39 +1005,6 @@ function jumpFindings(c){
   plain:`When you drop and bounce, you stay on the ground about ${fmt(djc)} ms. You're absorbing then pushing rather than bouncing straight back up${c.tendon?', which is normal at this stage of rehab':''}.`,
   clin:`Drop jump contact time ${fmt(djc)} ms (over 250 ms is a long-contact strategy).`});
  return F;
-}
-function jumpTimeline(c){
- const ts=c.tests.filter(t=>t.v.cmj_ct!=null||t.v.cmj_ecc_dur!=null).slice(-4);if(!ts.length)return '';
- const rows=ts.map(t=>{const v=t.v;let ecc=v.cmj_ecc_dur,con=v.cmj_con_dur,ct=v.cmj_ct;
-  if(ecc==null&&ct!=null&&con!=null)ecc=ct-con;if(con==null&&ct!=null&&ecc!=null)con=ct-ecc;if(ct==null&&ecc!=null&&con!=null)ct=ecc+con;
-  const fl=(v.cmj_ftct&&ct)?v.cmj_ftct*ct:(v.cmj_jh?2*Math.sqrt(2*v.cmj_jh/100/9.81)*1000:null);
-  return {t,ecc,con,ct,fl,dp:v.cmj_depth,tot:(ct||0)+(fl||0)}});
- const mx=Math.max(...rows.map(r=>r.tot));
- const seg=(cls,ms,label)=>ms?`<span class="seg ${cls}" style="width:${ms/mx*100}%" title="${label}: ${fmt(ms)} ms">${ms/mx>.12?label+' '+fmt(ms):''}</span>`:'';
- return `<div class="tlwrap"><div class="tleg" style="margin-top:0"><span><i style="background:var(--charcoal)"></i>Dip (braking)</span><span><i style="background:var(--amber)"></i>Push-off</span><span><i style="background:var(--grey)"></i>Dip + push-off</span><span><i style="background:var(--sage)"></i>In the air</span></div>
-  ${rows.map(r=>`<div class="tl"><span class="cap">${fdate(r.t.date)}</span><div class="tlbar">${r.ecc!=null&&r.con!=null?seg('s-dip',r.ecc,'Dip')+seg('s-push',r.con,'Push'):seg('s-both',r.ct,'Dip + push')}${seg('s-fly',r.fl,'Air')}</div><span class="cap" style="text-align:right">${r.dp!=null?fmt(r.dp,0)+' cm dip':''}</span></div>`).join('')}</div>`;
-}
-function jumpSection(c){
- if(!JUMP_KEYS.some(k=>series(c,MK[k]).length))return '';
- const lt=k=>{const t=last(c,MK[k]);return t?rep(t,MK[k]):null},ct=lt('cmj_ct'),dp=lt('cmj_depth');
- const sp=ct==null?null:ct<=JS.ctFast?'quick':ct>=JS.ctSlow?'slow':'moderate-speed';
- const dd=dp==null?null:dp<JS.depthShallow?'shallow':dp>JS.depthDeep?'deep':'mid-depth';
- const label=sp&&dd?`a ${sp}, ${dd} jump`:sp?`a ${sp} jump`:dd?`a ${dd} dip`:null;
- const who=c.name.replace(/^Example · /,'').split(' ')[0];
- const F=jumpFindings(c),voice=S.voice==='clin'?'clin':'plain';
- const card=(k,cap)=>{const m=MK[k],v=lt(k);if(v==null)return '';return `<div class="card"><div class="eb">${cap}</div><div class="big">${fmt(v,m.d)}<small>${esc(m.u)}</small></div><p class="cap">${esc(m.l)} · ${chg(c,m)}${series(c,m).length>1?' since baseline':''}</p></div>`};
- const cards=[card('cmj_ct','Speed of the jump'),card('cmj_depth','Depth of the dip'),card(lt('cmj_ftct')!=null?'cmj_ftct':'cmj_rsimod','Return on the time spent'),card('cmj_ecc_rfd','How hard they brake')].filter(Boolean).slice(0,4);
- const phT=c.tests.filter(t=>['cmj_ei','cmj_ci','cmj_li'].some(k=>lsiOf(c,t,MK[k])!=null)).slice(-4);
- const cell=v=>v==null?'<td class="r">—</td>':`<td class="r"><span class="chip ${v>=90?'c-sage':v>=80?'c-amber':'c-flag'}">${fmt(v,0)}%</span></td>`;
- return `<section class="sec"><div class="eb">How ${esc(who)} jumps</div><h2 class="h2">${label?`${esc(who)} uses ${label}`:'How the jump is produced'}</h2>
-  <p class="lead">Jump height only tells us how high. The force plate shows how the jump is made: how deep and how fast the dip is, how hard each leg brakes and pushes, and how they land. That is where compensation shows up${c.tendon?', often well before pain or jump height change':''}.</p>
-  <div class="btns screen"><div class="seg2" role="group" aria-label="Explain for"><button type="button" data-voice="plain" aria-pressed="${voice==='plain'}">Explain for the client</button><button type="button" data-voice="clin" aria-pressed="${voice==='clin'}">Clinician detail</button></div></div>
-  ${cards.length?`<div class="grid4">${cards.join('')}</div>`:''}
-  ${jumpTimeline(c)?`<h3 class="h3">The jump, phase by phase</h3><p class="cap">Each bar is one countermovement jump, start to landing, on the same time scale.</p>${jumpTimeline(c)}`:''}
-  ${phT.length?`<h3 class="h3">Left vs right in each phase</h3><p class="cap">${c.side?`Affected leg as a percentage of the unaffected leg.`:'Weaker leg as a percentage of the stronger leg.'} 90% or more is the usual target.</p>
-   <div class="tw"><table><thead><tr><th>Test</th><th class="r">Braking</th><th class="r">Pushing off</th><th class="r">Landing</th></tr></thead><tbody>${phT.map(t=>`<tr><td>${fdate(t.date)}</td>${cell(lsiOf(c,t,MK.cmj_ei))}${cell(lsiOf(c,t,MK.cmj_ci))}${cell(lsiOf(c,t,MK.cmj_li))}</tr>`).join('')}</tbody></table></div>`:''}
-  ${F.length?`<h3 class="h3">What it means</h3><div class="fnds">${F.map(f=>`<div class="fnd"><span class="chip ${f.tone==='good'?'c-sage':f.tone==='watch'?'c-amber':'c-stone'}">${f.tone==='good'?'Going well':f.tone==='watch'?'Watch':'Note'}</span><div><h4>${esc(f.title)}</h4><p>${esc(f[voice])}</p></div></div>`).join('')}</div>`:''}
- </section>`;
 }
 
 /* ---------- clinician brief: summary, action points, evidence ---------- */
@@ -910,9 +1031,13 @@ const LIT={
  mcguigan2006:'McGuigan MR, Doyle TLA, Newton M, et al. Eccentric utilization ratio: effect of sport and phase of training. J Strength Cond Res. 2006;20(4):992–5.',
  gathercole2015:'Gathercole R, Sporer B, Stellingwerff T, Sleivert G. Alternative countermovement-jump analysis to quantify acute neuromuscular fatigue. Int J Sports Physiol Perform. 2015;10(1):84–92.',
  petrakos2016:'Petrakos G, Morin JB, Egan B. Resisted sled sprint training to improve sprint performance: a systematic review. Sports Med. 2016;46(3):381–400.',
+ flanagan2008:'Flanagan EP, Comyns TM. The use of contact time and the reactive strength index to optimize fast stretch-shortening cycle training. Strength Cond J. 2008;30(5):32–8.',
+ sheppard2011:'Sheppard JM, Chapman D, Taylor KL. An evaluation of a strength qualities assessment method for the lower body. J Aust Strength Cond. 2011;19(2):4–10.',
+ mcmahon2018:'McMahon JJ, Suchomel TJ, Lake JP, Comfort P. Understanding the key phases of the countermovement jump force-time curve. Strength Cond J. 2018;40(4):96–106.',
+ bishop2023:'Bishop C, Jordan M, Torres-Ronda L, et al. Selecting metrics that matter: comparing the use of the countermovement jump for performance profiling, neuromuscular fatigue monitoring, and injury rehabilitation testing. Strength Cond J. 2023;45(5):545–53.',
  backman2011:'Backman LJ, Danielson P. Low range of ankle dorsiflexion predisposes for patellar tendinopathy in junior elite basketball players: a 1-year prospective study. Am J Sports Med. 2011;39(12):2626–33.',
 };
-const LIT_SHORT={silbernagel2007:'Silbernagel 2007',rio2015:'Rio 2015',vanark2016:'van Ark 2016',malliaras2015:'Malliaras 2015',kongsgaard2009:'Kongsgaard 2009',breda2021:'Breda 2021',beyer2015:'Beyer 2015',oneill2019:'O’Neill 2019',jordan2015:'Jordan 2015',grindem2016:'Grindem 2016',mjolsnes2004:'Mjølsnes 2004',vanderhorst2015:'van der Horst 2015',vandyk2019:'van Dyk 2019',opar2015:'Opar 2015',haroy2019:'Harøy 2019',tyler2001:'Tyler 2001',suchomel2016:'Suchomel 2016',comfort2018:'Comfort 2018',markovic2007:'Markovic 2007',mcguigan2006:'McGuigan 2006',gathercole2015:'Gathercole 2015',petrakos2016:'Petrakos 2016',backman2011:'Backman 2011'};
+const LIT_SHORT={silbernagel2007:'Silbernagel 2007',rio2015:'Rio 2015',vanark2016:'van Ark 2016',malliaras2015:'Malliaras 2015',kongsgaard2009:'Kongsgaard 2009',breda2021:'Breda 2021',beyer2015:'Beyer 2015',oneill2019:'O’Neill 2019',jordan2015:'Jordan 2015',grindem2016:'Grindem 2016',mjolsnes2004:'Mjølsnes 2004',vanderhorst2015:'van der Horst 2015',vandyk2019:'van Dyk 2019',opar2015:'Opar 2015',haroy2019:'Harøy 2019',tyler2001:'Tyler 2001',suchomel2016:'Suchomel 2016',comfort2018:'Comfort 2018',markovic2007:'Markovic 2007',mcguigan2006:'McGuigan 2006',gathercole2015:'Gathercole 2015',petrakos2016:'Petrakos 2016',backman2011:'Backman 2011',flanagan2008:'Flanagan & Comyns 2008',sheppard2011:'Sheppard 2011',mcmahon2018:'McMahon 2018',bishop2023:'Bishop 2023'};
 const PRIO=[null,{t:'Priority',c:'c-ink'},{t:'Next',c:'c-amber'},{t:'Consider',c:'c-stone'}];
 function clinActions(c){
  const A=[],add=(pr,area,title,why,dos,refs)=>A.push({pr,area,title,why,dos,refs});
@@ -985,9 +1110,13 @@ function clinActions(c){
   ['Dynamic output is close to the isometric ceiling: bias maximal strength work [suchomel2016; comfort2018].'],['suchomel2016','comfort2018']);
  // reactive strength
  const eur=lt('eur'),lowEff=below('cmj_ftct')||below('cmj_rsimod');
- if(((eur!=null&&eur<1.0)||lowEff)&&!(c.tendon&&ph<3))add(3,'Reactive strength','Develop the stretch-shortening cycle',
+ if(((eur!=null&&eur<0.9)||lowEff)&&!(c.tendon&&ph<3))add(3,'Reactive strength','Develop the stretch-shortening cycle',
   [eur!=null?`EUR ${fmt(eur,2)}`:'',lowEff?'FT:CT or RSI-mod below the reference range':''].filter(Boolean).join(', ')+'.',
   ['Plyometrics twice a week for 6–10 weeks (pogo hops, hurdle hops, drop jumps), progressing ground contacts. Plyometric training reliably improves CMJ height [markovic2007].',eur!=null?'EUR (CMJ ÷ squat jump) tracks how much the countermovement adds [mcguigan2006].':''].filter(Boolean),eur!=null?['markovic2007','mcguigan2006']:['markovic2007']);
+ // fast SSC
+ const djct=lt('dj_ct');
+ if(djct!=null&&djct>=250&&!(c.tendon&&ph<3))add(3,'Reactive strength','Shorten ground contacts',`Drop jump contact time ${fmt(djct)} ms (fast stretch-shortening is under 250 ms).`,
+  ['Low-amplitude, short-contact plyometrics (pogo hops, ankle hops, low drop jumps from 20–30 cm) cued "off the ground as fast as you can". Raise drop height only while contact stays under 250 ms [flanagan2008].'],['flanagan2008']);
  // speed
  if(below('sprint10')||below('sprint20'))add(3,'Speed','Develop acceleration',`${below('sprint10')?'10 m':'20 m'} sprint slower than the reference range.`,
   ['Weekly maximal sprint exposure (10–30 m accelerations with full recovery) plus resisted sled sprints, which improve acceleration, mainly in less-trained athletes [petrakos2016].'],['petrakos2016']);
@@ -1071,17 +1200,33 @@ function barFor(c,m,v){
  h+=`<span class="mk" style="left:${P(v)}%"></span></div>`;return h;
 }
 
+/* ---------- hero: where the client is tracking (replaces the ring) ---------- */
+const TRACK=[
+ {n:'Power',keys:['cmj_jh','cmj_ppbm','sj_jh','slcmj']},
+ {n:'Elasticity',keys:['eur','cmj_rsimod','dj_rsi','hop_rsi']},
+ {n:'Strength',keys:['imtp_rel','iso_ke','iso_calf','nordic','hip_add','hip_abd']},
+ {n:'Speed',keys:['sprint10','sprint20','maxvel']},
+ {n:'Capacity',keys:['calf_reps','sts_reps','ktw']},
+ {n:'Left–right balance',lsi:true},
+ {n:'Tendon health',keys:['visa_p','visa_a','pain_dsq','pain_calf','pain_hop']},
+];
+function trackScores(c){
+ return TRACK.map(T=>{const xs=[];
+  if(T.lsi)M.filter(m=>m.p).forEach(m=>{const l=lastLsi(c,m);if(l)xs.push(lsiScore(l.v))});
+  else T.keys.forEach(k=>{const s=mScore(c,MK[k]);if(s!=null)xs.push(s)});
+  return xs.length?{n:T.n,s:xs.reduce((a,b)=>a+b,0)/xs.length}:null}).filter(Boolean);
+}
 function renderHeroClient(c){
- const a=age(c.dob),ds=domainScores(c),ph=c.tendon?phaseOf(c):null;
- const overall=ds.length?Math.round(ds.reduce((x,y)=>x+y.s,0)/ds.length):null;
- const base=c.tests.length>1?domainScores(Object.assign({},c,{tests:c.tests.slice(0,1)})):null;
- const ov0=base&&base.length?base.reduce((x,y)=>x+y.s,0)/base.length:null;
- let phase=null;
- if(ph){const gate=Math.min(ph.p+1,4),items=CRIT_DEF.filter(x=>x.gate===gate).map(x=>evalCrit(c,x));phase={p:ph.p,frac:ph.p===4?1:items.filter(i=>i.ok).length/items.length,met:items.filter(i=>i.ok).length,of:items.length,gate}}
- const center=ph?{eb:'ROADMAP PHASE',v:ph.p,unit:'/4',s:PHASES[ph.p-1].n,d:ph.p<4?`${phase.met} of ${phase.of} criteria for phase ${phase.gate}`:'All criteria met'}
-  :{eb:'PROFILE SCORE',v:overall==null?'—':overall,unit:overall==null?'':'/100',s:overall==null?'No results yet':scoreWord(overall),d:ov0!=null&&overall!=null?`${overall-Math.round(ov0)>=0?'+':''}${overall-Math.round(ov0)} since first test`:''};
- const lt=c.tests[c.tests.length-1];
- const desc=[c.condition,c.sport,c.position].filter(Boolean).join(' · ');
+ const a=age(c.dob),ph=c.tendon?phaseOf(c):null,who=firstName(c);
+ const ts=trackScores(c),t0=c.tests.length>1?trackScores(Object.assign({},c,{tests:c.tests.slice(0,1)})):[];
+ const word=s=>s>=65?['On track','tk-on']:s>=45?['Building','tk-bd']:['Focus','tk-fc'];
+ let stepper='';
+ if(ph){const gate=Math.min(ph.p+1,4),items=CRIT_DEF.filter(x=>x.gate===gate).map(x=>evalCrit(c,x)),met=items.filter(i=>i.ok).length;
+  stepper=`<div class="steps" role="img" aria-label="Roadmap phase ${ph.p} of 4">${PHASES.map((p,i)=>`<div class="st ${i+1<ph.p?'done':i+1===ph.p?'now':''}"><i></i><span>${i+1}</span></div>`).join('')}</div>
+   <div class="stl"><b>Phase ${ph.p} · ${PHASES[ph.p-1].n}</b><span>${ph.p<4?`${met} of ${items.length} criteria met for phase ${gate}`:'All Roadmap criteria met'}</span></div>`;}
+ const rows=ts.map(r=>{const b=t0.find(x=>x.n===r.n),w=word(r.s);
+  return `<div class="trk"><span class="tn">${r.n}</span><div class="tt" aria-hidden="true"><span class="tz"></span>${b?`<i class="t0" style="left:${clamp(b.s,0,100)}%"></i>`:''}<i class="t1 ${w[1]}" style="left:${clamp(r.s,0,100)}%"></i></div><span class="tw ${w[1]}">${w[0]}</span></div>`}).join('');
+ const lt=c.tests[c.tests.length-1],desc=[c.condition,c.sport,c.position].filter(Boolean).join(' · ');
  hero.innerHTML=`<div class="heroGrid"><div>
   <div class="eb" style="color:var(--soft)">VALO ${c.tendon?'Rehabilitation':'Performance'} · Client report</div>
   <h1>${esc(c.name)}</h1>
@@ -1093,106 +1238,325 @@ function renderHeroClient(c){
    <div><span>Compared with</span><b>${esc(NORM_SETS[c.norm].short)} norms</b></div>
    <div><span>Tests</span><b>${c.tests.length}${lt?' · last '+fdate(lt.date):''}</b></div>
   </div></div>
-  <div class="ringBox">${ring(ds,center,phase,base)}
-   <div class="rkey"><span><i style="background:${RING_COL.on}"></i>On track (65+)</span><span><i style="background:${RING_COL.build}"></i>Building</span><span><i style="background:${RING_COL.focus}"></i>Focus</span>${base?'<span><i class="tk"></i>First test</span>':''}</div>
-   <p class="rcap">${ds.length?`Each segment is scored out of 100 against ${esc(NORM_SETS[c.norm].short.toLowerCase())} norms and this client's symmetry.`:'Scores appear after the first test.'}${phase?' The outer ring tracks the Roadmap: white phases are done, amber shows progress through the current one.':''}</p>
-  </div></div>`;
+  <aside class="tracking"><div class="eb" style="color:var(--soft)">Where ${esc(who)} is tracking</div>${stepper}
+   ${rows?`<div class="trks">${rows}</div><p class="tcap"><i class="k1"></i>Now${t0.length?' <i class="k0"></i>First test':''} · scored against ${esc(NORM_SETS[c.norm].short.toLowerCase())} norms</p>`:'<p class="tcap">Scores appear after the first test.</p>'}
+  </aside></div>`;
 }
 
-function headlines(c){
- const pick=c.region==='achilles'?['visa_a','pain_calf','iso_calf','calf_reps']:c.tendon?['visa_p','pain_dsq','iso_ke','sts_reps']:['cmj_jh','imtp_rel','sprint10','slcmj'];
- const out=[];
- pick.forEach(k=>{const m=MK[k];if(m.p){const l=lastLsi(c,m);if(l){const d=l.n>1?l.v-l.first:null;out.push({big:fmt(l.v,0)+'<small>%</small>',cap:m.l+' symmetry'+(d!=null?` · <span class="${d>=0?'up':'down'}">${d>0?'+':''}${fmt(d,0)} pts</span> since baseline`:'')})}else{const t=last(c,m);if(t)out.push({big:fmt(rep(t,m),m.d)+`<small>${m.u}</small>`,cap:m.l+' (average of both sides)'})}}
-  else{const t=last(c,m);if(t)out.push({big:fmt(rep(t,m),m.d)+`<small>${m.u}</small>`,cap:m.l+' · '+chg(c,m)+' since baseline'})}});
- if(out.length<4){for(const m of M){if(out.length>=4)break;if(pick.includes(m.k)||m.p)continue;const t=last(c,m);if(t)out.push({big:fmt(rep(t,m),m.d)+`<small>${m.u}</small>`,cap:m.l+' · '+chg(c,m)+' since baseline'})}}
- return out.slice(0,4);
+/* ---------- power profile: force, muscle vs elastic, reactive ---------- */
+function hbars(rows){
+ const mx=Math.max(...rows.map(r=>r[1]))*1.06;
+ return `<div class="hbs">${rows.map(([l,v,u,cls,d])=>`<div class="hb"><div class="hbl"><span>${esc(l)}</span><b>${fmt(v,d||0)} <small>${esc(u)}</small></b></div><div class="hbt"><span class="hbf ${cls}" style="width:${v/mx*100}%"></span></div></div>`).join('')}</div>`;
+}
+function ppanel(o){
+ return `<div class="pp"><div class="eb">${o.eb}</div><h3>${o.title}</h3><p class="def">${o.def}</p>
+  <div class="ppg"><div class="ppv">${o.vis}</div>
+   <div class="rbox"><div class="eb">${o.rname}</div><div class="rv">${o.rv}</div>${o.chip?`<span class="chip ${o.chip[1]}">${esc(o.chip[0])}</span>`:''}${o.rvis||''}${o.rsub?`<p class="rsub">${o.rsub}</p>`:''}</div></div>
+  <p class="hlm">${o.read}</p></div>`;
+}
+function powerSection(c){
+ const lt=k=>{const t=last(c,MK[k]);return t?rep(t,MK[k]):null},clin=S.mode==='clin',who=firstName(c);
+ if(c.tendon&&phaseOf(c).p<3)return '';
+ const imtp=lt('imtp'),dsi=lt('dsi'),eur=lt('eur'),sj=lt('sj_jh'),cmj=lt('cmj_jh'),ct=lt('dj_ct'),dri=lt('dri'),rsi=lt('dj_rsi'),dh=lt('dj_height'),djh=lt('dj_jh');
+ let dyn=lt('cmj_cpf'),dynL='Force produced in the jump';
+ if(dyn==null){const t=[...c.tests].reverse().find(t=>t.v.cmj_fzv!=null&&t.bw);if(t)dyn=t.v.cmj_fzv*t.bw}
+ const P=[],missing=[];
+ if(imtp!=null&&dyn!=null&&dsi!=null){const T=hlTile(c,'dsi');
+  P.push(ppanel({eb:'Force',title:'Maximum force vs force in the jump',
+   def:clin?'IMTP peak force against CMJ force; DSI = CMJ ÷ IMTP. Band 0.6–0.8 (Sheppard 2011; method matters, Comfort 2018).':'How much force you can produce at your strongest, pulling on a fixed bar, and how much of it you actually use when you jump.',
+   vis:hbars([['Maximum force (IMTP)',imtp,'N','f-dark'],[dynL+' (CMJ)',dyn,'N','f-amber']]),
+   rname:'Dynamic strength index',rv:fmt(dsi,2),chip:T.st,rvis:gauge(dsi,{lo:0.3,hi:1.1,band:[0.6,0.8],ends:['Speed limit','Strength limit'],bandL:'0.6–0.8'}),
+   read:clin?T.clin:T.plain}))} else missing.push(imtp==null?'IMTP (maximum force)':'CMJ concentric peak force');
+ if(sj!=null&&cmj!=null&&eur!=null){const T=hlTile(c,'eur'),add=cmj-sj;
+  P.push(ppanel({eb:'Muscle vs elastic',title:'Jump from still vs jump with a dip',
+   def:clin?'Squat jump (concentric only) against CMJ (slow SSC). EUR = CMJ ÷ SJ, band 0.9–1.15 (McGuigan 2006).':'A jump from a still squat is your muscles on their own. Adding a quick dip lets muscles and tendons store and give back energy, like a spring.',
+   vis:hbars([['Squat jump: muscle only',sj,'cm','f-soft',1],['With a dip: muscle + spring',cmj,'cm','f-dark',1]]),
+   rname:'Eccentric utilisation ratio',rv:fmt(eur,2),chip:T.st,rvis:gauge(eur,{lo:0.7,hi:1.35,band:[0.9,1.15],ends:['Muscle-driven','Spring-driven'],bandL:'0.9–1.15'}),
+   rsub:`The dip adds ${add>=0?'':'−'}${fmt(Math.abs(add),1)} cm`,read:clin?T.clin:T.plain}))} else missing.push('squat jump (for EUR)');
+ if(ct!=null&&(dri!=null||rsi!=null)){const s=series(c,MK.dri),d=dri!=null&&s.length>1?pc(rep(s[0],MK.dri),dri):null;
+  const st=ct>=250?['Absorb, then push','c-amber']:['Fast bounce','c-sage'];
+  P.push(ppanel({eb:'Reactive',title:'Bounce off a drop',
+   def:clin?'Drop jump: fast SSC under 250 ms contact (Flanagan & Comyns 2008). DRI = (drop + jump height) ÷ (g × contact time²), scored on the Plyomat Bounce Factor tiers (field standard, not a published norm).':'Dropping off a box and bouncing straight back up tests the fast spring you use when sprinting and changing direction.',
+   vis:(dh!=null&&djh!=null?hbars([['Drop height',dh,'cm','f-soft'],['Height back up',djh,'cm','f-dark',1]]):'')+`<div class="hbl" style="margin-top:12px"><span>Time on the ground</span><b>${fmt(ct)} <small>ms</small></b></div>`+gauge(ct,{lo:400,hi:120,band:[250,120],ends:['Long contact','Short contact'],bandL:'Fast: < 250 ms'}),
+   rname:dri!=null?'Dynamic Rebound Index':'Drop jump RSI',rv:fmt(dri!=null?dri:rsi,2),chip:dri!=null?[DRI_TIERS[driTier(dri)].n,DRI_TIERS[driTier(dri)].c]:st,
+   rvis:dri!=null?driScale(dri):'',rsub:[driMove(c),d!=null?`${d>=0?'+':''}${fmt(d,0)}% since first test`:'',rsi!=null&&dri!=null?`RSI ${fmt(rsi,2)}`:''].filter(Boolean).join(' · '),
+   read:dri!=null?(clin?`DRI ${fmt(dri,2)}: ${DRI_TIERS[driTier(dri)].n}. Contact ${fmt(ct)} ms (${ct<250?'fast':'slow'} SSC). Tiers: under 0.5 Warming Up, 0.5–1.25 Rebound Ready, 1.25–2.0 Pretty Springy, 2.0–3.0 Bouncy, over 3.0 Elite. Report the drop height with every DRI.`:`${DRI_TIERS[driTier(dri)].d} ${ct>=250?'Your contacts are still long, so shortening time on the ground is the next step.':'You are off the ground in under a quarter of a second.'}`):clin?`Contact ${fmt(ct)} ms: ${ct<250?'fast':'slow'} SSC.`:ct>=250?'You land, absorb, then push. That is a slower spring: sprinting and changing direction need quicker contacts.':'You bounce straight back off the ground in under a quarter of a second, the way sprinting and changing direction need.'}))} else missing.push('drop jump with drop height (for DRI)');
+ if(!P.length)return isAthlete(c)?`<section class="sec"><div class="eb">Power profile</div><h2 class="h2">How ${esc(who)} produces power</h2><p class="lead">Test IMTP, squat jump, CMJ and a drop jump on the same day to build the power profile.</p></section>`:'';
+ const ew=eur==null?null:eur<0.9?'Muscle-driven':eur>1.15?'Spring-driven':'Muscle and spring balanced',fw=dsi==null?null:dsi<0.6?'Strength in reserve':dsi<=0.8?'Uses strength well':'Strength is the ceiling',rw=ct==null?null:ct<250?'Fast bounce':'Slow bounce';
+ return `<section class="sec"><div class="eb">Power profile</div><h2 class="h2">How ${esc(who)} produces power</h2>
+  <div class="ptags">${[ew,fw,rw].filter(Boolean).map(t=>`<span class="ptag">${t}</span>`).join('')}</div>
+  <div class="pps">${P.join('')}</div>
+  ${missing.length?`<p class="cap" style="margin-top:12px">Not tested yet: ${missing.join(' · ')}.</p>`:''}</section>`;
 }
 
+/* ---------- the jump in three parts ---------- */
+function jumpTimeline(c){
+ const clin=S.mode==='clin';
+ const rows=c.tests.filter(t=>t.v.cmj_ct!=null||t.v.cmj_ecc_dur!=null).map(t=>{const v=t.v;let ecc=v.cmj_ecc_dur,con=v.cmj_con_dur,ct=v.cmj_ct;
+  if(ecc==null&&ct!=null&&con!=null)ecc=ct-con;if(con==null&&ct!=null&&ecc!=null)con=ct-ecc;if(ct==null&&ecc!=null&&con!=null)ct=ecc+con;
+  const fl=(v.cmj_ftct&&ct)?v.cmj_ftct*ct:(v.cmj_jh?2*Math.sqrt(2*v.cmj_jh/100/9.81)*1000:null);return {t,ecc,con,ct,fl}});
+ if(!rows.length)return '';
+ const L=rows[rows.length-1],F=rows.length>1?rows[0]:null,split=L.ecc!=null&&L.con!=null;
+ const PH=(split?[
+  {k:'ecc',cls:'s-dip',n:clin?'Eccentric phase':'Dip',d:clin?'Unweighting and braking: start of movement to zero velocity at the bottom.':'Lowering and braking into the bottom of the jump.',w:'Shorter means a quicker, springier switch.',lb:1},
+  {k:'con',cls:'s-push',n:clin?'Concentric phase':'Push',d:clin?'Propulsion: zero velocity to take-off.':'Driving up from the bottom until the feet leave the ground.',w:'Shorter for the same height means more explosive.',lb:1}]
+  :[{k:'ct',cls:'s-both',n:clin?'Contraction time':'Dip and push',d:clin?'Start of movement to take-off.':'Lowering into the jump and driving back up.',w:'Shorter for the same height means more explosive.',lb:1}])
+  .concat([{k:'fl',cls:'s-fly',n:clin?'Flight time':'Air',d:clin?'Take-off to landing; determines jump height.':'Time in the air.',w:'Longer means a higher jump.',lb:0}]);
+ const cards=PH.map((p,i)=>{const v=L[p.k];if(v==null)return '';let ch='';
+  if(F&&F[p.k]!=null){const d=v-F[p.k],good=p.lb?d<0:d>0;ch=Math.abs(d)<10?`<span class="flat">No change</span>`:`<span class="${good?'up':'down'}">${d>0?'+':''}${fmt(d)} ms</span> vs first test`}
+  return `<div class="phc"><div class="phn"><i class="${p.cls}"></i><span>${i+1}</span>${esc(p.n)}</div><div class="phv">${fmt(v)}<small>ms</small></div><p class="phd">${esc(p.d)}</p><p class="phw">${esc(p.w)}</p>${ch?`<p class="phch">${ch}</p>`:''}</div>`}).join('');
+ const sel=F?[['First test',F],['Latest',L]]:[['Latest',L]],mx=Math.max(...sel.map(([,r])=>(r.ct||0)+(r.fl||0)));
+ const step=mx>1200?500:250,ticks=[];for(let t=0;t<=mx;t+=step)ticks.push(t);
+ const seg=(r,p)=>{const v=r[p.k];return v?`<span class="seg ${p.cls}" style="width:${v/mx*100}%" title="${esc(p.n)}: ${fmt(v)} ms"></span>`:''};
+ const bars=sel.map(([lab,r])=>`<div class="pbr"><span class="cap">${lab}<br>${fdate(r.t.date)}</span><div class="tlbar">${PH.map(p=>seg(r,p)).join('')}</div></div>`).join('')+
+  `<div class="pbr"><span></span><div class="pax">${ticks.map(t=>`<span style="left:${t/mx*100}%">${t}</span>`).join('')}<em>ms</em></div></div>`;
+ const fast=F&&L.ct!=null&&F.ct!=null?L.ct-F.ct:null,air=F&&L.fl!=null&&F.fl!=null?L.fl-F.fl:null;
+ const sum=fast==null?'':fast<=-20&&air>=-10?'Less time getting off the ground, with the same or more air time: a springier, more efficient jump.':fast>=20&&Math.abs(air)<15?'More time getting off the ground for the same air time: the jump has become slower to produce.':'';
+ return `<h3 class="h3">${clin?'Phase timing':'The jump in three parts'}</h3><p class="cap">${clin?'Countermovement jump phases from the force plate.':'Every jump is a dip, a push and time in the air. We want a short dip and push with plenty of air time.'}</p>
+  <div class="phcs">${cards}</div><div class="pbars">${bars}</div>${sum?`<p class="read" style="margin-top:12px">${sum}</p>`:''}`;
+}
+
+/* ---------- DRI tiers (Plyomat Bounce Factor field standard) ---------- */
+const DRI_TIERS=[
+ {max:0.5,n:'Warming Up',c:'c-stone',d:'The spring is not loaded yet: early hops in a set, or a tired, non-reactive contact.'},
+ {max:1.25,n:'Rebound Ready',c:'c-amber',d:'Reactive contact is starting to show. This is a developing athlete’s working range.'},
+ {max:2.0,n:'Pretty Springy',c:'c-sage',d:'Solid, repeatable reactivity: you are recycling force well and holding form.'},
+ {max:3.0,n:'Bouncy',c:'c-sage',d:'Fast, stiff, efficient rebounds. Trained, reactive athletes live here.'},
+ {max:Infinity,n:'Elite',c:'c-ink',d:'Elite reactive output: very short contacts with real height off little drop.'}];
+const driTier=v=>DRI_TIERS.findIndex(t=>v<t.max);
+function driScale(v){
+ const i=driTier(v),lo=i?DRI_TIERS[i-1].max:0,hi=DRI_TIERS[i].max===Infinity?4:DRI_TIERS[i].max,f=clamp((v-lo)/(hi-lo),0,1);
+ return `<div class="dris" role="img" aria-label="DRI tier: ${DRI_TIERS[i].n}">${DRI_TIERS.map((t,j)=>`<span class="dt${j===i?' on':''}${j<i?' past':''}">${j===i?`<i style="left:${(f*100).toFixed(0)}%"></i>`:''}</span>`).join('')}</div>
+  <div class="drl">${['0','0.5','1.25','2.0','3.0+'].map((t,j)=>`<span class="${j===i?'on':''}">${t}</span>`).join('')}</div>`;
+}
+function driMove(c){const s=series(c,MK.dri);if(s.length<2)return '';const a=driTier(rep(s[0],MK.dri)),b=driTier(rep(s[s.length-1],MK.dri));
+ return b>a?`Up from ${DRI_TIERS[a].n}`:b<a?`Down from ${DRI_TIERS[a].n}`:''}
+
+/* ---------- shared visuals: banded gauge + sparkline ---------- */
+function gauge(v,o){
+ const P=x=>clamp((x-o.lo)/(o.hi-o.lo)*100,0,100),a=P(o.band[0]),b=P(o.band[1]);
+ return `<div class="gauge" aria-hidden="true"><span class="gband" style="left:${Math.min(a,b)}%;width:${Math.abs(b-a)}%"></span><span class="gmk" style="left:${P(v)}%"></span></div>
+  <div class="gscale"><span>${esc(o.ends[0])}</span><span class="gmid">${esc(o.bandL)}</span><span>${esc(o.ends[1])}</span></div>`;
+}
+function spark(c,m){
+ const s=series(c,m).map(t=>rep(t,m));
+ if(s.length<2)return `<div class="gscale"><span>First test sets the baseline</span></div>`;
+ const W=220,H=40,mn=Math.min(...s),mx=Math.max(...s),r=mx-mn||1,X=i=>6+i*(W-12)/(s.length-1),Y=v=>H-6-(v-mn)/r*(H-12);
+ return `<svg class="spark" viewBox="0 0 ${W} ${H}" aria-hidden="true"><line x1="6" x2="${W-6}" y1="${Y(s[0]).toFixed(1)}" y2="${Y(s[0]).toFixed(1)}" stroke="#B3B2B2" stroke-dasharray="3 3"/><path d="M${s.map((v,i)=>X(i).toFixed(1)+','+Y(v).toFixed(1)).join('L')}" fill="none" stroke="#161616" stroke-width="1.8"/><circle cx="${X(s.length-1).toFixed(1)}" cy="${Y(s[s.length-1]).toFixed(1)}" r="3.5" fill="#161616"/></svg>
+  <div class="gscale"><span>First test</span><span>Latest</span></div>`;
+}
+const firstName=c=>c.name.replace(/^Example · /,'').split(' ')[0];
+const isAthlete=c=>/athlete/i.test(c.category)||(!c.tendon&&!!c.sport);
+
+/* ---------- highlight tiles: the few numbers that matter for why the client is here ---------- */
+const PLAIN_LSI={iso_ke:'Quad strength',iso_calf:'Calf strength',iso_ankle_run:'Running ankle strength',calf_reps:'Calf endurance',sts_reps:'Single-leg squat endurance',hop_rsi:'Hopping',slcmj:'Single-leg jump',nordic:'Hamstring strength',hip_add:'Groin strength'};
+const PLAIN_REF={cmj_jh:['Jump height','How high you jump'],cmj_rsimod:['Jump explosiveness (RSI-mod)','How much height you get for the time it takes to jump'],imtp_rel:['Maximal strength','How hard you push into an immovable bar, for your body weight'],maxvel:['Top speed','Your fastest running speed'],sprint10:['Acceleration (10 m)','How quickly you cover the first 10 m'],dj_rsi:['Bounce off a drop (RSI)','The height you get back for each bit of time on the ground']};
+function hlTile(c,key){
+ const clin=S.mode==='clin',lt=k=>{const t=last(c,MK[k]);return t?rep(t,MK[k]):null};
+ const G='c-sage',A='c-amber',R='c-flag',N='c-stone';
+ const since=m=>series(c,m).length>1?chg(c,m)+' since first test':'First test';
+ if(key.startsWith('lsi:')){
+  const k=key.slice(4),m=MK[k],l=lastLsi(c,m);if(!l)return null;const v=l.v,d=l.n>1?v-l.first:null;
+  return {title:clin?`${m.l} symmetry`:`${PLAIN_LSI[k]||m.l}: ${c.side?'sore vs good leg':'left vs right'}`,v,dp:0,unit:'%',
+   vis:gauge(v,{lo:50,hi:100,band:[90,100],ends:['Gap','Even'],bandL:'90%+'}),
+   st:v>=90?['Even',G]:v>=80?['Close',A]:['Gap',R],
+   plain:v>=90?'Both legs are within 10% of each other.':`${c.side?'The sore leg':'The weaker leg'} is at ${fmt(v,0)}% of the other. We want 90% or more before ${c.tendon?'moving up a phase':'full training load'}.`,
+   clin:`${m.l} LSI ${fmt(v,0)}% (${c.side?'affected ÷ unaffected':'weaker ÷ stronger'}). 90% threshold.`,
+   sub:d!=null?`<span class="${d>=0?'up':'down'}">${d>=0?'+':''}${fmt(d,0)} pts</span> since first test`:'First test'};
+ }
+ const m=MK[key],v=lt(key);if(!m||v==null)return null;
+ if(key==='visa_p'||key==='visa_a'){
+  return {title:clin?m.l:(key==='visa_p'?'Knee tendon score':'Achilles tendon score'),v,dp:0,unit:'/100',
+   vis:gauge(v,{lo:0,hi:100,band:[80,100],ends:['0','100'],bandL:'80+'}),
+   st:v>=80?['Near full function',G]:v>=50?['Improving',A]:['Limited',R],
+   plain:'A questionnaire on how the tendon copes with daily life and sport, out of 100. Above 80 is close to normal.',
+   clin:`${m.l} ${fmt(v)}/100. Roadmap target 80 for phase 4.`,sub:since(m)};
+ }
+ if(m.g==='Tendon'){
+  const mv=m.l.replace(/^Pain on /,'');
+  return {title:clin?m.l:'Pain on the test movement',v,dp:0,unit:'/10',
+   vis:gauge(v,{lo:10,hi:0,band:[3,0],ends:['10/10','0/10'],bandL:'0–3 OK'}),
+   st:v<=3?['Settled',G]:v<=5?['OK while loading',A]:['Irritable',R],
+   plain:`Pain out of 10 on ${mv}. Three or less is fine while we keep building load.`,
+   clin:`${m.l} ${fmt(v)}/10. Pain-monitoring model: up to 5/10 acceptable if settled by next morning (Silbernagel 2007).`,sub:since(m)};
+ }
+ if(key==='dsi'){
+  const t=last(c,m),how=t&&t.dsiFrom==='cpf'?'CMJ concentric peak force ÷ IMTP peak force':'CMJ force at zero velocity ÷ IMTP force (both per kg)';
+  return {title:clin?'Dynamic strength index (DSI)':'Strength used in the jump (DSI)',v,dp:2,unit:'',
+   vis:gauge(v,{lo:0.3,hi:1.1,band:[0.6,0.8],ends:['Speed limit','Strength limit'],bandL:'0.6–0.8'}),
+   st:v<0.6?['Strength not used fast',A]:v<=0.8?['Balanced',G]:['Needs more strength',A],
+   plain:v<0.6?'You are stronger than your jump shows. The next step is learning to use that strength quickly: explosive, faster work.':v<=0.8?'Strength and speed are in balance. Keep building both.':'You already use most of your strength when you jump. Getting stronger is what will lift the jump.',
+   clin:`DSI ${fmt(v,2)} = ${how}. Band 0.6–0.8 (Sheppard 2011): under 0.6 bias ballistic work, over 0.8 bias maximal strength. The value depends on the method (Comfort 2018).`,sub:since(m)};
+ }
+ if(key==='eur'){
+  return {title:clin?'Eccentric utilisation ratio (EUR)':'Spring from the dip (EUR)',v,dp:2,unit:'',
+   vis:gauge(v,{lo:0.7,hi:1.35,band:[0.9,1.15],ends:['Dip unused','Relies on dip'],bandL:'0.9–1.15'}),
+   st:v<0.9?['Not using the dip',A]:v<=1.15?['Using the dip well',G]:['Push power lagging',A],
+   plain:v<0.9?'You jump about as high from a still squat as with a dip first, so the dip is not storing and returning energy yet.':v<=1.15?'The quick dip adds height, like loading a spring. That is what we want.':'You rely heavily on the bounce from the dip. Pushing from a still position is the part to build.',
+   clin:`EUR ${fmt(v,2)} = CMJ height ÷ squat jump height (McGuigan 2006). Band 0.9–1.15: low = poor slow-SSC use, high = concentric-only power lags.`,sub:since(m)};
+ }
+ if(key==='dri'){
+  const s=series(c,m),d=s.length>1?pc(rep(s[0],m),v):null,ct=lt('dj_ct'),dh=lt('dj_height');
+  const T=DRI_TIERS[driTier(v)];
+  return {title:clin?'Dynamic Rebound Index (DRI)':'Bounce (DRI)',v,dp:2,unit:'',vis:driScale(v),
+   st:[T.n,T.c],
+   plain:`How well you rebound off a drop: more height back from less time on the ground scores higher. ${T.d}`,
+   clin:`DRI = (drop height + jump height) ÷ (g × contact time²). ${dh!=null?`Drop ${fmt(dh)} cm, `:''}contact ${ct!=null?fmt(ct)+' ms':'—'}. Tier ${T.n} (Plyomat field scoring standard, not a published population norm): best used to compare the athlete with themselves and across drop heights.`,
+   sub:driMove(c)?`${driMove(c)} · `+(d!=null?`<span class="${d>=0?'up':'down'}">${d>=0?'+':''}${fmt(d,0)}%</span> since first test`:''):d!=null?`<span class="${d>=0?'up':'down'}">${d>=0?'+':''}${fmt(d,0)}%</span> since first test`:'First test'};
+ }
+ if(PLAIN_REF[key]){
+  const rf=refFor(c,key),P=PLAIN_REF[key];let vis,st;
+  if(rf){const a=Math.min(...rf.r),b=Math.max(...rf.r),sp=b-a||Math.abs(a)*.2;let lo=Math.min(a-sp,v-sp*.2),hi=Math.max(b+sp,v+sp*.2);if(m.lb)[lo,hi]=[hi,lo];
+   vis=gauge(v,{lo,hi,band:[a,b],ends:m.lb?['Slower','Faster']:['Lower','Higher'],bandL:`${fmt(a,m.d)}–${fmt(b,m.d)}`});
+   const below=m.lb?v>b:v<a,above=m.lb?v<a:v>b;st=below?['Below range',A]:above?['Above range',G]:['In range',G];}
+  else{vis=spark(c,m);st=['Own baseline',N]}
+  const grp=rf?(rf.set==='football'?`the middle 50% of ${c.sex==='F'?'WSL':'Premier League'} players`:`the reference range for active ${c.sex==='F'?'women':'men'}`):'';
+  return {title:clin?m.l:P[0],v,dp:m.d,unit:m.u,vis,st,
+   plain:`${P[1]}${rf?`, compared with ${grp}.`:', compared with your own earlier tests.'}`,
+   clin:`${m.l} ${fmt(v,m.d)} ${m.u}${rf?`. ${NORM_SETS[rf.set].short} band ${fmt(Math.min(...rf.r),m.d)}–${fmt(Math.max(...rf.r),m.d)}${rf.set==='football'&&REF_SRC[key]?` (${REF_SRC[key]})`:''}`:'. No reference set'}.`,sub:since(m)};
+ }
+ return null;
+}
+function hlKeys(c){
+ const ph=c.tendon?phaseOf(c).p:0;let pick,fb;
+ if(c.region==='achilles'){pick=['visa_a','pain_calf','lsi:iso_calf','lsi:calf_reps'];fb=['lsi:iso_ankle_run','pain_hop','lsi:hop_rsi']}
+ else if(c.tendon){pick=['visa_p','pain_dsq','lsi:iso_ke',ph>=3?'lsi:hop_rsi':'lsi:sts_reps'];fb=['lsi:slcmj','lsi:sts_reps','pain_hop']}
+ else if(isAthlete(c)){pick=['cmj_jh','cmj_rsimod','imtp_rel','maxvel'];fb=['dj_rsi','sprint10','dri','lsi:slcmj']}
+ else{pick=['cmj_jh','cmj_rsimod','imtp_rel','lsi:slcmj'];fb=['lsi:iso_ke','dsi','eur']}
+ const out=[];[...pick,...fb].forEach(k=>{if(out.length<4){const t=hlTile(c,k);if(t)out.push(t)}});return out;
+}
+function highlightSection(c){
+ const T=hlKeys(c),clin=S.mode==='clin';
+ const head=c.tendon?'How the tendon is coping':isAthlete(c)?'Power, spring and strength':'Where things stand';
+ if(!T.length)return `<section class="sec first"><div class="eb">Highlights</div><h2 class="h2">${head}</h2><p class="empty">No results yet. Add a row for this client on the Results tab.</p></section>`;
+ return `<section class="sec first"><div class="eb">Highlights</div><h2 class="h2">${head}</h2>
+  <div class="hlgrid">${T.map(t=>`<article class="hl"><div class="hlh"><span class="eb">${esc(t.title)}</span></div>
+   <div class="hlv">${fmt(t.v,t.dp)}<small>${esc(t.unit)}</small></div><span class="chip ${t.st[1]}">${esc(t.st[0])}</span>${t.vis}
+   <p class="hlm">${esc(clin?t.clin:t.plain)}</p><p class="hld">${t.sub}</p></article>`).join('')}</div></section>`;
+}
+
+/* ---------- the spring: slow SSC (CMJ vs squat jump) and fast SSC (drop jump) ---------- */
+
+/* ---------- how they jump: outcome → strategy → drivers (McMahon 2018; Bishop 2023) ---------- */
+const TIERS=[
+ {n:'Outcome',q:'What came out',keys:[['cmj_jh','Jump height'],['cmj_rsimod','Jump efficiency']]},
+ {n:'Strategy',q:'How they got there',keys:[['cmj_ct','Time to take off'],['cmj_depth','Depth of the dip']]},
+ {n:'Drivers',q:'What produced it',keys:[['cmj_ecc_rfd','How hard they brake'],['cmj_fzv','Force at the bottom'],['cmj_ppbm','Power']]},
+];
+function jumpRead(c){
+ const d=k=>{const s=series(c,MK[k]);return s.length>1?pc(rep(s[0],MK[k]),rep(s[s.length-1],MK[k])):null};
+ const o=d('cmj_jh'),st=d('cmj_ct');
+ if(o==null)return null;
+ if(o<=-3)return ['watch','Lower than the first test','Jump height is down. Check fatigue, pain and the last week of training before reading anything else.'];
+ if(st==null)return o>=3?['good','Higher than the first test','Jump height is up since the first test.']:null;
+ if(o>=3&&st<=3)return ['good','Higher, without a slower jump','A real gain: more height without taking longer to get there.'];
+ if(o>=3&&st>3)return ['note','Higher, but by taking longer','The extra height came from a slower, deeper jump rather than a stronger spring.'];
+ if(st>=5)return ['watch','Same height, slower jump','Height looks the same, but the body is taking longer to produce it. That is the classic sign of fatigue or protecting a leg.'];
+ if(st<=-5)return ['good','Same height, quicker jump','The same height in less time: a more efficient jump.'];
+ return ['note','Much the same as the first test','Height and timing have not changed meaningfully.'];
+}
+function jumpSection(c){
+ if(!JUMP_KEYS.concat(['cmj_jh']).some(k=>series(c,MK[k]).length))return '';
+ const clin=S.mode==='clin',lt=k=>{const t=last(c,MK[k]);return t?rep(t,MK[k]):null},ct=lt('cmj_ct'),dp=lt('cmj_depth'),who=firstName(c);
+ const sp=ct==null?null:ct<=JS.ctFast?'quick':ct>=JS.ctSlow?'slow':'moderate-speed',dd=dp==null?null:dp<JS.depthShallow?'shallow':dp>JS.depthDeep?'deep':'mid-depth';
+ const label=sp&&dd?`a ${sp}, ${dd} jump`:sp?`a ${sp} jump`:dd?`a ${dd} dip`:null;
+ const read=jumpRead(c),F=jumpFindings(c),voice=clin?'clin':'plain';
+ const shown=clin?F:[...F.filter(f=>f.tone==='watch'),...F.filter(f=>f.tone!=='watch')].slice(0,3);
+ const tiers=TIERS.map(T=>{const rows=T.keys.filter(([k])=>lt(k)!=null);if(!rows.length)return '';
+  return `<div class="tier"><div class="eb">${T.n}</div><h4>${T.q}</h4>${rows.map(([k,pl])=>{const m=MK[k];return `<div class="trow"><span>${esc(clin?m.l.replace(/^CMJ /,''):pl)}</span><b>${fmt(lt(k),m.d)}<small>${esc(m.u)}</small></b><em>${series(c,m).length>1?chg(c,m):''}</em></div>`}).join('')}</div>`}).filter(Boolean);
+ const phT=c.tests.filter(t=>['cmj_ei','cmj_ci','cmj_li'].some(k=>lsiOf(c,t,MK[k])!=null)).slice(-4);
+ const cell=v=>v==null?'<td class="r">—</td>':`<td class="r"><span class="chip ${v>=90?'c-sage':v>=80?'c-amber':'c-flag'}">${fmt(v,0)}%</span></td>`;
+ return `<section class="sec"><div class="eb">How ${esc(who)} jumps</div><h2 class="h2">${label?`${esc(who)} uses ${label}`:'How the jump is produced'}</h2>
+  <p class="lead">${clin?'CMJ read as outcome → strategy → drivers (McMahon 2018; Bishop 2023): the same jump height can hide a slower strategy or weaker drivers.'
+   :'Jump height is only the result. The force plate also shows how the jump was made, which is where tiredness and protecting a leg show up first.'}</p>
+  ${read?`<div class="read r-${read[0]}"><b>${esc(read[1])}.</b> ${esc(read[2])}</div>`:''}
+  ${tiers.length?`<div class="tiers">${tiers.join('<span class="tarrow" aria-hidden="true">→</span>')}</div>`:''}
+  ${jumpTimeline(c)}
+  ${clin&&phT.length?`<h3 class="h3">Left vs right in each phase</h3><p class="cap">${c.side?'Affected leg as a percentage of the unaffected leg.':'Weaker leg as a percentage of the stronger leg.'} 90% or more is the usual target.</p>
+   <div class="tw"><table><thead><tr><th>Test</th><th class="r">Braking</th><th class="r">Pushing off</th><th class="r">Landing</th></tr></thead><tbody>${phT.map(t=>`<tr><td>${fdate(t.date)}</td>${cell(lsiOf(c,t,MK.cmj_ei))}${cell(lsiOf(c,t,MK.cmj_ci))}${cell(lsiOf(c,t,MK.cmj_li))}</tr>`).join('')}</tbody></table></div>`:''}
+  ${shown.length?`<h3 class="h3">${clin?'Findings':'What it means'}</h3><div class="fnds">${shown.map(f=>`<div class="fnd"><span class="chip ${f.tone==='good'?'c-sage':f.tone==='watch'?'c-amber':'c-stone'}">${f.tone==='good'?'Going well':f.tone==='watch'?'Watch':'Note'}</span><div><h4>${esc(f.title)}</h4><p>${esc(f[voice])}</p></div></div>`).join('')}</div>`:''}
+ </section>`;
+}
+
+/* ---------- page ---------- */
+function roadmapSection(c){
+ const ph=phaseOf(c),gate=Math.min(ph.p+1,4),items=CRIT_DEF.filter(x=>x.gate===gate).map(x=>evalCrit(c,x)),met=items.filter(i=>i.ok).length;
+ return `<section class="sec"><div class="eb">VALO Knee Recovery Roadmap${c.region==='achilles'?' · Achilles':''}</div><h2 class="h2">Phase ${ph.p}: ${PHASES[ph.p-1].n}</h2>
+  <p class="lead">Each phase has clear criteria. When every box for the next phase is ticked, we move up. ${ph.set?'Phase set in the sheet.':'Phase worked out from the latest results.'}</p>
+  <div class="loop">${PHASES.map((p,i)=>`<div class="step ${i+1<ph.p?'done':i+1===ph.p?'now':''}"><div class="n">PHASE ${i+1}${i+1<ph.p?' · DONE':i+1===ph.p?' · NOW':''}</div><h3>${p.n}</h3><p>${p.d}</p></div>`).join('')}</div>
+  ${ph.p<4?`<div class="gate"><div class="eb">To move into phase ${gate} · ${met} of ${items.length} met</div><h3 style="margin-top:6px">${PHASES[gate-1].n}</h3>
+   ${items.map(i=>`<div class="crit"><span class="tick ${i.ok===true?'t-met':i.ok===false?'t-not':'t-nod'}" aria-label="${i.ok===true?'Met':i.ok===false?'Not yet':'Not tested'}">${i.ok===true?'✓':i.ok===false?'–':'?'}</span><span>${esc(i.label)}</span><span class="v">${i.vt}</span></div>`).join('')}</div>`
+  :`<div class="gate"><div class="eb">All phase criteria met</div><h3 style="margin-top:6px">Maintenance: re-test every block to hold the gains.</h3></div>`}
+ </section>`;
+}
+function symmetrySection(c){
+ const pm=M.filter(m=>m.p&&lastLsi(c,m)&&(S.mode==='clin'||!['cmj_ei','cmj_ci','cmj_li'].includes(m.k)));
+ if(!pm.length)return '';
+ let h=`<section class="sec"><div class="eb">Left vs right</div><h2 class="h2">Symmetry across single-leg tests</h2>
+  <p class="lead">${c.side?`Amber is the affected ${c.side==='L'?'left':'right'} leg.`:'Both legs, latest test.'} Under 90% is flagged.</p>
+  <div class="sym"><div class="symH"><span>Test</span><span>Left</span><span>Right</span><span>Symmetry</span></div>`;
+ pm.forEach(m=>{const l=lastLsi(c,m),t=l.t,L=t.v[m.k+'_L'],R=t.v[m.k+'_R'],mx=Math.max(L,R),cls=s=>c.side?(c.side===s?'inv':'uninv'):'neu';
+  h+=`<div class="symR"><span>${esc(S.mode==='clin'?m.l:(PLAIN_LSI[m.k]||m.l))}<small style="display:block;font-size:12px;color:var(--muted)">${esc(m.u)} · ${fdate(t.date)}</small></span>
+   <div class="half l"><span class="f ${cls('L')}" style="width:${L/mx*100}%"></span><span class="t" style="${L/mx>.55?'color:var(--paper);left:auto;right:6px':''}">${fmt(L,m.d)}</span></div>
+   <div class="half r"><span class="f ${cls('R')}" style="width:${R/mx*100}%"></span><span class="t" style="${R/mx>.55?'color:var(--paper);right:auto;left:6px':''}">${fmt(R,m.d)}</span></div>
+   <span class="lsi" style="color:${l.v<90?'var(--flag)':'var(--green)'}">${fmt(l.v,0)}%</span></div>`});
+ return h+`</div></section>`;
+}
+const OPEN={};
+function more(eb,title,body,open){const o=OPEN[eb]!=null?OPEN[eb]:open;return `<details class="more" data-k="${eb}"${o?' open':''}><summary><span><span class="eb">${eb}</span><span class="h2">${title}</span></span><span class="tog" aria-hidden="true"></span></summary>${body}</details>`}
 function renderClient(){
  const c=CLIENTS.find(x=>x.id===SEL)||CLIENTS[0];if(!c){renderEmpty();return}SEL=c.id;
+ const clin=S.mode==='clin';
  renderHeroClient(c);
- const tested=M.filter(m=>series(c,m).length);
- if(!MET||!tested.find(m=>m.k===MET))MET=tested[0]?tested[0].k:null;
+ const tested=M.filter(m=>series(c,m).length&&!m.param);
+ if(!MET||!tested.find(m=>m.k===MET))MET=(tested.find(m=>m.k==='cmj_jh')||tested[0]||{}).k||null;
  let h='';
- h+=clinBrief(c);
- // at a glance
- const hl=headlines(c);
- h+=`<section class="sec first"><div class="eb">At a glance</div><h2 class="h2">${c.tests.length>1?'What has changed since the first test':'Where things start'}</h2>
-  <div class="grid4">${hl.map(x=>`<div class="card"><div class="big">${x.big}</div><p class="cap">${x.cap}</p></div>`).join('')||'<p class="empty">No results yet. Add a row for this client on the Results tab.</p>'}</div></section>`;
- // roadmap
- if(c.tendon){
-  const ph=phaseOf(c);const gate=Math.min(ph.p+1,4);
-  const items=CRIT_DEF.filter(x=>x.gate===gate).map(x=>evalCrit(c,x));const met=items.filter(i=>i.ok).length;
-  h+=`<section class="sec"><div class="eb">VALO Knee Recovery Roadmap${c.region==='achilles'?' · Achilles':''}</div><h2 class="h2">Phase ${ph.p}: ${PHASES[ph.p-1].n}</h2>
-   <p class="lead">Each phase has clear criteria. When every box for the next phase is ticked, we move up. ${ph.set?'Phase set in the sheet.':'Phase worked out from the latest results.'}</p>
-   <div class="loop">${PHASES.map((p,i)=>`<div class="step ${i+1<ph.p?'done':i+1===ph.p?'now':''}"><div class="n">PHASE ${i+1}${i+1<ph.p?' · DONE':i+1===ph.p?' · NOW':''}</div><h3>${p.n}</h3><p>${p.d}</p></div>`).join('')}</div>
-   ${ph.p<4?`<div class="gate"><div class="eb">To move into phase ${gate} · ${met} of ${items.length} met</div><h3 style="margin-top:6px">${PHASES[gate-1].n}</h3>
-    ${items.map(i=>`<div class="crit"><span class="tick ${i.ok===true?'t-met':i.ok===false?'t-not':'t-nod'}" aria-label="${i.ok===true?'Met':i.ok===false?'Not yet':'Not tested'}">${i.ok===true?'✓':i.ok===false?'–':'?'}</span><span>${esc(i.label)}</span><span class="v">${i.vt}</span></div>`).join('')}</div>`
-   :`<div class="gate"><div class="eb">All phase criteria met</div><h3 style="margin-top:6px">Maintenance: re-test every block to hold the gains.</h3></div>`}
-  </section>`;
- } else {
-  const ds=domainScores(c).filter(d=>d.g!=='Tendon').sort((a,b)=>a.s-b.s);
-  if(ds.length){h+=`<section class="sec"><div class="eb">Performance profile</div><h2 class="h2">Strongest and weakest qualities</h2>
-   <p class="lead">Scores out of 100 against the ${esc(NORM_SETS[c.norm].label)} reference range for ${c.sex==='F'?'women':'men'}. 50 sits mid-range; the lowest two set the training focus.</p>
-   <div class="grid3">${ds.map((d,i)=>`<div class="card"><span class="chip ${i<2&&d.s<65?'c-amber':'c-sage'}" style="align-self:flex-start">${i<2&&d.s<65?'Focus':scoreWord(d.s)}</span><div class="big">${Math.round(d.s)}<small>/100</small></div><p class="cap">${d.g}</p></div>`).join('')}</div></section>`}
- }
+ if(clin)h+=clinBrief(c);
+ h+=highlightSection(c);
+ if(c.tendon)h+=roadmapSection(c);
+ h+=powerSection(c);
  h+=jumpSection(c);
- h+=quadSection(c);
- // results
+ h+=symmetrySection(c);
+ const q=quadSection(c);
+ if(q)h+=more('Quadrant charts','Two qualities at once',q.replace('class="sec"','class="sec inmore"'),clin);
  if(tested.length){
-  h+=`<section class="sec"><div class="eb">Results</div><h2 class="h2">Latest result for every test</h2>
-   <p class="lead">Green band = reference range. Black line = target. Change is since the first test. Select a test to see its trend.</p>
-   <div class="split"><div><div class="rhead"><span>Test</span><span>Latest</span><span>Position</span><span>Change</span></div>`;
-  TESTS.forEach(([g])=>{const ms=tested.filter(m=>m.t===g);if(!ms.length)return;h+=`<div class="ghead">${esc(g)}</div>`;
+  const mm=MK[MET],tm=last(c,mm),vm=rep(tm,mm),nS=series(c,mm).length;
+  const opts=TESTS.map(([g])=>{const ms=tested.filter(m=>m.t===g);return ms.length?`<optgroup label="${esc(g)}">${ms.map(m=>`<option value="${m.k}"${m.k===MET?' selected':''}>${esc(m.l)}</option>`).join('')}</optgroup>`:''}).join('');
+  h+=`<section class="sec" id="explore"><div class="eb">Explore</div><h2 class="h2">Any metric, over time</h2>
+   <div class="exbar"><label for="metSel">Metric</label><select id="metSel">${opts}</select></div>
+   <div class="trend wide"><div class="exhd"><div><div class="eb">${esc(mm.t)} · ${nS} test${nS===1?'':'s'}</div><h3>${esc(mm.l)}</h3><p class="cap">${esc(mm.src)}</p></div>
+    <div class="exv"><b>${fmt(vm,mm.d)}<small>${esc(mm.u)}</small></b><span>${nS>1?chg(c,mm)+' since first test':'First test'}</span></div></div>${trendSvg(c,mm)}
+    ${refFor(c,mm.k)?`<p class="note">Reference: ${REF_SRC[mm.k]&&(refFor(c,mm.k).set==='football'||['dsi','eur'].includes(mm.k))?esc(REF_SRC[mm.k]):'general active-adult range (edit under Data &amp; settings).'}</p>`:''}
+    ${mm.p&&lastLsi(c,mm)?`<p class="note">Latest symmetry ${fmt(lastLsi(c,mm).v,0)}% ${c.side?'(affected ÷ unaffected)':'(weaker ÷ stronger)'}. Return-to-sport criteria commonly use 90%.</p>`:''}</div></section>`;
+  let r=`<p class="lead">Green band = reference range. Black line = target. Change is since the first test. Select a row to open it in Explore.</p><div class="rhead"><span>Test</span><span>Latest</span><span>Position</span><span>Change</span></div>`;
+  TESTS.forEach(([g])=>{const ms=tested.filter(m=>m.t===g);if(!ms.length)return;r+=`<div class="ghead">${esc(g)}</div>`;
    ms.forEach(m=>{const t=last(c,m),v=rep(t,m);
-    h+=`<button type="button" class="row" data-m="${m.k}" aria-pressed="${m.k===MET}"><span class="lbl">${esc(m.l)}<small>${m.src}${m.p?' · L '+fmt(t.v[m.k+'_L'],m.d)+' / R '+fmt(t.v[m.k+'_R'],m.d):''}</small></span><span class="val">${fmt(v,m.d)}<small>${esc(m.u)}</small></span>${barFor(c,m,v)}<span class="chg">${chg(c,m)}</span></button>`})});
-  const mm=MK[MET];
-  h+=`</div><aside class="trend" aria-live="polite"><div class="eb">Trend · ${series(c,mm).length} test${series(c,mm).length===1?'':'s'}</div><h3>${esc(mm.l)}${mm.u?` <span style="color:var(--muted);font-size:14px">${esc(mm.u)}</span>`:''}</h3>${trendSvg(c,mm)}
-   ${refFor(c,mm.k)?`<p class="note">Reference: ${refFor(c,mm.k).set==='football'?esc(REF_SRC[mm.k]||NORM_SETS.football.label):'general active-adult range (edit under Data &amp; settings).'}</p>`:''}
-   ${mm.p&&lastLsi(c,mm)?`<p class="note">Latest symmetry ${fmt(lastLsi(c,mm).v,0)}% ${c.side?'(affected ÷ unaffected)':'(weaker ÷ stronger)'}. Return-to-sport criteria commonly use 90%.</p>`:''}</aside></div></section>`;
+    r+=`<button type="button" class="row" data-m="${m.k}" aria-pressed="${m.k===MET}"><span class="lbl">${esc(m.l)}<small>${m.src}${m.p?' · L '+fmt(t.v[m.k+'_L'],m.d)+' / R '+fmt(t.v[m.k+'_R'],m.d):''}</small></span><span class="val">${fmt(v,m.d)}<small>${esc(m.u)}</small></span>${barFor(c,m,v)}<span class="chg">${chg(c,m)}</span></button>`})});
+  h+=more('All results',`Full results table (${tested.length})`,r,clin);
  }
- // symmetry
- const pm=M.filter(m=>m.p&&lastLsi(c,m));
- if(pm.length){
-  h+=`<section class="sec"><div class="eb">Left vs right</div><h2 class="h2">Symmetry across single-leg tests</h2>
-   <p class="lead">${c.side?`Amber is the affected ${c.side==='L'?'left':'right'} leg.`:'Both legs, latest test.'} Symmetry under 90% is flagged.</p>
-   <div class="sym"><div class="symH"><span>Test</span><span>Left</span><span>Right</span><span>Symmetry</span></div>`;
-  pm.forEach(m=>{const l=lastLsi(c,m),t=l.t,L=t.v[m.k+'_L'],R=t.v[m.k+'_R'],mx=Math.max(L,R);
-   const cls=s=>c.side?(c.side===s?'inv':'uninv'):'neu';
-   h+=`<div class="symR"><span>${esc(m.l)}<small style="display:block;font-size:12px;color:var(--muted)">${esc(m.u)} · ${fdate(t.date)}</small></span>
-    <div class="half l"><span class="f ${cls('L')}" style="width:${L/mx*100}%"></span><span class="t" style="${L/mx>.55?'color:var(--paper);left:auto;right:6px':''}">${fmt(L,m.d)}</span></div>
-    <div class="half r"><span class="f ${cls('R')}" style="width:${R/mx*100}%"></span><span class="t" style="${R/mx>.55?'color:var(--paper);right:auto;left:6px':''}">${fmt(R,m.d)}</span></div>
-    <span class="lsi" style="color:${l.v<90?'var(--flag)':'var(--green)'}">${fmt(l.v,0)}%</span></div>`});
-  h+=`</div></section>`;
- }
- // history
- if(c.tests.length){
-  h+=`<section class="sec"><div class="eb">Test history</div><h2 class="h2">Every session on record</h2><div class="tw"><table><thead><tr><th>Date</th><th class="r">Body mass</th><th class="r">Tests run</th><th>Notes</th></tr></thead><tbody>
-   ${[...c.tests].reverse().map(t=>`<tr><td style="white-space:nowrap">${fdate(t.date)}</td><td class="r">${t.bw?fmt(t.bw,1)+' kg':'—'}</td><td class="r">${M.filter(m=>!m.der&&has(t,m)).length}</td><td>${esc(t.notes)}</td></tr>`).join('')}
-   </tbody></table></div></section>`;
- }
- // summary panel
- const ds=domainScores(c).sort((a,b)=>a.s-b.s);const ph=c.tendon?phaseOf(c):null;
- const auto=[];
- if(ph&&ph.p<4){CRIT_DEF.filter(x=>x.gate===ph.p+1).map(x=>evalCrit(c,x)).filter(i=>i.ok!==true).slice(0,3).forEach(i=>auto.push(i.label+(i.ok===null?' (test it next session)':` (now ${i.vt})`)))}
- else ds.filter(d=>d.g!=='Tendon').slice(0,2).forEach(d=>auto.push(`Build ${d.g.toLowerCase()} (score ${Math.round(d.s)}/100)`));
- const lt=c.tests[c.tests.length-1];const next=lt?new Date(new Date(lt.date+'T00:00:00').getTime()+42*86400000):null;
+ if(clin&&c.tests.length)h+=more('Test history','Every session on record',`<div class="tw"><table><thead><tr><th>Date</th><th class="r">Body mass</th><th class="r">Tests run</th><th>Notes</th></tr></thead><tbody>
+   ${[...c.tests].reverse().map(t=>`<tr><td style="white-space:nowrap">${fdate(t.date)}</td><td class="r">${t.bw?fmt(t.bw,1)+' kg':'—'}</td><td class="r">${M.filter(m=>!m.der&&!m.param&&has(t,m)).length}</td><td>${esc(t.notes)}</td></tr>`).join('')}</tbody></table></div>`,true);
+ const ph=c.tendon?phaseOf(c):null,auto=[];
+ if(ph&&ph.p<4)CRIT_DEF.filter(x=>x.gate===ph.p+1).map(x=>evalCrit(c,x)).filter(i=>i.ok!==true).slice(0,3).forEach(i=>auto.push(i.label+(i.ok===null?' (test it next session)':` (now ${i.vt})`)));
+ else clinActions(c).slice(0,3).forEach(a=>auto.push(a.title));
+ const lt=c.tests[c.tests.length-1],next=lt?new Date(new Date(lt.date+'T00:00:00').getTime()+42*86400000):null;
  h+=`<div class="panel"><div><div class="eb">Next block</div><h3>What we are working on</h3>
-   <ul>${auto.map(a=>`<li>${esc(a)}</li>`).join('')||'<li>Complete the first test session.</li>'}</ul>
+   <ul>${auto.map(a=>`<li>${esc(a)}</li>`).join('')||'<li>Keep progressing the current plan.</li>'}</ul>
    <label class="eb screen" for="sumTxt" style="display:block;margin-top:14px">Your note for this report (saved on this device, prints below)</label>
    <textarea id="sumTxt" placeholder="e.g. Great block. Keep the heavy slow resistance 3× a week and add two easy hopping sessions.">${esc(S.summary[c.id]||'')}</textarea>
    <p class="printNote">${esc(S.summary[c.id]||'')}</p></div>
   <div><div class="eb">Next re-test</div><div class="p">${next?next.toLocaleDateString('en-AU',{day:'numeric',month:'short'}):'—'}</div><p class="pn">Six weeks after the last test, at the end of the block.</p></div></div>`;
  h+=`<footer>Henri Joensuu · Accredited Exercise Physiologist (ESSA) · VALO Performance · henri@valoperformance.com.au<br>Results are compared with reference ranges and with your own earlier tests. They guide training and are not a diagnosis.</footer>`;
  main.innerHTML=h;
- main.querySelectorAll('.row').forEach(b=>b.addEventListener('click',()=>{MET=b.dataset.m;const y=window.scrollY;renderClient();window.scrollTo(0,y)}));
  const keepY=fn=>{const y=window.scrollY;fn();renderClient();window.scrollTo(0,y)};
+ main.querySelectorAll('.row').forEach(b=>b.addEventListener('click',()=>{MET=b.dataset.m;renderClient();const ex=document.getElementById('explore');if(ex)ex.scrollIntoView({block:'start'})}));
+ const ms=document.getElementById('metSel');if(ms)ms.addEventListener('change',()=>keepY(()=>{MET=ms.value}));
  const pcb=document.getElementById('printClin');if(pcb)pcb.addEventListener('change',()=>{S.printClin=pcb.checked;save();document.body.classList.toggle('printClin',S.printClin)});
  document.body.classList.toggle('printClin',!!S.printClin);
  main.querySelectorAll('a.ref').forEach(a=>a.addEventListener('click',()=>{const d=main.querySelector('details.refs');if(d)d.open=true}));
- main.querySelectorAll('[data-voice]').forEach(b=>b.addEventListener('click',()=>keepY(()=>{S.voice=b.dataset.voice;save()})));
  const ct=document.getElementById('cloudTg');if(ct)ct.addEventListener('change',()=>keepY(()=>{S.cloud=ct.checked;save()}));
  ['cqX','cqY'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('change',()=>keepY(()=>{S.cq[id==='cqX'?'x':'y']=el.value;save()}))});
+ main.querySelectorAll('details.more').forEach(d=>d.addEventListener('toggle',()=>{OPEN[d.dataset.k]=d.open}));
  const ta=document.getElementById('sumTxt');if(ta)ta.addEventListener('input',()=>{S.summary[c.id]=ta.value;save();const pn=ta.parentElement.querySelector('.printNote');if(pn)pn.textContent=ta.value});
 }
 
@@ -1228,6 +1592,7 @@ function render(){
  sel.hidden=!CLIENTS.length;
  if(SEL)sel.value=SEL;
  document.getElementById('btnRoster').classList.toggle('on',VIEW==='roster');
+ if(!S.mode)S.mode='client';document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===S.mode)));
  if(!CLIENTS.length)return renderEmpty();
  if(VIEW==='roster'){renderRoster();document.getElementById('btnPrint').textContent='Print client list'}else{renderClient();sel.value=SEL;document.getElementById('btnPrint').textContent='Print report'}
 }
@@ -1251,6 +1616,7 @@ const drawer=document.getElementById('drawer'),btnS=document.getElementById('btn
 btnS.addEventListener('click',()=>{drawer.hidden=!drawer.hidden;btnS.setAttribute('aria-expanded',String(!drawer.hidden));btnS.classList.toggle('on',!drawer.hidden);if(!drawer.hidden)buildSettings()});
 document.getElementById('refSet').addEventListener('change',buildSettings);
 document.getElementById('quadMode').addEventListener('change',e=>{S.quad=e.target.value;save();render()});
+document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{S.mode=b.dataset.mode;save();if(VIEW!=='client')VIEW='client';const y=window.scrollY;render();window.scrollTo(0,y)}));
 document.getElementById('btnRoster').addEventListener('click',()=>{VIEW='roster';render();window.scrollTo(0,0)});
 document.getElementById('clientSel').addEventListener('change',e=>{SEL=e.target.value;VIEW='client';MET=null;render();window.scrollTo(0,0)});
 ['urlC','urlR'].forEach(id=>document.getElementById(id).addEventListener('change',e=>{S[id]=e.target.value.trim();save()}));

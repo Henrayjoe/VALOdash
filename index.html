@@ -725,7 +725,7 @@ details.more{border-radius:0}
 <main class="wrap" id="main"></main>
 
 <script>
-const BUILD='Version 17 · 16 Nov 2026';
+const BUILD='Version 18 · 17 Nov 2026';
 /* ---------- test battery ---------- */
 const GROUPS=['Jump','Strategy','Strength','Speed','Capacity','Symmetry','Tendon'];
 const RING_GROUPS=GROUPS.filter(g=>g!=='Strategy');
@@ -1559,14 +1559,15 @@ function jumpTimeline(c){
  const clin=S.mode==='clin';
  const rows=c.tests.filter(t=>t.v.cmj_ct!=null||t.v.cmj_ecc_dur!=null).map(t=>{const v=t.v;let ecc=v.cmj_ecc_dur,con=v.cmj_con_dur,ct=v.cmj_ct;
   if(ecc==null&&ct!=null&&con!=null)ecc=ct-con;if(con==null&&ct!=null&&ecc!=null)con=ct-ecc;if(ct==null&&ecc!=null&&con!=null)ct=ecc+con;
-  const fl=(v.cmj_ftct&&ct)?v.cmj_ftct*ct:(v.cmj_jh?2*Math.sqrt(2*v.cmj_jh/100/9.81)*1000:null);return {t,ecc,con,ct,fl}});
+  // Flight time = FT:CT × contraction time (both exported from ForceDecks). Never estimated from jump height.
+  const fl=(v.cmj_ftct!=null&&ct!=null)?v.cmj_ftct*ct:null;return {t,ecc,con,ct,fl}});
  if(!rows.length)return '';
  const L=rows[rows.length-1],F=rows.length>1?rows[0]:null,split=L.ecc!=null&&L.con!=null;
  const PH=(split?[
   {k:'ecc',cls:'s-dip',n:clin?'Eccentric phase':'Dip',d:clin?'Unweighting and braking: start of movement to zero velocity at the bottom.':'Lowering and braking into the bottom of the jump.',w:'Shorter means a quicker, springier switch.',lb:1},
   {k:'con',cls:'s-push',n:clin?'Concentric phase':'Push',d:clin?'Propulsion: zero velocity to take-off.':'Driving up from the bottom until the feet leave the ground.',w:'Shorter for the same height means more explosive.',lb:1}]
   :[{k:'ct',cls:'s-both',n:clin?'Contraction time':'Dip and push',d:clin?'Start of movement to take-off.':'Lowering into the jump and driving back up.',w:'Shorter for the same height means more explosive.',lb:1}])
-  .concat([{k:'fl',cls:'s-fly',n:clin?'Flight time':'Air',d:clin?'Take-off to landing; determines jump height.':'Time in the air.',w:'Longer means a higher jump.',lb:0}]);
+  .concat(L.fl==null?[]:[{k:'fl',cls:'s-fly',n:clin?'Flight time':'Air',d:clin?'Take-off to landing; determines jump height.':'Time in the air.',w:'Longer means a higher jump.',lb:0}]);
  const cards=PH.map((p,i)=>{const v=L[p.k];if(v==null)return '';let ch='';
   if(F&&F[p.k]!=null){const d=v-F[p.k],good=p.lb?d<0:d>0;ch=Math.abs(d)<10?`<span class="flat">No change</span>`:`<span class="${good?'up':'down'}">${d>0?'+':''}${fmt(d)} ms</span> vs first test`}
   return `<div class="phc"><div class="phn"><i class="${p.cls}"></i><span>${i+1}</span>${esc(p.n)}</div><div class="phv">${fmt(v)}<small>ms</small></div><p class="phd">${esc(p.d)}</p><p class="phw">${esc(p.w)}</p>${ch?`<p class="phch">${ch}</p>`:''}</div>`}).join('');

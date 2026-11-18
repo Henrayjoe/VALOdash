@@ -725,7 +725,7 @@ details.more{border-radius:0}
 <main class="wrap" id="main"></main>
 
 <script>
-const BUILD='Version 18 · 17 Nov 2026';
+const BUILD='Version 19 · 18 Nov 2026';
 /* ---------- test battery ---------- */
 const GROUPS=['Jump','Strategy','Strength','Speed','Capacity','Symmetry','Tendon'];
 const RING_GROUPS=GROUPS.filter(g=>g!=='Strategy');
@@ -734,7 +734,8 @@ const M=[
  {k:'cmj_ecc_dur',l:'CMJ eccentric duration',u:'ms',g:'Strategy',d:0,lb:1,src:'Force plate · the dip'},
  {k:'cmj_con_dur',l:'CMJ concentric duration',u:'ms',g:'Strategy',d:0,lb:1,src:'Force plate · the push-off'},
  {k:'cmj_depth',l:'CMJ countermovement depth',u:'cm',g:'Strategy',d:1,neu:1,src:'Force plate · how far they dip'},
- {k:'cmj_ftct',l:'CMJ flight time : contraction time',u:'',g:'Strategy',d:2,src:'Force plate'},
+ {k:'cmj_ft',l:'CMJ flight time',u:'ms',g:'Strategy',d:0,neu:1,src:'Force plate'},
+ {k:'cmj_ftct',l:'CMJ flight time : contraction time',u:'',g:'Strategy',d:2,nocol:1,src:'Flight time ÷ contraction time (or exported FT:CT)'},
  {k:'cmj_ecc_rfd',l:'CMJ eccentric deceleration RFD / BM',u:'N/s/kg',g:'Strategy',d:0,src:'Force plate · braking speed'},
  {k:'cmj_fzv',l:'CMJ force at zero velocity / BM',u:'N/kg',g:'Strategy',d:1,src:'Force plate · force at the bottom'},
  {k:'cmj_ci100',l:'CMJ concentric impulse-100ms',u:'N·s',g:'Strategy',d:0,src:'Force plate · early push-off'},
@@ -779,7 +780,7 @@ const M=[
 ];
 // Every metric belongs to one test. Columns and the results list follow this order, one block per test.
 const TESTS=[
- ['Countermovement jump (CMJ)',['cmj_jh','cmj_rsimod','cmj_ppbm','cmj_ct','cmj_ecc_dur','cmj_con_dur','cmj_depth','cmj_ftct','cmj_ecc_rfd','cmj_fzv','cmj_ci100','cmj_epf','cmj_cpf','cmj_ei','cmj_ci','cmj_li','dsi']],
+ ['Countermovement jump (CMJ)',['cmj_jh','cmj_rsimod','cmj_ppbm','cmj_ct','cmj_ecc_dur','cmj_con_dur','cmj_depth','cmj_ft','cmj_ftct','cmj_ecc_rfd','cmj_fzv','cmj_ci100','cmj_epf','cmj_cpf','cmj_ei','cmj_ci','cmj_li','dsi']],
  ['Squat jump',['sj_jh','eur']],
  ['Drop jump',['dj_height','dj_edh','dj_jh','dj_ct','dj_rsi','dri']],
  ['Single-leg CMJ',['slcmj']],
@@ -802,9 +803,9 @@ const TESTS=[
  M.sort((a,b)=>(pos[a.k].i-pos[b.k].i)||(pos[a.k].j-pos[b.k].j));M.forEach(m=>m.t=pos[m.k].n)})();
 const MK={}; M.forEach(m=>MK[m.k]=m);
 const CLIENT_COLS=['client_id','name','dob','sex','category','sport','position','condition','side_affected','goal','start_date','phase','norm_set','height_cm'];
-const RESULT_COLS=(()=>{const c=['name','test_date','bodyweight_kg'];M.forEach(m=>{if(m.der)return;if(m.p){c.push(m.k+'_L',m.k+'_R')}else c.push(m.k)});c.push('notes');return c})();
+const RESULT_COLS=(()=>{const c=['name','test_date','bodyweight_kg'];M.forEach(m=>{if(m.der||m.nocol)return;if(m.p){c.push(m.k+'_L',m.k+'_R')}else c.push(m.k)});c.push('notes');return c})();
 // Optional label row above the headers: the test name over the first column of each block.
-const RESULT_TESTROW=(()=>{const r=['Session','',''];let prev=null;M.forEach(m=>{if(m.der)return;const n=m.p?2:1;for(let i=0;i<n;i++){r.push(m.t!==prev&&i===0?m.t:'');prev=m.t}});r.push('Notes');return r})();
+const RESULT_TESTROW=(()=>{const r=['Session','',''];let prev=null;M.forEach(m=>{if(m.der||m.nocol)return;const n=m.p?2:1;for(let i=0;i<n;i++){r.push(m.t!==prev&&i===0?m.t:'');prev=m.t}});r.push('Notes');return r})();
 const RESULT_TSV=RESULT_TESTROW.join('\t')+'\n'+RESULT_COLS.join('\t');
 
 const REF_DEFAULT={ // [low, high]; for lower-is-better tests low is the slower/worse number
@@ -938,6 +939,7 @@ function build(){
   M.forEach(m=>{if(m.der)return;if(m.p){t.v[m.k+'_L']=num(r[m.k+'_l']);t.v[m.k+'_R']=num(r[m.k+'_r'])}else t.v[m.k]=num(r[m.k])});
   t.v.imtp_rel=(t.v.imtp!=null&&t.bw)?t.v.imtp/t.bw:null;
   t.v.eur=(t.v.cmj_jh!=null&&t.v.sj_jh)?t.v.cmj_jh/t.v.sj_jh:null;
+  if(t.v.cmj_ft!=null&&t.v.cmj_ct){t.v.cmj_ftct=t.v.cmj_ft/t.v.cmj_ct}
   t.v.dsi=(t.v.cmj_cpf!=null&&t.v.imtp)?t.v.cmj_cpf/t.v.imtp:(t.v.cmj_fzv!=null&&t.v.imtp_rel)?t.v.cmj_fzv/t.v.imtp_rel:null;
   t.dsiFrom=(t.v.cmj_cpf!=null&&t.v.imtp)?'cpf':'fzv';
   if(t.v.dj_rsi==null&&t.v.dj_jh!=null&&t.v.dj_ct)t.v.dj_rsi=(t.v.dj_jh/100)/(t.v.dj_ct/1000);
@@ -1190,7 +1192,7 @@ function quadSection(c){
 /* ---------- how they jump: strategy, phases, compensation ---------- */
 // Rough guide values for a two-handed CMJ on a force plate; the client's own baseline always takes priority.
 const JS={ctFast:750,ctSlow:900,depthShallow:22,depthDeep:38};
-const JUMP_KEYS=['cmj_ct','cmj_ecc_dur','cmj_con_dur','cmj_depth','cmj_ftct','cmj_ecc_rfd','cmj_fzv','cmj_ci100','cmj_ei','cmj_li','eur','dsi','dj_ct'];
+const JUMP_KEYS=['cmj_ct','cmj_ecc_dur','cmj_con_dur','cmj_depth','cmj_ft','cmj_ftct','cmj_ecc_rfd','cmj_fzv','cmj_ci100','cmj_ei','cmj_li','eur','dsi','dj_ct'];
 const pc=(a,b)=>(a==null||b==null||!a)?null:(b-a)/Math.abs(a)*100;
 function jumpFindings(c){
  const F=[],lt=k=>{const t=last(c,MK[k]);return t?rep(t,MK[k]):null},bt=k=>{const s=series(c,MK[k]);return s.length>1?rep(s[0],MK[k]):null};
@@ -1560,7 +1562,7 @@ function jumpTimeline(c){
  const rows=c.tests.filter(t=>t.v.cmj_ct!=null||t.v.cmj_ecc_dur!=null).map(t=>{const v=t.v;let ecc=v.cmj_ecc_dur,con=v.cmj_con_dur,ct=v.cmj_ct;
   if(ecc==null&&ct!=null&&con!=null)ecc=ct-con;if(con==null&&ct!=null&&ecc!=null)con=ct-ecc;if(ct==null&&ecc!=null&&con!=null)ct=ecc+con;
   // Flight time = FT:CT × contraction time (both exported from ForceDecks). Never estimated from jump height.
-  const fl=(v.cmj_ftct!=null&&ct!=null)?v.cmj_ftct*ct:null;return {t,ecc,con,ct,fl}});
+  const fl=v.cmj_ft!=null?v.cmj_ft:(v.cmj_ftct!=null&&ct!=null)?v.cmj_ftct*ct:null;return {t,ecc,con,ct,fl}});
  if(!rows.length)return '';
  const L=rows[rows.length-1],F=rows.length>1?rows[0]:null,split=L.ecc!=null&&L.con!=null;
  const PH=(split?[
